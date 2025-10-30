@@ -1,0 +1,36 @@
+codigo,nombre,unidad,ref_min,ref_max,notas,tipo_examen_id,tipo_muestra_id
+UREA,Uremia (Urea),mg/dL,19,50,"Puede variar 15-120 sin dano persistente.",1,1
+CREA,Creatinina,mg/dL,0.5,1.1,"Funcion renal.",1,1
+INR,INR,sin_unidad,0.97,1.27,"Coagulacion; correlacionar con TACO.",1,1
+PROT,Protrombina (Actividad),%,60,,">=60% normal.",1,1
+NA,Sodio,mmol/L,136,146,"Electrolito.",1,1
+K,Potasio,mmol/L,3.5,5.1,"3.2-5.5 aceptable segun evolucion.",1,1
+HTO,Hematocrito,%,35,46,"Concentracion de GR.",1,1
+HB,Hemoglobina,g/dL,11.6,15.5,"Nivel de Hb.",1,1
+PLT,Plaquetas,10^3/uL,150,400,"100-150 puede ser aceptable con medidas.",1,1
+VITD,Vitamina D (25-OH),ng/mL,30,120,"30+ normal; 20-29 insuf.; <20 deficiencia.",1,1
+VITB12,Vitamina B12,pg/mL,400,1200,"<400 deficiencia; >2000 limite laboratorio.",1,1
+ALB,Albumina,g/dL,3.5,4.8,"3.0-3.4 leve; 2.5-3 moderada; <2.5 severa.",1,1
+CACORR,Calcio corregido,g/dL,8.3,10.6,"Si Alb<4: Ca*=[(4-Alb)*0.8]+Ca.",1,1
+PHOS,Fosforo,mg/dL,2.4,5.1,"",1,1
+MG,Magnesio plasmatico,mg/dL,1.6,2.7,"",1,1
+PTH,Paratohormona (PTH),pg/mL,11.1,79.5,">250 usualmente secundario; >800 no operar.",1,1
+TSH,TSH,uUI/mL,0.35,7,"Se acepta hasta 7 en mayores.",1,1
+T4L,T4 libre,ng/dL,0.89,1.76,"",1,1
+FE,Hierro serico,ug/dL,50,170,"",1,1
+TRANSF,Transferrina,mg/dL,250,380,"",1,1
+SAT_TRF,% Saturacion transferrina,%,20,45,"",1,1
+VFAS,Velocidad 1a senal de llegada (vFAS),m/s,2.8,3.5,"Cortical tipica radial ~3.0-4.5 en literatura.",2,18
+VA0,Velocidad modo A0 (mas lento),m/s,,, "Depende de espesor/porosidad/frecuencia.",2,18
+CT_TH,Espesor cortical (Ct.Th),mm,1,6,"Sitios tipicos radio/tibia.",2,18
+CT_PO,Porosidad cortical (Ct.Po),%,1,7,"HR-pQCT en radio adulto suele ser < tibia.",2,18
+ST_TH,Espesor de tejido blando (ST.Th),mm,,, "Estimado; util para posicionamiento.",2,18
+MAX_INV,Maximo del inverso (max),0-1,0,1,"Mayor -> mejor ajuste.",2,18
+DIFF_MAX,Diferencia entre maximos (diff),0-100,0,100,"Ayuda a desambiguar.",2,18
+LOWK,Intensidad baja-k (lowk),0-1,0,1,"Calidad/regularidad del modelo.",2,18
+AMIDA_I,Amida I (colageno),sin_unidad,,, "Banda 1710-1590 cm-1 (indices de colageno).",1,12
+AMIDA_II,Amida II (colageno),sin_unidad,,, "Banda ~1580-1500 cm-1.",1,12
+PO4,Fosfatos (apatita) PO4^3-,sin_unidad,,, "v3: 1110-940; v4: doblete 603 y 565 cm-1 (IRSF).",1,12
+CO3,Carbonatos (apatita) CO3^2-,sin_unidad,,, "v3: 1455-1415; v2: ~872 cm-1.",1,12
+PO4_CO3,Relacion fosfato/carbonato,sin_unidad,,, "Cociente composicional por integracion de bandas.",1,12
+IRSF,Indice de cristalinidad (IRSF),sin_unidad,,, "(altura 565+603)/valle; mayor cristalinidad.",1,12

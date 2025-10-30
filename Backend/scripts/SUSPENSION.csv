@@ -1,0 +1,17 @@
+episodio_id,fecha_suspension,tipo,motivo
+162,2025-06-21 00:00:00,ADMINISTRATIVA,
+162,2025-06-21 00:00:01,ADMINISTRATIVA,
+164,2025-07-07 00:00:00,ADMINISTRATIVA,tiempo
+174,2025-07-12 00:00:00,ADMINISTRATIVA,No fue posible dializarla el día anterior y se tuvo que dializar el mismo día en que estaba en tabla
+181,2025-07-24 00:00:00,ADMINISTRATIVA,Falta de implante
+184,2025-07-28 00:00:00,ADMINISTRATIVA,"Falta de implantes, MAREMOTO, ""tos"""
+184,2025-07-28 00:00:01,ADMINISTRATIVA,"Falta de implantes, MAREMOTO, ""tos"""
+184,2025-07-28 00:00:02,ADMINISTRATIVA,"Falta de implantes, MAREMOTO, ""tos"""
+184,2025-07-28 00:00:03,ADMINISTRATIVA,"Falta de implantes, MAREMOTO, ""tos"""
+201,2025-08-19 00:00:00,ADMINISTRATIVA,esterilización
+208,2025-09-20 00:00:00,ADMINISTRATIVA,sin ecocardio
+208,2025-09-20 00:00:01,ADMINISTRATIVA,sin ecocardio
+181,2025-08-06 00:00:00,CLINICA,Anestesiología entendió que AKI se mantenía (a pesar de llevar 72 hrs recuperando función renal)
+184,2025-08-06 00:00:01,CLINICA,Tos y secreciones respiratorias
+184,2025-08-06 00:00:02,CLINICA,Tos y secreciones respiratorias
+190,2025-08-06 00:00:03,CLINICA,FA CON RVR

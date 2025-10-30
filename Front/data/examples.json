@@ -1,0 +1,361 @@
+{
+  "muestras": [
+    {
+      "muestra_id": 7,
+      "tipo_muestra": "SANGRE",
+      "fecha_extraccion": "2025-08-24T07:17:49.217Z",
+      "fecha_recepcion": "2025-08-24T09:17:49.217Z",
+      "observaciones": "Muestra sin hemólisis",
+      "examen_id": 4,
+      "profesional_id": 2,
+      "Resultados": [
+        {
+          "resultado_id": 25,
+          "episodio_id": 7,
+          "muestra_id": 7,
+          "examen_id": 4,
+          "parametro": "HB",
+          "valor": 14,
+          "unidad": "g/dL",
+          "fecha_resultado": "2025-08-24T11:17:49.217Z"
+        },
+        {
+          "resultado_id": 26,
+          "episodio_id": 7,
+          "muestra_id": 7,
+          "examen_id": 4,
+          "parametro": "GLUCOSA",
+          "valor": 95.2,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-24T11:17:49.217Z"
+        },
+        {
+          "resultado_id": 27,
+          "episodio_id": 7,
+          "muestra_id": 7,
+          "examen_id": 4,
+          "parametro": "COLESTEROL",
+          "valor": 180.5,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-24T11:17:49.217Z"
+        },
+        {
+          "resultado_id": 28,
+          "episodio_id": 7,
+          "muestra_id": 7,
+          "examen_id": 4,
+          "parametro": "TRIGLICERIDOS",
+          "valor": 158.1,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-24T11:17:49.217Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 6,
+      "tipo_muestra": "ORINA",
+      "fecha_extraccion": "2025-08-19T07:17:48.946Z",
+      "fecha_recepcion": "2025-08-19T09:17:48.946Z",
+      "observaciones": "Muestra clara, sin sedimentos",
+      "examen_id": 3,
+      "profesional_id": 1,
+      "Resultados": [
+        {
+          "resultado_id": 21,
+          "episodio_id": 6,
+          "muestra_id": 6,
+          "examen_id": 3,
+          "parametro": "GLUCOSA",
+          "valor": 0,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        },
+        {
+          "resultado_id": 22,
+          "episodio_id": 6,
+          "muestra_id": 6,
+          "examen_id": 3,
+          "parametro": "PROTEINAS",
+          "valor": 15.2,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        },
+        {
+          "resultado_id": 23,
+          "episodio_id": 6,
+          "muestra_id": 6,
+          "examen_id": 3,
+          "parametro": "CREATININA",
+          "valor": 120.8,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        },
+        {
+          "resultado_id": 24,
+          "episodio_id": 6,
+          "muestra_id": 6,
+          "examen_id": 3,
+          "parametro": "UREA",
+          "valor": 28.5,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 5,
+      "tipo_muestra": "PLASMA",
+      "fecha_extraccion": "2025-08-14T07:17:47.946Z",
+      "fecha_recepcion": "2025-08-14T09:17:47.946Z",
+      "observaciones": "Muestra con anticoagulante EDTA",
+      "examen_id": 2,
+      "profesional_id": 3,
+      "Resultados": [
+        {
+          "resultado_id": 17,
+          "episodio_id": 5,
+          "muestra_id": 5,
+          "examen_id": 2,
+          "parametro": "HB",
+          "valor": 12.8,
+          "unidad": "g/dL",
+          "fecha_resultado": "2025-08-14T11:17:47.946Z"
+        },
+        {
+          "resultado_id": 18,
+          "episodio_id": 5,
+          "muestra_id": 5,
+          "examen_id": 2,
+          "parametro": "HEMATOCRITO",
+          "valor": 38.5,
+          "unidad": "%",
+          "fecha_resultado": "2025-08-14T11:17:47.946Z"
+        },
+        {
+          "resultado_id": 19,
+          "episodio_id": 5,
+          "muestra_id": 5,
+          "examen_id": 2,
+          "parametro": "LEUCOCITOS",
+          "valor": 7200,
+          "unidad": "cel/μL",
+          "fecha_resultado": "2025-08-14T11:17:47.946Z"
+        },
+        {
+          "resultado_id": 20,
+          "episodio_id": 5,
+          "muestra_id": 5,
+          "examen_id": 2,
+          "parametro": "PLAQUETAS",
+          "valor": 285000,
+          "unidad": "cel/μL",
+          "fecha_resultado": "2025-08-14T11:17:47.946Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 4,
+      "tipo_muestra": "SUERO",
+      "fecha_extraccion": "2025-08-12T07:17:46.946Z",
+      "fecha_recepcion": "2025-08-12T09:17:46.946Z",
+      "observaciones": "Muestra sin hemólisis, bien separada",
+      "examen_id": 1,
+      "profesional_id": 2,
+      "Resultados": [
+        {
+          "resultado_id": 13,
+          "episodio_id": 4,
+          "muestra_id": 4,
+          "examen_id": 1,
+          "parametro": "GLUCOSA",
+          "valor": 88.7,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 14,
+          "episodio_id": 4,
+          "muestra_id": 4,
+          "examen_id": 1,
+          "parametro": "COLESTEROL",
+          "valor": 195.3,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 15,
+          "episodio_id": 4,
+          "muestra_id": 4,
+          "examen_id": 1,
+          "parametro": "HDL",
+          "valor": 52.1,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 16,
+          "episodio_id": 4,
+          "muestra_id": 4,
+          "examen_id": 1,
+          "parametro": "LDL",
+          "valor": 118.9,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 3,
+      "tipo_muestra": "SANGRE",
+      "fecha_extraccion": "2025-08-10T07:17:46.946Z",
+      "fecha_recepcion": "2025-08-10T09:17:46.946Z",
+      "observaciones": "Muestra sin hemólisis",
+      "examen_id": 5,
+      "profesional_id": 1,
+      "Resultados": [
+        {
+          "resultado_id": 9,
+          "episodio_id": 3,
+          "muestra_id": 3,
+          "examen_id": 5,
+          "parametro": "HB",
+          "valor": 13.2,
+          "unidad": "g/dL",
+          "fecha_resultado": "2025-08-10T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 10,
+          "episodio_id": 3,
+          "muestra_id": 3,
+          "examen_id": 5,
+          "parametro": "GLUCOSA",
+          "valor": 102.5,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-10T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 11,
+          "episodio_id": 3,
+          "muestra_id": 3,
+          "examen_id": 5,
+          "parametro": "COLESTEROL",
+          "valor": 175.8,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-10T11:17:46.946Z"
+        },
+        {
+          "resultado_id": 12,
+          "episodio_id": 3,
+          "muestra_id": 3,
+          "examen_id": 5,
+          "parametro": "TRIGLICERIDOS",
+          "valor": 142.3,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-10T11:17:46.946Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 2,
+      "tipo_muestra": "SANGRE",
+      "fecha_extraccion": "2025-08-09T07:17:45.946Z",
+      "fecha_recepcion": "2025-08-09T09:17:45.946Z",
+      "observaciones": "Muestra sin hemólisis",
+      "examen_id": 1,
+      "profesional_id": 2,
+      "Resultados": [
+        {
+          "resultado_id": 5,
+          "episodio_id": 2,
+          "muestra_id": 2,
+          "examen_id": 1,
+          "parametro": "HB",
+          "valor": 11.5,
+          "unidad": "g/dL",
+          "fecha_resultado": "2025-08-09T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 6,
+          "episodio_id": 2,
+          "muestra_id": 2,
+          "examen_id": 1,
+          "parametro": "GLUCOSA",
+          "valor": 110.2,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-09T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 7,
+          "episodio_id": 2,
+          "muestra_id": 2,
+          "examen_id": 1,
+          "parametro": "COLESTEROL",
+          "valor": 205.7,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-09T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 8,
+          "episodio_id": 2,
+          "muestra_id": 2,
+          "examen_id": 1,
+          "parametro": "TRIGLICERIDOS",
+          "valor": 160.9,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-09T11:17:45.946Z"
+        }
+      ]
+    },
+    {
+      "muestra_id": 1,
+      "tipo_muestra": "ORINA",
+      "fecha_extraccion": "2025-08-05T07:17:45.946Z",
+      "fecha_recepcion": "2025-08-05T09:17:45.946Z",
+      "observaciones": "Muestra turbia, con sedimentos",
+      "examen_id": 3,
+      "profesional_id": 3,
+      "Resultados": [
+        {
+          "resultado_id": 1,
+          "episodio_id": 1,
+          "muestra_id": 1,
+          "examen_id": 3,
+          "parametro": "GLUCOSA",
+          "valor": 25.5,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 2,
+          "episodio_id": 1,
+          "muestra_id": 1,
+          "examen_id": 3,
+          "parametro": "PROTEINAS",
+          "valor": 45.8,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 3,
+          "episodio_id": 1,
+          "muestra_id": 1,
+          "examen_id": 3,
+          "parametro": "CREATININA",
+          "valor": 95.2,
+          "unidad": "mg/dL",
+          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+        },
+        {
+          "resultado_id": 4,
+          "episodio_id": 1,
+          "muestra_id": 1,
+          "examen_id": 3,
+          "parametro": "LEUCOCITOS",
+          "valor": 15,
+          "unidad": "cel/μL",
+          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+        }
+      ]
+    }
+  ]
+}

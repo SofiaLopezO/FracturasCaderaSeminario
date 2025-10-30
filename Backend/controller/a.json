@@ -1,0 +1,8 @@
+{
+  "codigo": "Creatinina",
+  "nombre": "CREA",
+  "unidad": "mg/dL",
+  "ref_min": "0.5",
+  "ref_max": "1.1",
+  "notas": "Evaluar en conjunto con uremia/TFG."
+}

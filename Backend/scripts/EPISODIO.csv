@@ -1,0 +1,58 @@
+paciente_id,cie10,tipo_fractura,lado,procedencia,comorbilidades,fecha_diagnostico,fecha_ingreso_quirurgico,fecha_alta,no_operado,causa_no_operar,abo,rh, tabaco,alcohol,corticoides_cronicos,taco,otro,describe, fallecimiento,fecha_fallecimiento,transfusion,reingreso,comentario_evolucion, notas_clinicas,prequirurgicas,postquirurgicas, inicial
+117,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['EPOC'],2025-06-12 00:00:00,2025-06-12 00:00:00,2025-06-25 00:00:00,true,,,,false,false,false,false,ture,"institucionalizado, úlcera varicosaen RRII IZQ",,,,,,Eco doppler venoso descartó TVP,Aerofagia y sinusitis purulenta,,1
+118,S00.0,EXTRACAPSULAR,DERECHO,QUILPUÉ,[],2025-06-23 00:00:00,2025-06-23 00:00:00,2025-06-26 00:00:00,true,,,,false,false,false,false,ture,Anemia ferropénica moderada con ferropenia severa,,,,,,,,,1
+119,S00.0,EXTRACAPSULAR,IZQUIERDO,QUILPUÉ,['DM2'],2025-06-12 00:00:00,2025-06-12 00:00:00,2025-06-25 00:00:00,true,,,,false,false,false,false,false,,,,,,,Se instaló marcapasos el sábado 20.06.25,Bloqueo trifascicular (lo traía de antes),,1
+120,S00.0,EXTRACAPSULAR,DERECHO,VILLA ALEMANA,[],2025-06-18 00:00:00,2025-06-18 00:00:00,2025-06-23 00:00:00,true,,,,false,false,false,false,false,,,,,,,,Globo vesical,,1
+121,S72.0,INTRACAPSULAR,DERECHO,QUILPUÉ,[],2025-06-19 00:00:00,2025-06-19 00:00:00,2025-06-26 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+122,S72.1,INTRACAPSULAR,IZQUIERDO,VILLA ALEMANA,[],2025-06-20 00:00:00,2025-06-20 00:00:00,2025-06-27 00:00:00,true,,,,false,false,false,false,false,,,,,,,Operada con APC bip 15.07.15,,,1
+123,S00.0,EXTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-06-21 00:00:00,2025-06-21 00:00:00,2025-07-04 00:00:00,true,,,,false,false,false,false,ture,"SIADH secundario a Aripiprazol, con hiponatremia severa 123, que  cede a la suspensión del fármaco ",,,,,,,hipocalcemia,,1
+124,S72.0,INTRACAPSULAR,DERECHO,VILLA ALEMANA,"['ECV/ACV', 'Parkinson']",2025-06-25 00:00:00,2025-06-25 00:00:00,2025-07-01 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+125,S72.1,INTRACAPSULAR,DERECHO,QUILPUÉ,['DM2'],2025-07-07 00:00:00,2025-07-07 00:00:00,2025-07-14 00:00:00,true,,,,false,false,false,false,ture,Neuropatpia periférica,,,,,,,,,1
+126,S72.2,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-06-28 00:00:00,2025-06-28 00:00:00,2025-07-04 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+127,S00.0,EXTRACAPSULAR,DERECHO,QUILPUÉ,[],2025-06-28 00:00:00,2025-06-28 00:00:00,2025-07-02 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+128,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-06-28 00:00:00,2025-06-28 00:00:00,2025-07-02 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+129,S72.0,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-07-01 00:00:00,2025-07-01 00:00:00,2025-07-07 00:00:00,true,,,,false,false,false,false,ture,Resisitencia a la insulina,,,,,,,,,1
+130,S72.1,INTRACAPSULAR,DERECHO,QUILPUÉ,[],2025-07-07 00:00:00,2025-07-07 00:00:00,2025-07-11 00:00:00,true,,,,false,false,false,false,ture,Marcapasos,,,,,,,,,1
+131,S72.2,INTRACAPSULAR,IZQUIERDO,QUINTERO,[],2025-07-15 00:00:00,2025-07-15 00:00:00,2025-07-21 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+132,S00.0,EXTRACAPSULAR,DERECHO,VILLA ALEMANA,['EPOC'],2025-07-11 00:00:00,2025-07-11 00:00:00,2025-07-17 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+133,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-07-11 00:00:00,2025-07-11 00:00:00,2025-07-15 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+134,S00.0,EXTRACAPSULAR,IZQUIERDO,QUINTERO,['DM2'],2025-07-11 00:00:00,2025-07-11 00:00:00,2025-07-17 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+135,S72.0,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['ERC'],2025-07-12 00:00:00,2025-07-12 00:00:00,2025-07-28 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,Decidió no dializarse más y fue dada de alta al domicilio a cuidados de fin de vida.,1
+136,S00.0,EXTRACAPSULAR,IZQUIERDO,SANTIAGO,"['EPOC', 'Epilepsia']",2025-07-14 00:00:00,2025-07-14 00:00:00,2025-07-24 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+137,S00.0,EXTRACAPSULAR,IZQUIERDO,QUILPUÉ,[],2025-07-16 00:00:00,2025-07-16 00:00:00,2025-08-01 00:00:00,true,,,,false,false,false,false,ture,"Depresión, Social",,,,,,,,,1
+138,S72.0,INTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-07-28 00:00:00,2025-07-28 00:00:00,2025-08-06 00:00:00,true,,,,false,false,false,false,false,,,,,,,Operada con ATC,"retención fecal, delirio hiperactivo",,1
+139,S00.0,EXTRACAPSULAR,IZQUIERDO,QUINTERO,['DM2'],2025-07-16 00:00:00,2025-07-16 00:00:00,2025-07-21 00:00:00,true,,,,false,false,false,false,ture,"Obesidad, demencia",,,,,,,"retención fecal, delirio hiper",,1
+140,S00.0,EXTRACAPSULAR,DERECHO,VIÑA DEL MAR,['EPOC'],2025-07-20 00:00:00,2025-07-20 00:00:00,2025-07-28 00:00:00,true,,,,true,false,false,false,ture,Social,,,,,,,,,1
+141,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-07-21 00:00:00,2025-07-21 00:00:00,2025-07-25 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+142,S72.0,INTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-07-24 00:00:00,2025-07-24 00:00:00,2025-08-13 00:00:00,true,,,,false,false,false,false,ture,"Social, demencia DGS-FAST 7",,,,,,,,social (hijo no quiso hacerse cargo),1
+143,S00.0,EXTRACAPSULAR,DERECHO,QUILPUÉ,['DM2'],2025-07-25 00:00:00,2025-07-25 00:00:00,2025-07-29 00:00:00,true,,,,false,false,false,true,false,,,,,,,,,,1
+144,S00.0,EXTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-07-25 00:00:00,2025-07-25 00:00:00,2025-07-30 00:00:00,true,,,,false,false,true,false,ture,Artritis Reumatoide,,,,,,Operada con gamma,,,1
+145,S72.0,INTRACAPSULAR,IZQUIERDO,LIMACHE,['DM2'],2025-07-28 00:00:00,2025-07-28 00:00:00,2025-08-13 00:00:00,true,,,,false,false,false,false,false,,,,,,,,nauseas por tramadol,,1
+146,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,"['ERC', 'ECV/ACV', 'DM2']",2025-08-08 00:00:00,2025-08-08 00:00:00,2025-08-13 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+147,S00.0,EXTRACAPSULAR,DERECHO,QUILPUÉ,"['ERC', 'ECV/ACV']",2025-08-09 00:00:00,2025-08-09 00:00:00,2025-08-13 00:00:00,true,,,,false,false,false,false,ture,"gota, institucionalizada",,,,,,,delirio hiperactivo,,1
+148,S72.0,INTRACAPSULAR,IZQUIERDO,QUILPUÉ,[],2025-07-29 00:00:00,2025-07-29 00:00:00,2025-08-08 00:00:00,true,,,,false,false,false,false,false,,,,,,,,"protrombina baja, no sube con vitamina K",,1
+149,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['DM2'],2025-08-01 00:00:00,2025-08-01 00:00:00,2025-08-06 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+150,S72.0,INTRACAPSULAR,DERECHO,VIÑA DEL MAR,['ECV/ACV'],2025-08-03 00:00:00,2025-08-03 00:00:00,2025-08-08 00:00:00,true,,,,false,false,false,false,ture,Hemiparesia crural derecha secundaria a meningectomía por meningioma antiguo,,,,,,,,,1
+151,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-08-06 00:00:00,2025-08-06 00:00:00,2025-08-12 00:00:00,true,,,,false,false,false,false,false,,,,,,,,FA RVR,,1
+152,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-08-07 00:00:00,2025-08-07 00:00:00,2025-08-19 00:00:00,true,,,,false,false,false,false,ture,Social,,,,,,,,,1
+153,S72.0,INTRACAPSULAR,DERECHO,VILLA ALEMANA,['Parkinson'],2025-08-06 00:00:00,2025-08-06 00:00:00,2025-08-11 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+154,S72.1,INTRACAPSULAR,DERECHO,PUCHUNCAVÍ,[],2025-08-09 00:00:00,2025-08-09 00:00:00,2025-08-14 00:00:00,true,,,,false,false,false,false,false,,,,,,,Caída de altura (árbol),,,1
+155,S72.2,INTRACAPSULAR,IZQUIERDO,CONCÓN,['EPOC'],2025-08-19 00:00:00,2025-08-19 00:00:00,2025-08-29 00:00:00,true,,,,true,false,false,true,false,,,,,,,,retencion fecal,,1
+156,S72.0,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-08-24 00:00:00,2025-08-24 00:00:00,2025-08-28 00:00:00,true,,,,false,false,false,false,ture,Obesidad,,,,,,,,,1
+157,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,"['DM2', 'ECV/ACV']",2025-08-11 00:00:00,2025-08-11 00:00:00,2025-08-15 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+158,S00.0,EXTRACAPSULAR,IZQUIERDO,QUILPUÉ,['DM2'],2025-08-16 00:00:00,2025-08-16 00:00:00,2025-08-26 00:00:00,true,,,,false,false,false,false,ture,Social,,,,,,OP con gamma el 24.05.25,,,1
+159,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-08-16 00:00:00,2025-08-16 00:00:00,2025-08-20 00:00:00,true,,,,false,false,false,false,ture,Obesidad,,,,,,,,,1
+160,S72.0,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['Parkinson'],2025-08-16 00:00:00,2025-08-16 00:00:00,2025-08-28 00:00:00,true,,,,false,false,false,false,false,,,,,,,,rash alergico a metamizol,"Trombocitopenia inducida por heparina, TEP subsegmentario basal derecho secundaio",1
+161,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['DM2'],2025-08-16 00:00:00,2025-08-16 00:00:00,2025-08-20 00:00:00,true,,,,false,false,false,true,ture,Obesidad,,,,,,,retención fecal,,1
+162,S72.0,INTRACAPSULAR,DERECHO,VILLA ALEMANA,[],2025-08-19 00:00:00,2025-08-19 00:00:00,2025-08-25 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+163,S00.0,EXTRACAPSULAR,DERECHO,QUILPUÉ,['DM2'],2025-08-26 00:00:00,2025-08-26 00:00:00,2025-09-01 00:00:00,true,,,,false,false,false,false,false,,,,,,,,ritmo ventricular rápido,,1
+164,S72.0,INTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-08-26 00:00:00,2025-08-26 00:00:00,2025-09-01 00:00:00,true,,,,false,false,false,false,ture,demencia DGS-FAST 7,,,,,,,DELIRIO HIPOACTIVO POR PSICOFARMACOS,,1
+165,S72.0,INTRACAPSULAR,IZQUIERDO,VILLA ALEMANA,"['EPOC', 'ECV/ACV']",2025-09-22 00:00:00,2025-09-22 00:00:00,2025-09-26 00:00:00,true,,,,false,false,false,false,false,,,,,,,,S. emético por moco,,1
+166,S00.0,EXTRACAPSULAR,IZQUIERDO,VILLA ALEMANA,[],2025-09-18 00:00:00,2025-09-18 00:00:00,2025-09-26 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,Prolongó postoperatorio por problemas sociales para recibirla en casa,1
+167,S00.0,EXTRACAPSULAR,DERECHO,PUCHUNCAVÍ,[],2025-09-20 00:00:00,2025-09-20 00:00:00,2025-09-25 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+168,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,['EPOC'],2025-09-20 00:00:00,2025-09-20 00:00:00,2025-09-24 00:00:00,true,,,,tue,false,false,false,ture,Obesidad,,,,,,,,,1
+169,S00.0,EXTRACAPSULAR,DERECHO,VIÑA DEL MAR,[],2025-09-20 00:00:00,2025-09-20 00:00:00,2025-09-29 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+170,S00.0,EXTRACAPSULAR,IZQUIERDO,PUCHUNCAVÍ,['Epilepsia'],2025-09-23 00:00:00,2025-09-23 00:00:00,2025-09-29 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,prolonga estada por soledad,1
+171,S00.0,EXTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,[],2025-09-29 00:00:00,2025-09-29 00:00:00,2025-10-01 00:00:00,true,,,,false,ture,false,false,ture,Daño hepático crónico,,,,,,,"Protrombina no subió, requirió PFC",,1
+172,S72.0,INTRACAPSULAR,IZQUIERDO,VIÑA DEL MAR,"['ERC', 'DM2']",2025-09-30 00:00:00,2025-09-30 00:00:00,2025-10-03 00:00:00,true,,,,false,false,false,false,false,,,,,,,,,,1
+173,S72.0,INTRACAPSULAR,IZQUIERDO,VILLA ALEMANA,[],2025-09-30 00:00:00,2025-09-30 00:00:00,2025-10-02 00:00:00,true,,,,false,false,true,false,ture,Artritis Reumatoide,,,,,,,,,1

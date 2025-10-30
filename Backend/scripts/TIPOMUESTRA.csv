@@ -1,0 +1,19 @@
+nombre,descripcion
+Sangre,Muestra sanguínea total para hematología y química clínica
+"Suero,Fracción líquida tras coagulación; pruebas bioquímicas e inmunológicas"
+"Plasma,Fracción líquida con anticoagulante; coagulación y hormonas"
+Orina,Muestra urinaria para uroanálisis y microalbuminuria
+Heces,Muestra fecal para sangre oculta y parasitología
+LCR,Líquido cefalorraquídeo para citoquímica y microbiología
+Líquido sinovial,Aspirado articular para cristales y cultivo
+Líquido pleural,Fluido torácico para citoquímica y cultivo
+Líquido peritoneal (ascítico),Ascitis para recuento celular, albúmina y cultivo
+Esputo,Muestra respiratoria para baciloscopía/cultivo
+Hisopo nasofaríngeo,Hisopado para paneles respiratorios/virología
+Tejido (biopsia),Fragmento para histopatología o cultivo
+Ecografía (US),Modalidad de imagen por ultrasonido diagnóstico
+Rayos X (RX),Radiografía convencional
+DXA (densitometría),Absorciometría dual de rayos X para densidad mineral ósea
+TC (TAC/CT),Tomografía computarizada
+RM (MRI),Resonancia magnética
+BDAT (US antebrazo),Ultrasonido cuantitativo/BDAT en antebrazo distal 1/3

@@ -1,0 +1,732 @@
+@import "tailwindcss";
+
+/* ===== base ===== */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* BRAND */
+  --color-brand-50:  #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+
+  /* NEUTRAL */
+  --color-neutral-50:  #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #0f172a;
+}
+
+/* dark base (solo tokens) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== utilidades de texto ===== */
+@utility text-heading { color: var(--color-neutral-900); }
+@utility text-title   { color: var(--color-neutral-800); }
+@utility text-body    { color: var(--color-neutral-700); }
+@utility text-muted   { color: var(--color-neutral-500); }
+@utility text-subtle  { color: var(--color-neutral-400); }
+@utility text-on-brand { color: #fff; }
+
+/* enlaces / iconos */
+@utility link { color: var(--color-brand-700); text-decoration-line: underline; text-underline-offset: 4px; }
+@utility icon { color: var(--color-neutral-500); }
+@utility icon-muted { color: var(--color-neutral-400); }
+
+/* estados */
+@utility text-danger  { color: rgb(185 28 28); }
+@utility text-success { color: rgb(21 128 61); }
+@utility text-warning { color: rgb(180 83 9); }
+@utility text-info    { color: rgb(3 105 161); }
+
+/* ===== inputs y botones genéricos ===== */
+.input-focus-ring:focus {
+  outline: none;
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px oklch(50% 0.25 240 / 0.3);
+  transition: border-color .3s, box-shadow .3s;
+}
+.button-hover-effect { transition: background-color .2s, transform .15s, box-shadow .2s; }
+.button-hover-effect:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.button-hover-effect:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,.15); background-color: var(--color-brand-700); }
+
+/* ===== animaciones ===== */
+@keyframes fadeInSlide { from {opacity:0; transform:translateY(10px)} to {opacity:1; transform:translateY(0)} }
+@keyframes slideInLeft { from {opacity:0; transform:translateX(-20px)} to {opacity:1; transform:translateX(0)} }
+@keyframes subtleZoom  { 0% {transform:scale(1)} 100% {transform:scale(1.03)} }
+@keyframes gradientShift { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
+.animate-fade-in-slide { animation: fadeInSlide .7s ease-out forwards; }
+.animate-slide-in-left { animation: slideInLeft .8s ease-out forwards; }
+.animate-subtle-zoom   { animation: subtleZoom 15s ease-in-out infinite alternate; }
+.animate-gradient-shift { background-size:200% 200%; animation: gradientShift 15s ease infinite; }
+
+/* ===== dark tweaks de utilidades ===== */
+@media (prefers-color-scheme: dark) {
+  .text-heading { color: var(--color-neutral-100); }
+  .text-body    { color: var(--color-neutral-200); }
+  .text-muted   { color: var(--color-neutral-300); }
+  .icon         { color: var(--color-neutral-300); }
+}
+
+/* ====== CreateUserCard (tal como tenías) ====== */
+.create-user-card {
+  --brand-500: var(--color-brand-500, #2563eb);
+  --brand-600: var(--color-brand-600, #2563eb);
+  --brand-700: var(--color-brand-700, #1d4ed8);
+  --neu-300: var(--color-neutral-300, #cbd5e1);
+  --neu-400: var(--color-neutral-400, #94a3b8);
+  --neu-800: var(--color-neutral-800, #1f2937);
+}
+.create-user-card .fc-input {
+  width: 100%; background:#fff; color: var(--neu-800);
+  border:1px solid var(--neu-300); border-radius:.5rem;
+  padding:.625rem .75rem; outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.create-user-card .fc-input::placeholder { color: var(--neu-400); }
+.create-user-card .fc-input:hover  { border-color: var(--neu-400); }
+.create-user-card .fc-input:focus  { border-color: var(--brand-500); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-500) 25%, transparent); }
+.create-user-card .fc-btn-primary{
+  background: var(--brand-600); color:#fff; border-radius:.75rem; padding:.5rem 1rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.05); transition: transform .15s, box-shadow .2s, background-color .15s;
+}
+.create-user-card .fc-btn-primary:hover{ background: var(--brand-700); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+.create-user-card .fc-btn-primary:active{ transform:none; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+
+/* ================================================================== */
+/* ======================= UsersTable styles ======================== */
+/* ================================================================== */
+
+/* Tarjeta / contenedor */
+.users-card{
+  border:1px solid var(--color-neutral-200);
+  border-radius:1rem;
+  background:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+  overflow:hidden;
+}
+
+/* Header sólido */
+.users-card__header{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  padding:.75rem 1rem;
+  background: linear-gradient(90deg, var(--color-brand-700), var(--color-brand-600));
+  border-bottom:1px solid color-mix(in srgb, #000 8%, transparent);
+}
+
+/* Scroll wrapper */
+.users-table__wrap{ overflow:auto; border-top:1px solid var(--color-neutral-200); }
+
+/* Tabla */
+.users-table{ width:100%; border-collapse:separate; border-spacing:0; font-size:.925rem; color:var(--color-neutral-800); background:#fff; }
+.users-table thead tr{ background: var(--color-brand-50); }
+.sticky-head{ position:sticky; top:0; z-index:1; background: var(--color-brand-50); border-bottom:1px solid var(--color-neutral-200); }
+
+.th{ padding:.6rem .75rem; text-align:left; font-size:.72rem; font-weight:800; letter-spacing:.02em; color:var(--color-neutral-700); }
+.td{
+  padding:.7rem .75rem; vertical-align:top; color:var(--color-neutral-800);
+  border-top:1px solid var(--color-neutral-200); background:#fff;
+}
+
+/* Cebreado y hover */
+.users-table tbody .users-row:nth-child(odd) .td{ background: var(--color-neutral-50); }
+.users-table tbody .users-row:hover .td{ background: color-mix(in srgb, var(--color-brand-50) 55%, transparent); }
+
+/* Chip */
+.chip{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.22rem .55rem; border-radius:9999px; font-size:.75rem; font-weight:600;
+  background: var(--color-brand-50); color: var(--color-brand-800); border:1px solid var(--color-brand-200);
+}
+
+/* Input y botones reutilizables */
+.input-base{
+  width:20rem; border:1px solid var(--color-neutral-300); background:#fff; color:var(--color-neutral-800);
+  border-radius:.75rem; padding:.5rem .75rem; transition: box-shadow .2s, border-color .2s;
+}
+.input-base::placeholder{ color:var(--color-neutral-400); }
+.input-base:focus{ outline:none; border-color:var(--color-brand-500); box-shadow:0 0 0 3px color-mix(in srgb, var(--color-brand-500) 22%, transparent); }
+
+.btn-base{ display:inline-flex; align-items:center; gap:.5rem; border-radius:.75rem; padding:.5rem .9rem; font-weight:700; }
+.btn-primary{ composes: btn-base; background: var(--color-brand-600); color:#fff; }
+.btn-primary:hover{ background: var(--color-brand-700); }
+.btn-secondary{ composes: btn-base; background: var(--color-brand-50); color:var(--color-brand-700); border:1px solid var(--color-brand-200); }
+.btn-secondary:hover{ background: var(--color-brand-100); border-color: var(--color-brand-300); }
+.btn-danger{ composes: btn-base; background:#fff; color: rgb(185 28 28); border:1px solid rgba(185,28,28,.25); }
+.btn-danger:hover{ background: rgba(185,28,28,.06); border-color: rgba(185,28,28,.35); }
+
+/* Footer */
+.users-card__footer{ border-top:1px solid var(--color-neutral-200); padding:.65rem 1rem; text-align:center; color:var(--color-neutral-700); }
+
+/* ======================= Dark overrides ======================== */
+@media (prefers-color-scheme: dark){
+  .users-card{ background:#0b0b0b; border-color: var(--color-neutral-800); box-shadow:none; }
+  .users-card__header{ border-bottom-color: color-mix(in srgb, #fff 8%, transparent); }
+  .users-table{ color: var(--color-neutral-100); background:#0b0b0b; }
+  .users-table thead tr, .sticky-head{ background: color-mix(in srgb, var(--color-brand-900) 55%, transparent); }
+  .th{ color:#e6e9f6; }
+  .td{ color: var(--color-neutral-100); border-top-color: var(--color-neutral-800); background:#0b0b0b; }
+  .users-table tbody .users-row:nth-child(odd) .td{ background: color-mix(in srgb, #fff 2%, transparent); }
+  .users-table tbody .users-row:hover .td{ background: color-mix(in srgb, var(--color-brand-900) 35%, transparent); }
+
+  .input-base{ background:#0b0b0b; border-color: var(--color-neutral-700); color: var(--color-neutral-100); }
+  .input-base::placeholder{ color: var(--color-neutral-500); }
+  .btn-secondary{
+    background: color-mix(in srgb, var(--color-brand-800) 25%, transparent);
+    color: var(--color-brand-200);
+    border-color: color-mix(in srgb, var(--color-brand-700) 40%, transparent);
+  }
+  .btn-secondary:hover{ background: color-mix(in srgb, var(--color-brand-700) 35%, transparent); }
+  .chip{
+    background: color-mix(in srgb, var(--color-brand-800) 30%, transparent);
+    color:#e6ecff; border-color: color-mix(in srgb, var(--color-brand-700) 40%, transparent);
+  }
+}
+
+/* ================== Forzar claro SOLO en admin ================== */
+.force-light { color-scheme: light; --background:#ffffff; --foreground:#0f172a; }
+.force-light .users-card, .force-light .users-table { background:#fff !important; }
+.force-light .users-card { border-color: var(--color-neutral-200) !important; }
+.force-light .users-table thead tr, .force-light .sticky-head { background: var(--color-brand-50) !important; }
+.force-light .td { color: var(--color-neutral-800) !important; background:#fff !important; }
+.force-light .th { color: var(--color-neutral-700) !important; }
+.force-light .users-table tbody .users-row:nth-child(odd) .td { background: var(--color-neutral-50) !important; }
+.force-light .users-table tbody .users-row:hover .td { background: color-mix(in srgb, var(--color-brand-50) 55%, transparent) !important; }
+.force-light .btn-primary { background: var(--color-brand-600) !important; color:#fff !important; }
+.force-light .btn-primary:hover { background: var(--color-brand-700) !important; }
+.force-light .btn-secondary { background: var(--color-brand-50) !important; color: var(--color-brand-700) !important; border:1px solid var(--color-brand-200) !important; }
+.force-light .btn-danger { background:#fff !important; color: rgb(185 28 28) !important; border:1px solid rgba(185,28,28,.25) !important; }
+.force-light .input-base{ background:#fff !important; color:var(--color-neutral-800) !important; border-color:var(--color-neutral-300) !important; }
+/* ====== Márgenes/acolchado de la tabla y look limpio ====== */
+.users-table__wrap{
+  padding: .75rem 1rem 1rem;        /* margen interno alrededor de la tabla */
+  border-top: 1px solid var(--color-neutral-200);
+  background: transparent;
+}
+
+/* La propia tabla con borde y esquinas redondeadas */
+.users-table{
+  border: 1px solid var(--color-neutral-200);
+  border-radius: .75rem;
+  overflow: hidden;                 /* respeta el borde redondeado */
+  background: #fff;
+}
+
+/* Encabezado sticky mantiene el mismo fondo que la tabla */
+.users-table thead tr,
+.sticky-head{
+  background: var(--color-brand-50);
+}
+
+/* Celdas: aseguro separación visual cómoda */
+.th{ padding: .65rem .9rem; }
+.td{ padding: .8rem .9rem; }
+
+/* Forzar el buscador con alto fijo (backup por si falta tailwind) */
+.input-base{ min-height: 40px; }
+
+/* ==== Fix buscador: padding y altura (evita que el icono tape el texto) ==== */
+.input-search{
+  height: 40px;
+  line-height: 40px;
+  padding-left: 2.5rem !important; /* 10 (Tailwind) forzado, gana a .input-base */
+}
+
+/* ==== Tabla sin marco doble ni líneas negras gruesas ==== */
+
+/* aire alrededor del bloque de tabla */
+.users-table__wrap{
+  padding: .75rem 1rem 1rem;
+  border-top: 1px solid var(--color-neutral-200);
+  background: transparent;
+}
+
+/* quitamos borde externo de la tabla y el "marco dentro de otro" */
+.users-table{
+  border: 0 !important;        /* anula cualquier borde previo */
+  border-radius: .75rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* cabecera con división sutil (no negra) */
+.users-table thead tr,
+.sticky-head{
+  background: var(--color-brand-50);
+  box-shadow: inset 0 -1px 0 var(--color-neutral-200); /* línea fina */
+}
+
+/* sin bordes en celdas */
+.users-table .th,
+.users-table .td{
+  border: 0 !important;
+}
+
+/* separadores suaves entre filas (en vez de bordes negros) */
+.users-table tbody .users-row + .users-row .td{
+  box-shadow: inset 0 1px 0 var(--color-neutral-200);
+}
+
+/* cebreado leve (opcional; quita si no te gusta) */
+.users-table tbody .users-row:nth-child(odd) .td{
+  background: var(--color-neutral-50);
+}
+
+/* hover sutil */
+.users-table tbody .users-row:hover .td{
+  background: color-mix(in srgb, var(--color-brand-50) 55%, transparent);
+}
+
+/* tamaños de padding un poco más cómodos */
+.users-table .th{ padding: .65rem .9rem; }
+.users-table .td{ padding: .8rem .9rem; }
+
+/* versiones claras bajo .force-light (por si tienes el wrapper) */
+.force-light .users-table{
+  border: 0 !important;
+  background:#fff !important;
+}
+.force-light .users-table thead tr,
+.force-light .sticky-head{
+  background: var(--color-brand-50) !important;
+  box-shadow: inset 0 -1px 0 var(--color-neutral-200) !important;
+}
+.force-light .users-table .td{
+  background:#fff !important;
+  color: var(--color-neutral-800) !important;
+}
+.force-light .users-table tbody .users-row:nth-child(odd) .td{
+  background: var(--color-neutral-50) !important;
+}
+
+/* === FIX: colores de texto en la tabla (alto contraste) === */
+
+/* Texto base de todas las celdas */
+.users-table .td{ color: var(--color-neutral-800) !important; }
+
+/* 1) Nombre (primera línea) bien oscuro y sin opacidades heredadas */
+.users-table .users-row td:first-child .font-medium{
+  color: var(--color-neutral-900) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Por si algún estilo global baja la opacidad del primer td */
+.users-table .users-row td:first-child,
+.users-table .users-row td:first-child *{
+  opacity: 1 !important;
+}
+
+/* 2) Texto “muted” (teléfono, badges de estado) sigue tenue pero legible */
+.users-table .td .text-muted{ color: var(--color-neutral-500) !important; }
+
+/* 3) Correo / RUT / demás celdas consistentes */
+.users-table .td.text-body,
+.users-table .td.text-body *{ color: var(--color-neutral-800) !important; }
+
+/* 4) Chip de cargo: texto brand más visible */
+.users-table .td .chip{
+  color: var(--color-brand-800) !important;
+  border-color: var(--color-brand-200);
+  background: var(--color-brand-50);
+}
+
+/* 5) Links dentro de la tabla: legibles (sin subrayado molesto) */
+.users-table .td a{
+  color: var(--color-neutral-800) !important;
+  text-decoration: none;
+}
+.users-table .td a:hover{ text-decoration: underline; }
+
+/* 6) (Opcional) Cabecera un poco más marcada */
+.users-table .th{ color: var(--color-neutral-700) !important; }
+
+/* ===== Si usas .force-light, blinda el contraste en claro ===== */
+.force-light .users-table .td{ color: var(--color-neutral-800) !important; }
+.force-light .users-table .users-row td:first-child .font-medium{
+  color: var(--color-neutral-900) !important;
+}
+.force-light .users-table .td .text-muted{ color: var(--color-neutral-500) !important; }
+
+/* Teléfono compacto bajo el nombre (solo cuando existe) */
+.cell-sub{
+  margin-top: .15rem;
+  font-size: .72rem;
+  color: var(--color-neutral-500);
+}
+
+/* Guion tenue para vacíos (no parece una “línea”) */
+.placeholder-dash{
+  color: var(--color-neutral-400);
+}
+
+
+/* Botón-link sutil para completar datos faltantes */
+.btn-link{
+  display:inline-flex; align-items:center; gap:.35rem;
+  font-size:.85rem; font-weight:600;
+  color: var(--color-brand-700);
+  background: transparent; border:0; padding:0;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+.btn-link:hover{ color: var(--color-brand-800); }
+
+/* ===== Badges unificados (Paciente + Cargos) ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .22rem .55rem;
+  border-radius: 9999px;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--color-neutral-200);
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-700);
+}
+
+/* Si ya tenías .badge-paciente, puedes borrarla o dejarla;
+   esto la asegura por si no existía. */
+.badge--paciente {
+  border-color: var(--color-neutral-300);
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-700);
+}
+
+/* Badge base para cargos */
+.badge-role { composes: badge; }
+
+/* Colores por cargo */
+.badge--funcionario {
+  background: var(--color-brand-50);
+  border-color: var(--color-brand-200);
+  color: var(--color-brand-800);
+}
+
+/* Indigo para tecnólogo */
+.badge--tecnologo {
+  background: #eef2ff;     /* indigo-50 */
+  border-color: #c7d2fe;   /* indigo-200 */
+  color: #3730a3;          /* indigo-800 */
+}
+
+/* Violet para investigador */
+.badge--investigador {
+  background: #f5f3ff;     /* violet-50 */
+  border-color: #ddd6fe;   /* violet-200 */
+  color: #6b21a8;          /* violet-800 */
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark){
+  .badge{
+    background: color-mix(in srgb, #fff 4%, transparent);
+    border-color: var(--color-neutral-700);
+    color: var(--color-neutral-100);
+  }
+  .badge--funcionario{
+    background: color-mix(in srgb, var(--color-brand-900) 35%, transparent);
+    border-color: color-mix(in srgb, var(--color-brand-700) 40%, transparent);
+    color: #e6ecff;
+  }
+  .badge--tecnologo{
+    background: color-mix(in srgb, #3730a3 25%, transparent);
+    border-color: color-mix(in srgb, #4f46e5 35%, transparent);
+    color: #eef2ff;
+  }
+  .badge--investigador{
+    background: color-mix(in srgb, #6b21a8 25%, transparent);
+    border-color: color-mix(in srgb, #7c3aed 35%, transparent);
+    color: #f5f3ff;
+  }
+
+  /* ===== Badges base (Paciente + Cargos) ===== */
+.badge,
+.badge-role {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .22rem .55rem;
+  border-radius: 9999px;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--color-neutral-200);
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-800) !important;  /* texto siempre visible */
+  white-space: nowrap;                         /* que no se corte el texto */
+}
+
+/* Paciente */
+.badge--paciente {
+  border-color: var(--color-neutral-300);
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-700) !important;
+}
+
+/* Cargos (colores por tipo) */
+.badge--funcionario {
+  background: var(--color-brand-50);
+  border-color: var(--color-brand-200);
+  color: var(--color-brand-800) !important;
+}
+
+.badge--tecnologo {
+  background: #eef2ff;     /* indigo-50 */
+  border-color: #c7d2fe;   /* indigo-200 */
+  color: #3730a3 !important; /* indigo-800 */
+}
+
+.badge--investigador {
+  background: #f5f3ff;     /* violet-50 */
+  border-color: #ddd6fe;   /* violet-200 */
+  color: #6b21a8 !important; /* violet-800 */
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark){
+  .badge, .badge-role{
+    background: color-mix(in srgb, #fff 4%, transparent);
+    border-color: var(--color-neutral-700);
+    color: var(--color-neutral-100) !important;
+  }
+  .badge--funcionario{
+    background: color-mix(in srgb, var(--color-brand-900) 35%, transparent);
+    border-color: color-mix(in srgb, var(--color-brand-700) 40%, transparent);
+    color: #e6ecff !important;
+  }
+  .badge--tecnologo{
+    background: color-mix(in srgb, #3730a3 25%, transparent);
+    border-color: color-mix(in srgb, #4f46e5 35%, transparent);
+    color: #eef2ff !important;
+  }
+  .badge--investigador{
+    background: color-mix(in srgb, #6b21a8 25%, transparent);
+    border-color: color-mix(in srgb, #7c3aed 35%, transparent);
+    color: #f5f3ff !important;
+  }
+}
+
+/* ====================== Badges con mejor contraste ====================== */
+/* base */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  padding:.22rem .60rem;
+  border-radius:9999px;
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1;
+  border:1px solid #cbd5e1;      /* neutral-300 (fallback) */
+  background:#f8fafc;            /* neutral-50 (fallback) */
+  color:#334155;                  /* neutral-700 */
+}
+
+/* Paciente (gris) */
+.badge--paciente{
+  background:#f1f5f9;            /* neutral-100 */
+  border-color:#cbd5e1;          /* neutral-300 */
+  color:#334155;                 /* neutral-700 */
+}
+
+/* Funcionario (azul) */
+.badge--funcionario{
+  background:#dbeafe;            /* brand-100 */
+  border-color:#93c5fd;          /* brand-300 */
+  color:#1d4ed8;                 /* brand-700 */
+}
+
+/* Tecnólogo (índigo) */
+.badge--tecnologo{
+  background:#e0e7ff;            /* indigo-100 */
+  border-color:#a5b4fc;          /* indigo-300 */
+  color:#3730a3;                 /* indigo-800 */
+}
+
+/* Investigador (violeta) */
+.badge--investigador{
+  background:#ede9fe;            /* violet-100 */
+  border-color:#c4b5fd;          /* violet-300 */
+  color:#6b21a8;                 /* violet-800 */
+}
+
+/* En dark mode mantenemos contraste alto */
+@media (prefers-color-scheme: dark){
+  .badge{
+    background: color-mix(in srgb, #fff 6%, transparent);
+    border-color:#64748b;        /* neutral-500 */
+    color:#e5e7eb;               /* neutral-200 */
+  }
+  .badge--funcionario{
+    background: color-mix(in srgb, #1e40af 35%, transparent);
+    border-color: color-mix(in srgb, #3b82f6 40%, transparent);
+    color:#e6ecff;
+  }
+  .badge--tecnologo{
+    background: color-mix(in srgb, #3730a3 30%, transparent);
+    border-color: color-mix(in srgb, #6366f1 40%, transparent);
+    color:#eef2ff;
+  }
+  .badge--investigador{
+    background: color-mix(in srgb, #6b21a8 30%, transparent);
+    border-color: color-mix(in srgb, #7c3aed 40%, transparent);
+    color:#f5f3ff;
+  }
+}
+
+/* =================== Detalles de tabla para verse “limpio” =================== */
+.users-table .td{ 
+  vertical-align: middle;         /* centra mejor los chips */
+  color:#0f172a;                  /* alto contraste en claro */
+}
+.force-light .users-table .td{ color:#0f172a !important; }
+
+/* si algún estilo global baja la opacidad, la blindo en las celdas */
+.users-table .td, 
+.users-table .td *{
+  opacity:1 !important;
+  filter:none !important;
+}
+
+/* separador suave entre filas (no línea negra) */
+.users-table tbody .users-row + .users-row .td{
+  box-shadow: inset 0 1px 0 #e2e8f0;
+}
+
+/* Hace que badge-role tenga exactamente la misma base que .badge */
+.badge-role,
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  padding:.22rem .60rem;
+  border-radius:9999px;
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1;
+  border:1px solid #ffffff;
+  background:#002952;
+  color:#334155;
+}
+
+/* Centrar CARGO (columna 4) */
+.users-table thead th:nth-child(4),
+.users-table tbody td:nth-child(4) {
+  text-align: center;
+}
+.users-table tbody td:nth-child(4) {
+  vertical-align: middle; /* que el badge quede centrado verticalmente */
+}
+
+/* (Opcional) Centrar también RUT Profesional (5) y Estado (6) */
+.users-table thead th:nth-child(5),
+.users-table tbody td:nth-child(5),
+.users-table thead th:nth-child(6),
+.users-table tbody td:nth-child(6) {
+  text-align: center;
+}
+.users-table tbody td:nth-child(5),
+.users-table tbody td:nth-child(6) {
+  vertical-align: middle;
+}
+
+/* --- Tarjeta azul solo para este bloque --- */
+.users-card--brand{
+  background: linear-gradient(90deg, var(--color-brand-700), var(--color-brand-600));
+  border: 1px solid color-mix(in srgb, #000 10%, transparent);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* El header ya va encima del fondo azul: no vuelvas a pintarlo */
+.users-card--brand .users-card__header{
+  background: transparent;
+}
+
+/* El buscador dentro del header queda blanco para contraste */
+.users-card--brand .users-card__header .input-base{
+  background:#fff;
+  color: var(--color-neutral-800);
+  border-color: transparent;
+}
+
+/* La zona de la tabla queda blanca dentro de la tarjeta azul */
+.users-card--brand .users-table__wrap{
+  background:#ffffff;
+  border-top: none;
+  padding: .75rem 1rem 1rem;
+}
+
+/* Si tu tabla tiene borde propio, mantenlo suave */
+.users-card--brand .users-table{
+  background:#ffffff;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: .75rem;
+  overflow: hidden;
+}
+
+/* --- Tarjeta azul solo para UsersTable --- */
+.users-card--brand{
+  background: linear-gradient(90deg, var(--color-brand-700), var(--color-brand-600));
+  border: 1px solid color-mix(in srgb, #000 10%, transparent);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* El header va “transparente” porque ya tiene la franja azul detrás */
+.users-card--brand .users-card__header{
+  background: transparent;
+}
+
+/* Buscador en blanco para contraste sobre el fondo azul */
+.users-card--brand .users-card__header .input-base{
+  background:#fff;
+  color: var(--color-neutral-800);
+  border-color: transparent;
+}
+
+/* La tabla queda blanca dentro de la tarjeta azul */
+.users-card--brand .users-table__wrap{
+  background:#fff;
+  border-top: none;
+  padding: .75rem 1rem 1rem;
+}
+
+.users-card--brand .users-table{
+  background:#ffffff;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: .75rem;
+  overflow: hidden;
+}
+
+}
