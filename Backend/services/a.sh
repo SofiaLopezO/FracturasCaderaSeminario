@@ -1,4 +1,0 @@
-curl -sS -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJydXQiOiIyMDczMTE1MzciLCJyb2xlcyI6WyJGVU5DSU9OQVJJTyIsIklOVkVTVElHQURPUiJdLCJpYXQiOjE3NTk0MTQ3OTQsImV4cCI6MTc1OTQyMTk5NH0.IWzA6YLUuBgMgTNuhv1hbigARC0bm-TF-vdbqRs4iEU"   "https://provider.blocktype.cl/api/v1/pacientes/4/resumen"   | tee "$EVDIR/local_resumen.json"
-
-curl -v "https://blocktypepc.cl/api/v1/pacientes/4/datos" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJydXQiOiIyMDczMTE1MzciLCJyb2xlcyI6WyJGVU5DSU9OQVJJTyIsIklOVkVTVElHQURPUiJdLCJpYXQiOjE3NTk0MTQ3OTQsImV4cCI6MTc1OTQyMTk5NH0.IWzA6YLUuBgMgTNuhv1hbigARC0bm-TF-vdbqRs4iEU" 2>&1 | tee "$EVDIR/curl_pacientes.txt"

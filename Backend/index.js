@@ -20,12 +20,9 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 const BASE_PATH = process.env.API_BASE || '/api/v1';
 const FRONT_ORIGIN = process.env.FRONT_ORIGIN || 'http://localhost:3000';
-// Body parsing
-// parsers
 app.use(cookieParser());
 app.use(express.json({ limit: '1mb' }));
 
-// CORS (Next.js en 3000)
 const allowedOrigins = [
     FRONT_ORIGIN,
     'http://localhost:3000',
@@ -79,7 +76,6 @@ app.get('/', async (_req, res) => {
         return res.status(500).json({ ok: false, db: 'down' });
     }
 });
-// Servir archivos estáticos de uploads (minutas, etc.)
 const uploadsPath = path.join(__dirname, 'uploads');
 try {
     fs.mkdirSync(path.join(uploadsPath, 'minutas'), { recursive: true });
@@ -89,7 +85,7 @@ try {
 app.use('/uploads', express.static(uploadsPath));
 
 // ---------- Rutas ----------
-initRoutes(app, BASE_PATH); // p.ej. /api/v1/login, /api/v1/register, /api/v1/...
+initRoutes(app, BASE_PATH); 
 
 // ---------- 404 ----------
 app.use((req, res) => {
@@ -110,11 +106,10 @@ app.use((err, _req, res, _next) => {
         const ALTER =
             String(process.env.DB_ALTER || '').toLowerCase() === 'true';
         await connectDB({ alter: ALTER });
-        const Usuario = modelos.User; // <-- Usa el modelo correcto según tu initModels.js
+        const Usuario = modelos.User; 
         const adminEmail = process.env.ADMIN_EMAIL || 'Admin@admin.com';
         const adminRut = process.env.ADMIN_RUT || '111111111';
         const pass = await bcrypt.hash('Clave123', 10);
-        // Evita violaciones de unicidad buscando por correo O rut
         let admin = await Usuario.findOne({
             where: { [Op.or]: [{ correo: adminEmail }, { rut: adminRut }] },
         });
@@ -140,7 +135,7 @@ app.use((err, _req, res, _next) => {
                 : `ℹ️ Usuario administrador ya existe: ${adminEmail}`
         );
 
-        const AdminModel = modelos.Administrador; // <-- Usa el modelo correcto según tu initModels.js
+        const AdminModel = modelos.Administrador; 
         const [adminProfile, profCreated] = await AdminModel.findOrCreate({
             where: { user_id: admin.id },
             defaults: {
@@ -150,14 +145,20 @@ app.use((err, _req, res, _next) => {
         });
         await verifyMailTransport();
 
-        app.listen(PORT, () => {
+        const server = app.listen(PORT, () => {
             console.log(
                 `🚀 API escuchando en http://localhost:${PORT}${BASE_PATH}`
             );
             console.log(`🌐 CORS: ${FRONT_ORIGIN}`);
         });
+
+        module.exports = { app, server };
     } catch (e) {
         console.error('❌ No se pudo iniciar:', e);
         process.exit(1);
     }
 })();
+
+if (require.main !== module) {
+    module.exports = { app };
+}

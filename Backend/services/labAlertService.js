@@ -29,7 +29,7 @@ function describeOutside(min, max, value) {
  * @returns {Promise<object|null>} alerta plain creada/actualizada o null si no aplica
  */
 async function syncAlertForResultado(resultado, { models: injectedModels } = {}) {
-  const m = injectedModels || models; // <<--- inyección
+  const m = injectedModels || models; 
   if (!resultado) return null;
 
   const data = typeof resultado.get === 'function' ? resultado.get({ plain: true }) : resultado;
@@ -98,5 +98,4 @@ async function syncAlertForResultado(resultado, { models: injectedModels } = {})
 module.exports = {
   syncAlertForResultado,
 };
-// opcional: facilitar interop ESM por default
 module.exports.default = module.exports;

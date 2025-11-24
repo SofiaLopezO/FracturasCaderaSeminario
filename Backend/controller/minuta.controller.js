@@ -37,7 +37,6 @@ async function create(req, res) {
             return res.status(400).json({ error: 'paciente_id no existe' });
         }
 
-        // Buscar el usuario por RUT para obtener su ID
         const usuario = await models.User.findOne({
             where: { rut: req.user.rut },
         });

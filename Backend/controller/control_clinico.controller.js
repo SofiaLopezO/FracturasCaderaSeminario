@@ -121,7 +121,6 @@ async function create(req, res) {
         if (!epi)
             return res.status(400).json({ error: 'episodio_id no existe' });
 
-        // Verificar si ya existen controles para este episodio
         const antro = await models.Antropometria.findOne({
             where: { episodio_id },
         });
@@ -159,8 +158,7 @@ async function create(req, res) {
             where: { episodio_id },
         });
         if (!existeControl && tipo_control === 'Inicial') {
-            // Opción B: en lugar de crear un ControlClinico, volcar campos iniciales al Episodio
-            // Campos que actualizamos (si vienen en el body): hábitos/comorbilidades y notas iniciales
+
             if (comorbilidades !== undefined)
                 epi.comorbilidades = normalizeStringArray(comorbilidades);
             if (tabaco !== undefined)
@@ -184,10 +182,10 @@ async function create(req, res) {
                 epi.reingreso = reingreso === null ? null : !!reingreso;
             if (notas_evolucion !== undefined)
                 epi.comentario_evolucion = notas_evolucion ?? null;
-            epi.inicial = 1; // marcamos que ya se cargó el control inicial
+            epi.inicial = 1; 
             await epi.save();
 
-            // Recalcular indicadores para el episodio cuando se guardan los datos iniciales sin crear ControlClinico
+
             try {
                 await riesgoService.recalcularIndicadores(episodio_id);
             } catch (riskError) {
@@ -200,26 +198,23 @@ async function create(req, res) {
             return res.status(200).json(epi);
         }
 
-        // Resolver profesional: el frontend puede enviar either
-        // - profesional_id = professional_profiles.id  (preferred)
-        // - profesional_id = users.id (user id)
+
         const providedProf = profesional_id;
         let pro = null;
         if (providedProf !== undefined && providedProf !== null) {
-            // Intentar por PK en professional_profiles
+
             pro = await models.ProfessionalProfile.findByPk(providedProf);
             if (!pro) {
-                // Intentar por user_id (caso en que frontend envía user.id)
+
                 pro = await models.ProfessionalProfile.findOne({
                     where: { user_id: providedProf },
                 });
             }
         }
 
-        // Determinar profesional_id que se usará como FK (professional_profiles.id)
         const profesional_fk_id = pro ? pro.id : null;
 
-        // Determinar nombre del profesional para registro (si existe user relacionado)
+
         let nombre = null;
         if (pro) {
             const user = await models.User.findByPk(pro.user_id);
@@ -227,7 +222,7 @@ async function create(req, res) {
                 nombre = `${user.nombres} ${user.apellido_paterno} ${user.apellido_materno}`;
             }
         } else if (providedProf) {
-            // intentar obtener nombre si lo que vino fue user id
+
             const userCandidate = await models.User.findByPk(
                 providedProf
             ).catch(() => null);
@@ -236,8 +231,6 @@ async function create(req, res) {
             }
         }
 
-        // Si existen controles, creamos el ControlClinico normalmente
-        // helper para quitar tildes/diacríticos
         const removeTildes = (s) =>
             s === undefined || s === null
                 ? s
@@ -245,7 +238,6 @@ async function create(req, res) {
                       .normalize('NFD')
                       .replace(/[\u0300-\u036f]/g, '');
 
-        // limpia recursivamente strings dentro de arrays/objetos
         const stripRecursively = (val) => {
             if (val === undefined || val === null) return val;
             if (typeof val === 'string') return removeTildes(val);
@@ -268,7 +260,7 @@ async function create(req, res) {
 
         const created = await models.ControlClinico.create({
             episodio_id,
-            // usar la FK real a professional_profiles (si existe), sino null
+
             profesional_id: profesional_fk_id ?? null,
             profesional_nombre: stripRecursively(nombre) ?? null,
             tipo_control: tipo_control?.toUpperCase() ?? undefined,
@@ -293,7 +285,7 @@ async function create(req, res) {
             comentario_otro: stripRecursively(otro) ?? null,
         });
         if (tipo_control?.toUpperCase() === 'ALTA') {
-            epi.inicial = 2; // marcamos que el episodio ya no está activo
+            epi.inicial = 2;
             await epi.save();
         }
         try {
@@ -326,7 +318,7 @@ async function update(req, res) {
         }
         if (body.profesional_id !== undefined)
             row.profesional_id = body.profesional_id ?? null;
-        // Resolver profesional para update: soportar tanto professional_profiles.id como user.id
+
         if (body.profesional_id !== undefined) {
             let proUp = await models.ProfessionalProfile.findByPk(
                 body.profesional_id
@@ -344,16 +336,16 @@ async function update(req, res) {
                     ? `${user.nombres} ${user.apellido_paterno} ${user.apellido_materno}`
                     : null;
                 if (nombreUp) row.profesional_nombre = nombreUp;
-                // Asignar FK real
+
                 row.profesional_id = proUp.id ?? null;
             } else {
-                // Si no se encontró profile, intentar usar body.profesional_id como user id para nombre
+
                 const userCandidate = await models.User.findByPk(
                     body.profesional_id
                 ).catch(() => null);
                 if (userCandidate) {
                     row.profesional_nombre = `${userCandidate.nombres} ${userCandidate.apellido_paterno} ${userCandidate.apellido_materno}`;
-                    // dejar profesional_id sin cambio (no asignar FK inválida)
+
                 }
             }
         }

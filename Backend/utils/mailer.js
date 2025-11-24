@@ -3,10 +3,6 @@ const nodemailer = require('nodemailer');
 
 let transporter = null;
 
-/**
- * Llama en el arranque. Si SMTP_HOST=ethereal, genera una cuenta
- * temporal y configura el transporter automáticamente.
- */
 async function verifyMailTransport() {
   const host = (process.env.SMTP_HOST || '').trim().toLowerCase();
 
@@ -15,9 +11,9 @@ async function verifyMailTransport() {
     const testAcc = await nodemailer.createTestAccount();
 
     transporter = nodemailer.createTransport({
-      host: testAcc.smtp.host,      // p.ej. smtp.ethereal.email
-      port: testAcc.smtp.port,      // 587 o 465
-      secure: testAcc.smtp.secure,  // true si 465
+      host: testAcc.smtp.host,     
+      port: testAcc.smtp.port,    
+      secure: testAcc.smtp.secure,  
       auth: {
         user: testAcc.user,
         pass: testAcc.pass,

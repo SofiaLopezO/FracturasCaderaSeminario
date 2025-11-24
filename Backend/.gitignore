@@ -2,3 +2,7 @@
 node_modules
 .next
 next-env.d.ts
+bruno-collection
+coverage
+uploads
+scripts

@@ -3,7 +3,6 @@ const models = require('../model/initModels');
 const { logRegistro } = require('./registro.controller');
 const { Op } = require('sequelize');
 
-// Compatibilidad con esquemas antiguos: cachea columnas presentes
 let __schemaFlags = {
     checked: false,
     alertaHasEpisodioId: false,
@@ -31,7 +30,6 @@ async function ensureSchemaFlags() {
     return __schemaFlags;
 }
 
-// Helpers
 function parseUserIdParam(req) {
     const raw = req.params.user_id ?? req.query.user_id;
     const id = Number(raw);
@@ -64,10 +62,6 @@ function isMissingColumnError(err, column) {
     );
 }
 
-/**
- * GET /pacientes/search?q=texto&limit=6
- * Busca por RUT, nombres y apellidos (en la tabla User) para usuarios que SÍ tienen perfil de Paciente.
- */
 async function search(req, res) {
     try {
         const q = String(req.query.q || '').trim();
@@ -75,7 +69,7 @@ async function search(req, res) {
         if (!q) return res.json({ items: [] });
 
         const qRut = normRut(q);
-        const userAlias = 'user';
+        const userAlias = 'User';
 
         const rows = await models.Paciente.findAll({
             include: [
@@ -91,7 +85,7 @@ async function search(req, res) {
                     ],
                     where: {
                         [Op.or]: [
-                            { rut: { [Op.iLike]: `%${q}%` } }, // si usas MySQL cambia iLike -> like
+                            { rut: { [Op.iLike]: `%${q}%` } }, 
                             { rut: { [Op.iLike]: `%${qRut}%` } },
                             { nombres: { [Op.iLike]: `%${q}%` } },
                             { apellido_paterno: { [Op.iLike]: `%${q}%` } },
@@ -134,12 +128,9 @@ async function search(req, res) {
     }
 }
 
-/**
- * GET /pacientes?limit=20&offset=0&tipo_sangre=O+&all=true
- */
 async function list(req, res) {
     try {
-        // Si se pasa ?all=true, no aplicar límite
+
         const getAll = req.query.all === 'true' || req.query.all === '1';
         const limit = getAll
             ? undefined
@@ -156,7 +147,7 @@ async function list(req, res) {
             include: [
                 {
                     model: models.User,
-                    as: 'user',
+                    as: 'User',
                     attributes: [
                         'rut',
                         'nombres',
@@ -168,7 +159,6 @@ async function list(req, res) {
             ],
         };
 
-        // Solo añadir limit y offset si no se solicita todo
         if (!getAll) {
             queryOptions.limit = limit;
             queryOptions.offset = offset;
@@ -178,8 +168,8 @@ async function list(req, res) {
 
         const items = rows.map((row) => {
             const data = row.toJSON();
-            const user = data.user || {};
-            delete data.user;
+            const user = data.User || {};
+            delete data.User;
 
             return {
                 rut: user.rut || null,
@@ -197,9 +187,6 @@ async function list(req, res) {
     }
 }
 
-/**
- * GET /pacientes/:user_id
- */
 async function getOne(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -215,10 +202,6 @@ async function getOne(req, res) {
     }
 }
 
-/**
- * POST /pacientes
- * body: { user_id, tipo_sangre?, altura?, edad? }
- */
 async function create(req, res) {
     try {
         const { user_id, tipo_sangre, altura, edad } = req.body || {};
@@ -260,9 +243,6 @@ async function create(req, res) {
     }
 }
 
-/**
- * PUT /pacientes/:user_id
- */
 async function update(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -287,7 +267,7 @@ async function update(req, res) {
         await logRegistro(
             req,
             `ACTUALIZAR_PACIENTE: user_id=${id}, rut=${user?.rut}`,
-            id // ID del paciente actualizado
+            id 
         );
 
         res.json(row);
@@ -297,9 +277,6 @@ async function update(req, res) {
     }
 }
 
-/**
- * DELETE /pacientes/:user_id
- */
 async function remove(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -314,7 +291,7 @@ async function remove(req, res) {
         await logRegistro(
             req,
             `ELIMINAR_PACIENTE: user_id=${id}, rut=${user?.rut}`,
-            id // ID del paciente eliminado
+            id
         );
 
         res.status(204).send();
@@ -344,7 +321,7 @@ async function getDetalles(req, res) {
         const include = [
             {
                 model: models.User,
-                as: 'user',
+                as: 'User',
                 attributes: [
                     'rut',
                     'nombres',
@@ -365,6 +342,7 @@ async function getDetalles(req, res) {
                         include: [
                             {
                                 model: models.Resultado,
+                                as: 'Resultados',
                                 include: [
                                     {
                                         model: models.IndicadorRiesgo,
@@ -393,7 +371,6 @@ async function getDetalles(req, res) {
 
         res.json(row);
 
-        // Registro de historial: si es profesional, guarda a quién vio y cuándo
         if (esProfesional && req.user?.rut) {
             try {
                 const viewerUser = await models.User.findOne({
@@ -431,7 +408,6 @@ async function getDetalles(req, res) {
 
 async function getResumen(req, res) {
     try {
-        // Detecta capacidades de columnas una sola vez
         await ensureSchemaFlags();
         const id = parseUserIdParam(req);
         if (!id) return res.status(400).json({ error: 'user_id inválido' });
@@ -440,7 +416,7 @@ async function getResumen(req, res) {
             include: [
                 {
                     model: models.User,
-                    as: 'user',
+                    as: 'User',
                     attributes: [
                         'rut',
                         'nombres',
@@ -456,7 +432,7 @@ async function getResumen(req, res) {
         });
         if (!paciente) return res.status(404).json({ error: 'No encontrado' });
 
-        const user = paciente.user || {};
+        const user = paciente.User || {};
 
         const formatNombreProfesional = (u) => {
             if (!u) return '';
@@ -503,7 +479,6 @@ async function getResumen(req, res) {
             return asString ? [asString] : [];
         };
 
-        // Helper: edad en años y meses
         const calcEdad = (fn) => {
             try {
                 if (!fn)
@@ -582,7 +557,6 @@ async function getResumen(req, res) {
             : [];
         const controles = controlesRaw.map((c) => c.get({ plain: true }));
 
-        // Controles por episodio + días desde previo
         const controlesPorEpisodio = new Map();
         for (const c of controles) {
             if (!controlesPorEpisodio.has(c.episodio_id))
@@ -631,7 +605,6 @@ async function getResumen(req, res) {
                 controlInicial?.comorbilidades ?? epi.comorbilidades
             );
 
-            // Obtener profesional del control inicial si existe
             const prof = controlInicial?.profesional || null;
             const profUser = prof?.user || null;
             const doctorEpisodio = profUser
@@ -675,13 +648,7 @@ async function getResumen(req, res) {
                 complicaciones: controlInicial?.complicaciones ?? null,
                 tipo_control: 'INICIAL',
                 dias_desde_previo: null,
-                // marcar como episodio solo si existen controles y NO existe ningún control de tipo 'ALTA' para este episodio
-                // Reglas:
-                // - Si no hay controles (lista.length === 0) => es_episodio: false
-                // - Si existe al menos un control con tipo_control === 'ALTA' => es_episodio: false
-                // - En cualquier otro caso (hay controles y ninguno es 'ALTA') => es_episodio: true
                 es_episodio: false,
-                // campo auxiliar: entrada sintética (no persistida)
                 sintetico: true,
             });
             let prev = null;
@@ -729,7 +696,6 @@ async function getResumen(req, res) {
             }
         }
 
-        // Historial médico: usaremos los controles como consultas previas
         const historialMedico = registroControles.map((rc) => ({
             control_id: rc.control_id,
             fecha: rc.fecha_hora,
@@ -770,7 +736,6 @@ async function getResumen(req, res) {
             cirugiasPorEpisodio.get(c.episodio_id).push(c);
         }
 
-        // TDC/TPO/TTH para el episodio más reciente
         let tdc = null,
             tpo = null,
             tth = null;
@@ -903,7 +868,6 @@ async function getResumen(req, res) {
                 }
             }
         } else {
-            // Último recurso: evita romper, trae recientes
             alertas = await models.Alerta.findAll({
                 attributes: alertaAttributes,
                 order: alertaOrder,
@@ -974,11 +938,10 @@ async function getResumen(req, res) {
             }
             const seen = new Set();
             for (const r of resul) {
-                // Identify logical key
                 const key = Object.keys(PARAM_MAP).find((k) =>
                     PARAM_MAP[k].includes(r.parametro)
                 );
-                if (!key || seen.has(key)) continue; // keep latest only
+                if (!key || seen.has(key)) continue;
                 analisisSangre[key] = {
                     parametro: r.parametro,
                     nombre: r.ParametroLab?.nombre || r.parametro,
@@ -997,7 +960,7 @@ async function getResumen(req, res) {
                 [{ model: models.Muestra }, 'fecha_recepcion', 'ASC'],
                 [
                     { model: models.Muestra },
-                    { model: models.Resultado },
+                    { model: models.Resultado, as: 'Resultados' },
                     'resultado_id',
                     'ASC',
                 ],
@@ -1008,6 +971,7 @@ async function getResumen(req, res) {
                     include: [
                         {
                             model: models.Resultado,
+                            as: 'Resultados',
                             include: [{ model: models.ParametroLab }],
                         },
                         {
@@ -1030,7 +994,6 @@ async function getResumen(req, res) {
             ],
         });
 
-        // Construcción de salida
         const nombreCompleto = [
             user.nombres,
             user.apellido_paterno,
@@ -1043,7 +1006,7 @@ async function getResumen(req, res) {
             : null;
         const tipoSangre = tipoSangreEpi || paciente.tipo_sangre || null;
         const altura = antropActual?.altura_m ?? paciente.altura ?? null;
-        const peso = antropActual?.peso_kg ?? null; // Paciente no tiene peso; usamos Antropometría
+        const peso = antropActual?.peso_kg ?? null;
 
         const controlesEpisodioActual = episodioActual
             ? controlesPorEpisodio.get(episodioActual.episodio_id) || []
@@ -1078,10 +1041,6 @@ async function getResumen(req, res) {
                       controlInicialActual?.taco ?? episodioActual.taco ?? null,
               }
             : null;
-        // es_episodio (dx_actual) se considera verdadero solo si:
-        // - existe al menos un control en el episodio
-        // - episodioActual.inicial es verdadero
-        // - ninguno de los controles tiene tipo_control === 'ALTA'
         const dxActual = episodioActual
             ? {
                   episodio_id: episodioActual.episodio_id,
@@ -1121,8 +1080,7 @@ async function getResumen(req, res) {
                       episodioActual.comentario_evolucion ??
                       null,
                   habitos: habitosDx,
-                  // Indica si el episodio se considera activo (true) o no (false).
-                  // Reglas: true si (hay controles) AND (episodioActual.inicial === true) AND (ningún control es 'ALTA').
+
                   es_episodio: episodioActual.inicial,
               }
             : {
@@ -1145,16 +1103,10 @@ async function getResumen(req, res) {
                   es_episodio: null,
               };
 
-        // Obtener los indicadores clínicos más recientes.
-        // Prioridad:
-        // 1) Indicadores asociados al último control del episodio (control_id)
-        // 2) Si no existen, buscar el conjunto más reciente para el episodio (episodio_id) ordenado por calculado_en
-        // 3) Fallback vacío
         let indicadoresUltimoControl = { suma: 0, indicadores: [] };
         try {
             let indicadoresRows = [];
 
-            // 1) intentar por último control
             if (ultimoControlActual?.control_id) {
                 indicadoresRows = await models.EpisodioIndicador.findAll({
                     where: { control_id: ultimoControlActual.control_id },
@@ -1164,13 +1116,10 @@ async function getResumen(req, res) {
                     ],
                 });
             }
-
-            // 2) si no hay indicadores para el control, buscar el último conjunto calculado para el episodio
             if (
                 (!indicadoresRows || indicadoresRows.length === 0) &&
                 episodioActual?.episodio_id
             ) {
-                // Buscamos el último calculado (por calculado_en) para este episodio. Algunos registros tienen control_id=null
                 const ultimaFecha = await models.EpisodioIndicador.findOne({
                     where: { episodio_id: episodioActual.episodio_id },
                     attributes: ['calculado_en'],
@@ -1190,7 +1139,6 @@ async function getResumen(req, res) {
                             });
                     }
                 }
-                // Si aún no encontramos por exacto calculado_en, tomar los últimos N indicadores del episodio y agregarlos por tipo (último por tipo)
                 if (!indicadoresRows || indicadoresRows.length === 0) {
                     const rows = await models.EpisodioIndicador.findAll({
                         where: { episodio_id: episodioActual.episodio_id },
@@ -1200,7 +1148,6 @@ async function getResumen(req, res) {
                         ],
                         limit: 200,
                     });
-                    // tomar último por tipo
                     const byTipo = new Map();
                     for (const r of rows) {
                         const plain = r.get ? r.get({ plain: true }) : r;
@@ -1220,7 +1167,6 @@ async function getResumen(req, res) {
                     (item.tipo === 'RIESGO_REFRACTURA' &&
                         Number(item.valor) >= 0)
             );
-            // Extraer nivel del indicador resumen (RIESGO_REFRACTURA) si existe
             const indicadorResumen = indicadoresPlain.find(
                 (i) => i.tipo === 'RIESGO_REFRACTURA'
             );
@@ -1230,7 +1176,7 @@ async function getResumen(req, res) {
                   null
                 : null;
             const detallesIndicadores = disparados
-                .filter((i) => i.tipo !== 'RIESGO_REFRACTURA') // evitar duplicar el resumen como criterio
+                .filter((i) => i.tipo !== 'RIESGO_REFRACTURA') 
                 .map((item) => {
                     const detalles =
                         item.detalles && typeof item.detalles === 'object'
@@ -1307,10 +1253,10 @@ async function getResumen(req, res) {
             solicitudes: examenes.map((ex) => ({
                 examen_id: ex.examen_id,
                 nombre: ex.tipo_examen,
-                fecha: null, // no hay campo explícito de fecha de solicitud en modelo Examen
+                fecha: null,
                 tipo_examen: ex.tipo_examen,
-                urgente_o_programado: null, // no existe en el esquema actual
-                estado: null, // completado/pendiente/procesando no existe en el esquema actual
+                urgente_o_programado: null,
+                estado: null, 
                 muestras: (ex.Muestras || []).map((m) => ({
                     muestra_id: m.muestra_id,
                     tipo_muestra: m.tipo_muestra,
@@ -1319,7 +1265,7 @@ async function getResumen(req, res) {
                     validado_por: m.ProfessionalProfile?.user
                         ? `${m.ProfessionalProfile.user.nombres} ${m.ProfessionalProfile.user.apellido_paterno} ${m.ProfessionalProfile.user.apellido_materno}`.trim()
                         : null,
-                    fecha_validacion: null, // no hay campo de validación explícito
+                    fecha_validacion: null, 
                     resultados: (m.Resultados || []).map((r) => ({
                         resultado_id: r.resultado_id,
                         nombre: r.ParametroLab?.nombre || r.parametro,
@@ -1343,10 +1289,10 @@ async function getResumen(req, res) {
             !Number.isNaN(Number(heightCm)) &&
             Number(heightCm) > 0
         ) {
-            const heightM = Number(heightCm) / 100; // convertir cm -> m
+            const heightM = Number(heightCm) / 100; 
             if (heightM > 0) {
                 const val = Number(peso) / (heightM * heightM);
-                imc = Number.isFinite(val) ? val : null; // 1 decimal
+                imc = Number.isFinite(val) ? val : null;
             }
         }
 
@@ -1409,7 +1355,7 @@ async function datosPaciente(req, res) {
             include: [
                 {
                     model: models.User,
-                    as: 'user',
+                    as: 'User',
                     attributes: [
                         'nombres',
                         'apellido_paterno',
@@ -1423,9 +1369,8 @@ async function datosPaciente(req, res) {
         if (!paciente)
             return res.status(404).json({ error: 'Paciente no encontrado' });
 
-        const user = paciente.user || {};
+        const user = paciente.User || {};
 
-        // calcular edad en años y meses
         const fn = user.fecha_nacimiento
             ? new Date(user.fecha_nacimiento)
             : null;
@@ -1445,7 +1390,6 @@ async function datosPaciente(req, res) {
             edadMeses = meses;
         }
 
-        // tipo de sangre: usar Paciente.tipo_sangre si existe, o intentar episodio más reciente (abo+rh)
         let tipoSangre = paciente.tipo_sangre || null;
         if (!tipoSangre) {
             const episodio = await models.Episodio.findOne({
@@ -1488,13 +1432,3 @@ module.exports = {
     getResumen,
     datosPaciente,
 };
-// GET /pacientes/:user_id/resumen
-// Resumen clínico consolidado del paciente con:
-//  - General: datos demográficos, antropometría, sangre clave (HB, colesterol, glucosa, triglicéridos)
-//  - Historial médico: controles previos con fecha, nombre, motivo, y doctor
-//  - Alertas médicas
-//  - Métricas TDC/TPO/TTH del episodio más reciente
-//  - Diagnóstico actual (episodio más reciente)
-//  - Registro de controles (con días desde el previo)
-//  - Quirófano: suspensiones
-//  - Laboratorio: resumen de exámenes, solicitudes y resultados por muestra

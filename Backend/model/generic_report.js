@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
     examen_id:       { type: DataTypes.INTEGER, allowNull: false }, 
 
     // Imagen
-    modalidad:       { type: DataTypes.STRING, allowNull: true },   // RX, TC, RM, ECO…
+    modalidad:       { type: DataTypes.STRING, allowNull: true }, 
     region_anat:     { type: DataTypes.STRING, allowNull: true },
     dicom_study_uid: { type: DataTypes.STRING, allowNull: true },
 

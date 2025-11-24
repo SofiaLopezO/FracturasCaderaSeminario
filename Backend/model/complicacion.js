@@ -4,8 +4,8 @@ module.exports = (sequelize) => {
 
   const Complicacion = sequelize.define("Complicacion", {
     complicacion_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    episodio_id: { type: DataTypes.INTEGER, allowNull: false }, // → episodio.episodio_id
-    momento: { type: DataTypes.ENUM("PRE","POST","INTRA"), allowNull: false }, // Excel tiene PRE/POST; agregamos INTRA
+    episodio_id: { type: DataTypes.INTEGER, allowNull: false }, 
+    momento: { type: DataTypes.ENUM("PRE","POST","INTRA"), allowNull: false },
     presente: { type: DataTypes.BOOLEAN, defaultValue: true },
     descripcion: { type: DataTypes.TEXT, allowNull: true },
   }, {

@@ -35,13 +35,12 @@ async function create(req, res) {
             departamento,
         });
 
-        // Registrar la acción
         await logRegistro(
             req,
             `CREAR_FUNCIONARIO: user_id=${user_id}, cargo=${
                 cargo || 'N/A'
             }, departamento=${departamento || 'N/A'}`,
-            user_id // ID del funcionario creado
+            user_id 
         );
 
         res.status(201).json(created);
@@ -63,13 +62,12 @@ async function update(req, res) {
         if (departamento !== undefined) row.departamento = departamento;
         await row.save();
 
-        // Registrar la acción
         await logRegistro(
             req,
             `ACTUALIZAR_FUNCIONARIO: user_id=${id}, cargo=${
                 cargo || 'sin cambio'
             }, departamento=${departamento || 'sin cambio'}`,
-            id // ID del funcionario actualizado
+            id 
         );
 
         res.json(row);
@@ -88,11 +86,10 @@ async function remove(req, res) {
 
         await row.destroy();
 
-        // Registrar la acción
         await logRegistro(
             req,
             `ELIMINAR_FUNCIONARIO: user_id=${id}`,
-            id // ID del funcionario eliminado
+            id 
         );
 
         res.status(204).send();

@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
 
   const Cirugia = sequelize.define("Cirugia", {
     cirugia_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    episodio_id: { type: DataTypes.INTEGER, allowNull: false }, // → episodio.episodio_id
+    episodio_id: { type: DataTypes.INTEGER, allowNull: false }, 
 
     fecha: { type: DataTypes.DATEONLY, allowNull: false },
     hora_inicio: { type: DataTypes.STRING, allowNull: true }, // "HH:mm"
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
       references: { model: "professional_profiles", key: "id" },
       onUpdate: "CASCADE",
       onDelete: "SET NULL",
-    }, // → professional_profiles.id (opcional)
+    },
     terminada: {type: DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["hora_fin"]),
       get() { return !!this.hora_fin; }
     },

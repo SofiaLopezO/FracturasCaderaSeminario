@@ -52,9 +52,7 @@ async function create(req, res) {
         const p = await models.Paciente.findByPk(paciente_id);
         if (!p) return res.status(400).json({ error: 'paciente_id no existe' });
 
-        // Si vienen muestras en batch, creamos el examen y las muestras/resultados atómicamente
         if (Array.isArray(muestras)) {
-            // crear examen primero dentro de transacción
             const tx = await models.sequelize.transaction();
             try {
                 const createdEx = await models.Examen.create(
@@ -71,7 +69,6 @@ async function create(req, res) {
 
                 const examen_id = createdEx.examen_id;
 
-                // obtener ultimo episodio para el paciente
                 const ultimoEpisodio = await models.Episodio.findOne({
                     where: { paciente_id },
                     order: [['episodio_id', 'DESC']],
@@ -84,13 +81,20 @@ async function create(req, res) {
                 }
                 const episodio_id = ultimoEpisodio.episodio_id;
 
-                // tipos ya presentes en la BD para este episodio
                 const muestrasExistentes = await models.Muestra.findAll({
                     include: [
                         {
                             model: models.Resultado,
+                            as: 'Resultados',
                             where: { episodio_id },
                             required: true,
+                            include: [
+                                {
+                                    model: models.ParametroLab,
+                                    attributes: ['codigo', 'nombre'],
+                                    required: false,
+                                },
+                            ],
                         },
                     ],
                 });
@@ -211,7 +215,6 @@ async function create(req, res) {
 
                 await tx.commit();
 
-                // recalcular indicadores y sincronizar alertas
                 try {
                     await riesgoService.recalcularIndicadores(
                         ultimoEpisodio.episodio_id
@@ -243,7 +246,6 @@ async function create(req, res) {
             }
         }
 
-        // flujo normal: crear examen sin muestras
         if (!tipo_examen)
             return res.status(400).json({
                 error: "tipo_examen es obligatorio si no viene 'muestras'",
@@ -326,12 +328,31 @@ async function downloadMuestras(req, res) {
 
         const muestrasRaw = await models.Muestra.findAll({
             where: { examen_id: id },
-            include: [{ model: models.Resultado }],
+            include: [
+                {
+                    model: models.Resultado,
+                    as: 'Resultados',
+                    include: [
+                        {
+                            model: models.ParametroLab,
+                            attributes: ['codigo', 'nombre'],
+                            required: false,
+                        },
+                    ],
+                },
+            ],
             order: [['muestra_id', 'ASC']],
         });
 
         const examResultsRaw = await models.Resultado.findAll({
             where: { examen_id: id, muestra_id: null },
+            include: [
+                {
+                    model: models.ParametroLab,
+                    attributes: ['codigo', 'nombre'],
+                    required: false,
+                },
+            ],
             order: [
                 ['fecha_resultado', 'ASC'],
                 ['resultado_id', 'ASC'],
@@ -380,9 +401,11 @@ async function downloadMuestras(req, res) {
             examResults.forEach((r) => {
                 const unidad = r.unidad ? ` ${r.unidad}` : '';
                 lines.push(
-                    `- (${r.resultado_id}) ${r.parametro ?? 'Parametro'}: ${
-                        r.valor ?? 'N/A'
-                    }${unidad} [${formatDateTime(r.fecha_resultado)}]`
+                    `- (${r.resultado_id}) ${
+                        r.ParametroLab?.nombre || (r.parametro ?? 'Parametro')
+                    }: ${r.valor ?? 'N/A'}${unidad} [${formatDateTime(
+                        r.fecha_resultado
+                    )}]`
                 );
             });
         }
@@ -429,7 +452,8 @@ async function downloadMuestras(req, res) {
                         const unidad = r.unidad ? ` ${r.unidad}` : '';
                         lines.push(
                             `  - (${r.resultado_id}) ${
-                                r.parametro ?? 'Parametro'
+                                r.ParametroLab?.nombre ||
+                                (r.parametro ?? 'Parametro')
                             }: ${r.valor ?? 'N/A'}${unidad} [${formatDateTime(
                                 r.fecha_resultado
                             )}]`
@@ -479,7 +503,19 @@ async function listByPaciente(req, res) {
 
         const muestras = await models.Muestra.findAll({
             where: { examen_id: examenIds },
-            include: [{ model: models.Resultado }],
+            include: [
+                {
+                    model: models.Resultado,
+                    as: 'Resultados',
+                    include: [
+                        {
+                            model: models.ParametroLab,
+                            attributes: ['codigo', 'nombre'],
+                            required: false,
+                        },
+                    ],
+                },
+            ],
             order: [['muestra_id', 'ASC']],
         });
 
@@ -547,6 +583,13 @@ async function listByPaciente(req, res) {
 
         const resultadosSinMuestra = await models.Resultado.findAll({
             where: { examen_id: examenIds, muestra_id: null },
+            include: [
+                {
+                    model: models.ParametroLab,
+                    attributes: ['codigo', 'nombre'],
+                    required: false,
+                },
+            ],
             order: [
                 ['fecha_resultado', 'ASC'],
                 ['resultado_id', 'ASC'],
@@ -619,7 +662,6 @@ async function listByPaciente(req, res) {
     }
 }
 
-// Función para crear examen completo: examen + muestra + resultados
 async function createComplete(req, res) {
     try {
         const body = req.body || {};
@@ -631,16 +673,14 @@ async function createComplete(req, res) {
             observaciones,
             paciente_id,
             funcionario_id,
-            resultados, // array de {parametro, valor, unidad}
+            resultados,
         } = body;
 
-        // Obtener el usuario del token
         const userId = req.user?.rut;
         if (!userId) {
             return res.status(401).json({ error: 'Usuario no autenticado' });
         }
 
-        // Obtener el professional_profile del usuario
         const profesionalProfile = await models.User.findOne({
             where: { rut: userId },
             include: [
@@ -658,7 +698,6 @@ async function createComplete(req, res) {
         }
         const validado_por = profesionalProfile.id;
 
-        // Validaciones básicas
         if (!paciente_id) {
             return res
                 .status(400)
@@ -680,13 +719,11 @@ async function createComplete(req, res) {
                 .json({ error: 'resultados debe ser un array no vacío' });
         }
 
-        // Validar que el paciente existe
         const paciente = await models.Paciente.findByPk(paciente_id);
         if (!paciente) {
             return res.status(400).json({ error: 'paciente_id no existe' });
         }
 
-        // Obtener el último episodio del paciente
         const ultimoEpisodio = await models.Episodio.findOne({
             where: { paciente_id },
             order: [['episodio_id', 'DESC']],
@@ -698,10 +735,8 @@ async function createComplete(req, res) {
         }
         const episodio_id = ultimoEpisodio.episodio_id;
 
-        // Iniciar transacción
         const tx = await models.sequelize.transaction();
         try {
-            // 1. Crear examen
             const createdExamen = await models.Examen.create(
                 {
                     tipo_examen,
@@ -712,7 +747,6 @@ async function createComplete(req, res) {
                 { transaction: tx }
             );
 
-            // 2. Crear muestra
             const createdMuestra = await models.Muestra.create(
                 {
                     tipo_muestra,
@@ -729,7 +763,6 @@ async function createComplete(req, res) {
                 { transaction: tx }
             );
 
-            // 3. Crear resultados
             const createdResultados = [];
             for (const res_item of resultados) {
                 const { parametro, valor, unidad } = res_item;
@@ -741,7 +774,6 @@ async function createComplete(req, res) {
                     });
                 }
 
-                // Validar que el parámetro existe en parametro_lab
                 const parametroExists = await models.ParametroLab.findByPk(
                     parametro,
                     { transaction: tx }
@@ -768,10 +800,8 @@ async function createComplete(req, res) {
                 createdResultados.push(createdResultado.get({ plain: true }));
             }
 
-            // Commit de la transacción
             await tx.commit();
 
-            // Recalcular indicadores y sincronizar alertas (fuera de la transacción)
             try {
                 await riesgoService.recalcularIndicadores(episodio_id);
             } catch (err) {

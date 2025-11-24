@@ -164,28 +164,28 @@ const FACTORES = [
   {
     tipo: 'RIESGO_FACTOR_BARTHEL',
     dominio: 'Clinico-funcional',
-    criterio: 'Indice de Barthel <= 30',
+    criterio: 'Indice de Barthel < 30',
     puntos: 1,
     prioridad: 'MEDIA',
     mensaje: 'Dependencia funcional severa. Coordinar rehabilitacion temprana.',
     evaluate(ctx) {
       const valor = ctx.barthel;
       if (valor === undefined || valor === null) return { cumple: false, detalles: { motivo: 'Barthel no disponible' } };
-      const cumple = valor <= 30;
+      const cumple = valor < 30;
       return { cumple, detalles: { puntaje_barthel: valor } };
     },
   },
   {
     tipo: 'RIESGO_FACTOR_IMC',
     dominio: 'Clinico-funcional',
-    criterio: 'IMC <= 18.5 kg/m2',
+    criterio: 'IMC < 18.5 kg/m2',
     puntos: 1,
     prioridad: 'MEDIA',
     mensaje: 'Sarcopenia o malnutricion probable. Evaluar nutricion y fortalecer musculatura.',
     evaluate(ctx) {
       const valor = ctx.imc;
       if (valor === undefined || valor === null) return { cumple: false, detalles: { motivo: 'IMC no disponible' } };
-      const cumple = valor <= 18.5;
+      const cumple = valor < 18.5;
       return { cumple, detalles: { valor_medido: valor, unidad: 'kg/m2' } };
     },
   },

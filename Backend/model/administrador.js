@@ -1,6 +1,5 @@
 module.exports = (sequelize) => {
   const { DataTypes } = require("sequelize");
-  // Admin profile is keyed by the user account
   const Administrador = sequelize.define(
     "Administrador",
     {

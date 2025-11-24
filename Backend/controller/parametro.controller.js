@@ -137,21 +137,6 @@ async function remove(req, res) {
     }
 }
 
-// GET /parametros/catalogo
-// Estructura:
-// {
-//   examenes: [
-//     {
-//       tipo_examen: string,
-//       muestras: [
-//         {
-//           tipo_muestra: string,
-//           parametros: [ParametroLab]
-//         }
-//       ]
-//     }
-//   ]
-// }
 async function catalogo(req, res) {
     try {
         const rows = await models.ParametroLab.findAll({
@@ -182,7 +167,7 @@ async function catalogo(req, res) {
             ],
         });
 
-        const examenesMap = new Map(); // key: tipoExamenNombre -> { tipo_examen, muestras: Map }
+        const examenesMap = new Map(); 
 
         for (const p of rows) {
             const te = p.tipoExamen?.nombre || 'Sin tipo';
@@ -197,8 +182,6 @@ async function catalogo(req, res) {
                 exam.muestras.set(tm, { tipo_muestra: tm, parametros: [] });
             }
             const muestra = exam.muestras.get(tm);
-
-            // Formatear parámetro (evitar incluir asociaciones circulares)
             const { dataValues } = p;
             const { tipoExamen, tipoMuestra, ...plain } = dataValues;
             muestra.parametros.push(plain);

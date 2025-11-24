@@ -30,13 +30,12 @@ async function create(req, res) {
         if (!user) return res.status(400).json({ error: 'User no existe' });
         const created = await models.Investigador.create({ user_id, area });
 
-        // Registrar la acción
         await logRegistro(
             req,
             `CREAR_INVESTIGADOR: user_id=${user_id}, rut=${user.rut}, area=${
                 area || 'N/A'
             }`,
-            user_id // ID del investigador creado
+            user_id 
         );
 
         res.status(201).json(created);
@@ -57,13 +56,13 @@ async function update(req, res) {
         if (area !== undefined) row.area = area;
         await row.save();
 
-        // Registrar la acción
+
         await logRegistro(
             req,
             `ACTUALIZAR_INVESTIGADOR: user_id=${id}, area=${
                 area || 'sin cambio'
             }`,
-            id // ID del investigador actualizado
+            id 
         );
 
         res.json(row);
@@ -82,11 +81,10 @@ async function remove(req, res) {
 
         await row.destroy();
 
-        // Registrar la acción
         await logRegistro(
             req,
             `ELIMINAR_INVESTIGADOR: user_id=${id}`,
-            id // ID del investigador eliminado
+            id 
         );
 
         res.status(204).send();

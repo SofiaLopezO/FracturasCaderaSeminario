@@ -2,7 +2,6 @@
 const models = require('../model/initModels');
 const { logRegistro } = require('./registro.controller');
 
-// Helpers
 function parseUserIdParam(req) {
     const raw = req.params.user_id ?? req.query.user_id;
     const id = Number(raw);
@@ -19,9 +18,6 @@ function normStr(v) {
     return isEmpty(v) ? null : String(v).trim();
 }
 
-/**
- * GET /tecnologos?limit=20&offset=0&especialidad=...
- */
 async function list(req, res) {
     try {
         const limit = Math.min(Number(req.query.limit) || 20, 100);
@@ -43,9 +39,6 @@ async function list(req, res) {
     }
 }
 
-/**
- * GET /tecnologos/:user_id
- */
 async function getOne(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -61,11 +54,6 @@ async function getOne(req, res) {
     }
 }
 
-/**
- * POST /tecnologos
- * body: { user_id, rut_profesional?, especialidad? }
- * Nota: Sólo debe usarla ADMIN (en rutas protege con auth(['ADMIN'])).
- */
 async function create(req, res) {
     try {
         const { user_id, rut_profesional, especialidad } = req.body || {};
@@ -76,11 +64,9 @@ async function create(req, res) {
                 .json({ error: 'user_id obligatorio y debe ser entero > 0' });
         }
 
-        // Debe existir el usuario base
         const user = await models.User.findByPk(id);
         if (!user) return res.status(400).json({ error: 'User no existe' });
 
-        // Evita duplicar perfil tecnólogo para el mismo user
         const exists = await models.Tecnologo.findByPk(id);
         if (exists)
             return res
@@ -93,13 +79,12 @@ async function create(req, res) {
             especialidad: normStr(especialidad),
         });
 
-        // Auditoría
         await logRegistro(
             req,
             `CREAR_TECNOLOGO: user_id=${id}, rut=${user.rut}, especialidad=${
                 especialidad || 'N/A'
             }`,
-            id // ID del tecnólogo creado
+            id 
         );
 
         res.status(201).json(created);
@@ -109,10 +94,6 @@ async function create(req, res) {
     }
 }
 
-/**
- * PUT /tecnologos/:user_id
- * body: { rut_profesional?, especialidad? }
- */
 async function update(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -130,11 +111,10 @@ async function update(req, res) {
 
         await row.save();
 
-        // Auditoría
         await logRegistro(
             req,
             `ACTUALIZAR_TECNOLOGO: user_id=${id}`,
-            id // ID del tecnólogo actualizado
+            id 
         );
 
         res.json(row);
@@ -144,9 +124,6 @@ async function update(req, res) {
     }
 }
 
-/**
- * DELETE /tecnologos/:user_id
- */
 async function remove(req, res) {
     try {
         const id = parseUserIdParam(req);
@@ -157,11 +134,10 @@ async function remove(req, res) {
 
         await row.destroy();
 
-        // Auditoría
         await logRegistro(
             req,
             `ELIMINAR_TECNOLOGO: user_id=${id}`,
-            id // ID del tecnólogo eliminado
+            id 
         );
 
         res.status(204).send();

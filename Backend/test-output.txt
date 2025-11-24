@@ -1,0 +1,977 @@
+
+> fracturas-de-cadera@1.0.0 test
+> vitest run --reporter=verbose --reporter=json --outputFile=test-results.json && node tests/quickSummary.js
+
+
+ RUN  v3.2.4 /home/fork_frantura/Backend/Fracturas-de-cadera
+
+ ✓ tests/smoke.spec.js > Vitest OK > 1 + 1 = 2 3ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes de IMAGEN 4ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes de LABORATORIO 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes BIOQUIMICOS 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes HEMATOLOGICOS 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes de URINALISIS 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes CARDIOLOGICOS 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Categorización de tipos de examen > debería categorizar exámenes no reconocidos como OTROS 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Mapeo de tipos de muestra > debería crear mapa de id a nombre 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Mapeo de tipos de muestra > debería manejar array vacío 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Estructura de respuesta de tipos de examen > debería crear estructura compatible con frontend 5ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Estructura de respuesta de tipos de examen > debería preparar estructura para Promise.all 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Ordenamiento de muestras > debería ordenar por muestra_id descendente 1ms
+ ✓ tests/investigador.analytics.controller.spec.js > investigador.analytics.controller helpers > Extracción de atributos de resultados > debería definir atributos correctos para resultados 2ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > formatDateTime helper (inferido del código) > debería formatear Date a string ISO sin T 5ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > formatDateTime helper (inferido del código) > debería formatear string de fecha válida 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > formatDateTime helper (inferido del código) > debería retornar N/A para fechas inválidas 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > safeTimestamp helper (inferido del código) > debería convertir fecha válida a timestamp 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > safeTimestamp helper (inferido del código) > debería convertir string de fecha a timestamp 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > safeTimestamp helper (inferido del código) > debería retornar null para fechas inválidas 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Validaciones de negocio inferidas > debería validar que paciente_id es obligatorio 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Validaciones de negocio inferidas > debería validar que muestras es un array si se proporciona 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Validaciones de negocio inferidas > debería usar valor por defecto para tipo_examen 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Validaciones de negocio inferidas > debería usar fecha actual si no se proporciona fecha_solicitud 2ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Lógica de tipos de muestra existentes > debería crear Set de tipos existentes en minúsculas 1ms
+ ✓ tests/examen.controller.spec.js > examen.controller helpers > Lógica de tipos de muestra existentes > debería detectar tipos duplicados (case-insensitive) 1ms
+ ✓ tests/rut.spec.js > RUT utils > computeDv correcto 7ms
+ ✓ tests/rut.spec.js > RUT utils > válidos con/sin puntos/espacios 2ms
+ ✓ tests/rut.spec.js > RUT utils > inválidos 1ms
+ ✓ tests/rut.spec.js > RUT utils > normalize + format 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza null y undefined 5ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza strings vacíos 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza strings muy largos (>12 caracteres) 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza notación científica 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza letras o espacios 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza usar punto Y coma juntos 0ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza formato inválido (múltiples puntos/comas) 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > rechaza más de 3 decimales 0ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > acepta enteros válidos 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > acepta decimales con punto (hasta 3 decimales) 1ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > acepta decimales con coma (hasta 3 decimales) 0ms
+ ✓ tests/validators.spec.js > validators.parseValorDecimal > acepta valores dentro del límite de 12 caracteres 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > rechaza valores no numéricos o infinitos 1ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > rechaza porcentajes negativos 1ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > rechaza porcentajes mayores a 100 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > acepta porcentajes válidos (0-100) 1ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > rechaza valores negativos en unidades no porcentuales 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > sin RI: acepta valores absolutos <= 1e6 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > sin RI: rechaza valores absolutos > 1e6 1ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > con RI: rechaza valores demasiado altos (>ref_max * 10) 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > con RI: rechaza valores demasiado bajos (<ref_min / 10, si ref_min > 0) 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > con RI: acepta valores dentro de rango razonable 1ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > con RI: acepta valores ligeramente fuera de rango pero razonables 0ms
+ ✓ tests/validators.spec.js > validators.esValidoValorResultado > con RI (ref_min=0): no rechaza valores bajos si ref_min es 0 0ms
+ ✓ tests/crud.spec.js > _crud.idParam > extrae ID numérico de req.params.id 4ms
+ ✓ tests/crud.spec.js > _crud.idParam > retorna null para IDs no numéricos 1ms
+ ✓ tests/crud.spec.js > _crud.idParam > acepta IDs negativos (devuelve el número) 0ms
+ ✓ tests/crud.spec.js > _crud.idParam > retorna null si no hay parámetros 1ms
+ ✓ tests/crud.spec.js > _crud.idParam > retorna null si id es undefined 1ms
+ ✓ tests/crud.spec.js > _crud.idParam > acepta ID = 0 0ms
+ ✓ tests/crud.spec.js > _crud.okOr404 > retorna JSON si row existe 2ms
+ ✓ tests/crud.spec.js > _crud.okOr404 > retorna 404 si row es null 1ms
+ ✓ tests/crud.spec.js > _crud.okOr404 > retorna 404 si row es undefined 1ms
+stdout | tests/episodio.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  override existing env vars with { override: true }
+
+stdout | tests/admin.users.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+stdout | tests/cirugia.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+stdout | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+stdout | tests/registro.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+
+stdout | tests/control_clinico.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+stdout | tests/ultra-coverage-boost.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+
+stdout | tests/labAlertService.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+
+stdout | tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar paciente.controller.list()
+[dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+stdout | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de paciente.controller.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+
+ ✓ tests/labAlertService.spec.js > labAlertService.syncAlertForResultado > crea alerta LAB cuando valor está por SOBRE el máximo 11ms
+ ✓ tests/labAlertService.spec.js > labAlertService.syncAlertForResultado > actualiza alerta existente si sigue fuera de rango 3ms
+ ✓ tests/labAlertService.spec.js > labAlertService.syncAlertForResultado > resuelve alerta si el valor vuelve a rango 2ms
+ ✓ tests/labAlertService.spec.js > labAlertService.syncAlertForResultado > no hace nada si no hay referencia (min y max nulos) o valor no numérico 1ms
+ ✓ tests/labAlertService.spec.js > labAlertService - funciones exportadas adicionales > todas las funciones exportadas son ejecutables 1ms
+ ✓ tests/labAlertService.spec.js > labAlertService - funciones exportadas adicionales > syncAlertForResultado debe ejecutarse con parámetros vacíos 1ms
+stdout | tests/minuta.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+
+stdout | tests/registerEmailVerify.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+
+stdout | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge
+actorUserId: 22222222-2
+
+ ✓ tests/minuta.controller.spec.js > minuta.controller > debe exportar la función list 4ms
+ ✓ tests/minuta.controller.spec.js > minuta.controller > debe exportar la función getOne 1ms
+ ✓ tests/minuta.controller.spec.js > minuta.controller > debe exportar la función create 0ms
+ ✓ tests/minuta.controller.spec.js > minuta.controller > debe exportar la función update 1ms
+ ✓ tests/minuta.controller.spec.js > minuta.controller > debe exportar la función remove 1ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura createUserWithRole 5ms
+stdout | tests/paciente.controller.spec.js
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+
+stdout | tests/riesgoRefracturaService.spec.js > riesgoRefracturaService.recalcularIndicadoresControl > crea indicadores y alerta de RIESGO cuando el puntaje ≥ ALTO
+[dotenv@17.2.3] injecting env (18) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+
+ ✓ tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura list 105ms
+stderr | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge
+create registro error TypeError: Cannot read properties of undefined (reading 'id')
+    at Module.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:73:27[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/final-coverage-boost.spec.js:67:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge
+administrador_id: [1mnull[22m
+
+stderr | tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura create
+Invalid input { paciente_id: [90mundefined[39m, fecha: [90mundefined[39m }
+
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > invoca de forma segura list 115ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > invoca de forma segura getOne 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > invoca de forma segura create 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > invoca de forma segura update 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > invoca de forma segura remove 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > list sin parámetros 6ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > getOne con id válido 6ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > create con body completo 3ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > update con body completo 2ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller - llamadas seguras > remove con id válido 2ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > parseDate helper > debería convertir string ISO a Date 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > parseDate helper > debería retornar null para fechas inválidas 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería parsear JSON array 2ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería parsear string separado por comas 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería retornar array vacío para string vacío 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería retornar null para null o undefined 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería aceptar arrays directamente 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeComorbilidades helper > debería filtrar elementos vacíos o null del array 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeJsonInput helper > debería parsear JSON válido 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeJsonInput helper > debería retornar string si JSON es inválido 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeJsonInput helper > debería retornar null para string vacío 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeJsonInput helper > debería manejar undefined y null correctamente 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > normalizeJsonInput helper > debería retornar valores no-string sin modificar 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > toBoolOrNull helper > debería convertir valores truthy a true 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > toBoolOrNull helper > debería convertir valores falsy a false (excepto null/undefined) 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > toBoolOrNull helper > debería retornar undefined para undefined 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > toBoolOrNull helper > debería retornar null para null 0ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > buildControlInicialPayload helper > debería construir payload con campos definidos 1ms
+ ✓ tests/episodio.controller.spec.js > episodio.controller helpers > buildControlInicialPayload helper > debería omitir campos undefined 0ms
+stderr | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge
+logRegistro error: TypeError: Cannot read properties of null (reading 'id')
+    at Module.logRegistro [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:187:47[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/final-coverage-boost.spec.js:115:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+ ✓ tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > registro.controller - variaciones > debe ejecutar con múltiples casos edge 739ms
+ ✓ tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura getOne 8ms
+ ✓ tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura create 3ms
+ ✓ tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura update 2ms
+ ✓ tests/cirugia.controller.spec.js > cirugia.controller - llamadas seguras > invoca de forma segura remove 2ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura addRoleToUser 97ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura removeRoleFromUser 1ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura listUsers 29ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura getUser 5ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura getUserById 2ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura updateUserProfile 2ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura deactivateUser 2ms
+ ✓ tests/admin.users.controller.spec.js > admin.users.controller - llamadas seguras > invoca de forma segura reactivateUser 3ms
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura logRegistro
+⚠️ logRegistro: req.user no disponible para acción: {
+  _status: [33m200[39m,
+  _json: [1mnull[22m,
+  status: [36m[Function (anonymous)][39m,
+  json: [36m[Function (anonymous)][39m,
+  location: [36m[Function (anonymous)][39m,
+  send: [36m[Function (anonymous)][39m
+}
+req.user: {}
+
+ ✓ tests/control_clinico.controller.spec.js > control_clinico.controller - llamadas seguras > invoca de forma segura list 115ms
+ ✓ tests/control_clinico.controller.spec.js > control_clinico.controller - llamadas seguras > invoca de forma segura getOne 1ms
+ ✓ tests/control_clinico.controller.spec.js > control_clinico.controller - llamadas seguras > invoca de forma segura create 10ms
+ ✓ tests/control_clinico.controller.spec.js > control_clinico.controller - llamadas seguras > invoca de forma segura update 1ms
+ ✓ tests/control_clinico.controller.spec.js > control_clinico.controller - llamadas seguras > invoca de forma segura remove 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar paciente.controller.list() 702ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar examen.controller.list() 16ms
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura logRegistro
+logRegistro error: TypeError: Cannot read properties of null (reading 'id')
+    at logRegistro [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:187:47[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:38:66
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > create con body completo
+actorUserId: 12345678-9
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > create con body completo
+administrador_id: [1mnull[22m
+
+stderr | tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > paciente.controller - variaciones > debe ejecutar funciones adicionales
+getDetalles paciente error: EagerLoadingError [SequelizeEagerLoadingError]: IndicadorRiesgo is not associated to Resultado!
+    at Function._getIncludedAssociation [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:742:13[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:646:53[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService.recalcularIndicadoresControl > crea indicadores y alerta de RIESGO cuando el puntaje ≥ ALTO 730ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService.recalcularIndicadoresControl > no crea alerta si el nivel es BAJO (forzando 0 puntos) 11ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService - funciones exportadas adicionales > todas las funciones exportadas son ejecutables 5ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService - funciones exportadas adicionales > recalcularIndicadores debe ser invocable 21ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService - funciones exportadas adicionales > recalcularIndicadoresEpisodio debe ser invocable 12ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService - funciones exportadas adicionales > recalcularIndicadores con diferentes opciones 8ms
+ ✓ tests/riesgoRefracturaService.spec.js > riesgoRefracturaService - funciones exportadas adicionales > recalcularIndicadoresControl con diferentes parámetros 7ms
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > logRegistro con acción
+logRegistro error: TypeError: Cannot read properties of null (reading 'id')
+    at Object.logRegistro [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:187:47[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:111:13
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha válida ISO 8601
+actorUserId: [1mnull[22m
+
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de paciente.controller.js 679ms
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha válida ISO 8601
+create registro error TypeError: Cannot read properties of undefined (reading 'id')
+    at Object.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:73:27[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:156:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha válida ISO 8601
+administrador_id: [1mnull[22m
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha inválida
+actorUserId: [1mnull[22m
+
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha inválida
+create registro error TypeError: Cannot read properties of undefined (reading 'id')
+    at Object.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:73:27[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:170:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha inválida
+administrador_id: [1mnull[22m
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() sin fecha (debería usar Date.now())
+actorUserId: [1mnull[22m
+
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() sin fecha (debería usar Date.now())
+create registro error TypeError: Cannot read properties of undefined (reading 'id')
+    at Object.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:73:27[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:184:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stdout | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() sin fecha (debería usar Date.now())
+administrador_id: [1mnull[22m
+
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > logRegistro() con múltiples parámetros
+⚠️ logRegistro: req.user no disponible para acción: [90mundefined[39m
+req.user: [90mundefined[39m
+
+stderr | tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > logRegistro() con múltiples parámetros
+logRegistro error: TypeError: Cannot read properties of null (reading 'id')
+    at Object.logRegistro [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/registro.controller.js:187:47[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/registro.controller.spec.js:218:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura list 112ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura getOne 1ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura create 1ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura update 1ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura remove 1ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > invoca de forma segura logRegistro 29ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > list con parámetros de query 3ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > getOne con id válido 2ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > create con body completo 5ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > update con body completo 3ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > remove con id válido 2ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > logRegistro con acción 4ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > list() con parámetros complejos en query 3ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > getOne() con id inválido (string no numérico) 1ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha válida ISO 8601 5ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() con fecha inválida 5ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > create() sin fecha (debería usar Date.now()) 4ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > update() con diferentes parámetros 2ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > remove() con id string válido 2ms
+ ✓ tests/registro.controller.spec.js > registro.controller - llamadas seguras > Tests adicionales para ejecutar funciones helper internas > logRegistro() con múltiples parámetros 4ms
+ ✓ tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > episodio.controller - variaciones > debe ejecutar con múltiples casos edge 19ms
+ ✓ tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > control_clinico.controller - variaciones > debe ejecutar con múltiples casos edge 17ms
+ ✓ tests/final-coverage-boost.spec.js > Boost final de cobertura - variaciones de parámetros > paciente.controller - variaciones > debe ejecutar funciones adicionales 80ms
+stdout | tests/login.controller.spec.js > POST /login > rechaza si faltan credenciales (400)
+[dotenv@17.2.3] injecting env (15) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+ ✓ tests/registerEmailVerify.spec.js > Registro (SIN verificación por correo) > crea usuario sin token/expiración y NO envía mail 154ms
+ ↓ tests/registerEmailVerify.spec.js > Verificación de correo (habilitada) > verifyEmail acepta token válido
+ ↓ tests/registerEmailVerify.spec.js > Verificación de correo (habilitada) > verifyEmail rechaza token expirado
+ ↓ tests/registerEmailVerify.spec.js > Verificación de correo (habilitada) > verifyEmail rechaza token inválido
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > episodio.controller - casos ultra específicos > create con todos los campos posibles 5ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar episodio.controller.list() 11ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar resultado.controller.list() 47ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar alerta.controller.list() 6ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar muestra.controller.list() 10ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar tipo_examen.controller.list() 9ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar tipo_muestra.controller.list() 17ms
+stderr | tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura getDetalles
+getDetalles paciente error: EagerLoadingError [SequelizeEagerLoadingError]: IndicadorRiesgo is not associated to Resultado!
+    at Function._getIncludedAssociation [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:742:13[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:646:53[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de episodio.controller.js 22ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de examen.controller.js 21ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de resultado.controller.js 46ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de alerta.controller.js 10ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura search 125ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura list 12ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura getOne 3ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura create 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura update 2ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura remove 2ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura getDetalles 29ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura getResumen 33ms
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de control_clinico.controller.js
+create control_clinico error TypeError: Cannot destructure property 'resumen' of 'cambios' as it is undefined.
+    at create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/control_clinico.controller.js:101:13[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:141:35
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+ ✓ tests/paciente.controller.spec.js > paciente.controller - funciones exportadas > invoca de forma segura datosPaciente 5ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > normRut helper (inferido del código) > debería eliminar puntos y guiones del RUT 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > normRut helper (inferido del código) > debería convertir a mayúsculas 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > normRut helper (inferido del código) > debería manejar valores vacíos 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > parseUserIdParam helper (inferido del código) > debería parsear user_id desde params 0ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > parseUserIdParam helper (inferido del código) > debería parsear user_id desde query 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > parseUserIdParam helper (inferido del código) > debería retornar null para IDs inválidos 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > isEmpty helper (inferido del código) > debería retornar true para valores vacíos 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > isEmpty helper (inferido del código) > debería retornar false para valores no vacíos 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > isMissingColumnError helper (inferido del código) > debería detectar error de columna faltante 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > isMissingColumnError helper (inferido del código) > debería retornar false para errores no relacionados 0ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > isMissingColumnError helper (inferido del código) > debería retornar false para null/undefined 1ms
+ ✓ tests/paciente.controller.spec.js > paciente.controller helpers > ensureSchemaFlags helper (inferido del código) > debería cachear flags de esquema 1ms
+stdout | tests/login.controller.spec.js > POST /login > 200 login exitoso: set-cookie + token + user
+[login] roles calculados para 11111111-1 []
+
+ ✓ tests/login.controller.spec.js > POST /login > rechaza si faltan credenciales (400) 629ms
+ ✓ tests/login.controller.spec.js > POST /login > 404 si usuario no existe 10ms
+ ✓ tests/login.controller.spec.js > POST /login > 403 si requiere verificación y email_verified=false 10ms
+ ✓ tests/login.controller.spec.js > POST /login > 401 si password incorrecta 10ms
+ ✓ tests/login.controller.spec.js > POST /login > 200 login exitoso: set-cookie + token + user 17ms
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de cirugia.controller.js
+Invalid input { paciente_id: [90mundefined[39m, fecha: [90mundefined[39m }
+
+ ✓ tests/login.controller.spec.js > POST /logout > borra cookie y responde ok (200) 8ms
+stderr | tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > control_clinico.controller - casos edge > create con todos los campos de antropometría
+create control_clinico error TypeError: Cannot destructure property 'resumen' of 'cambios' as it is undefined.
+    at Module.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/control_clinico.controller.js:101:13[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/ultra-coverage-boost.spec.js:193:48
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:155:11
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:26
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1863:10[90m)[39m
+    at runTest [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1574:12[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at runSuite [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1729:8[90m)[39m
+
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > episodio.controller - casos ultra específicos > update con diferentes tipos de datos 111ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > episodio.controller - casos ultra específicos > list con múltiples filtros 17ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > paciente.controller - variaciones extremas > getDetalles con episodio_id específico 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > paciente.controller - variaciones extremas > getResumen con paciente_id 43ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > paciente.controller - variaciones extremas > datosPaciente con id numérico 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > paciente.controller - variaciones extremas > list con filtros complejos 17ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > control_clinico.controller - casos edge > create con todos los campos de antropometría 29ms
+stderr | tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > cirugia.controller - create con detalles quirúrgicos
+Invalid input { paciente_id: [90mundefined[39m, fecha: [90mundefined[39m }
+
+stdout | tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > muestra.controller - create con datos de muestra
+Examen ID: [33m75[39m
+
+stdout | tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > muestra.controller - create con datos de muestra
+Tec ID: [33m30[39m
+
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar parametro.controller.list() 17ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar investigador.analytics.getMuestrasConResultados() 116ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de muestra.controller.js 21ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de control_clinico.controller.js 31ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de antropometria.controller.js 11ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de cirugia.controller.js 18ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de complicacion.controller.js 9ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de evolucion.controller.js 10ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de minuta.controller.js 8ms
+stderr | tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > tecnologo.controller - list
+list tecnologos error: TypeError: Cannot read properties of undefined (reading 'findAll')
+    at Module.list [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/tecnologo.controller.js:33:45[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/ultra-coverage-boost.spec.js:421:43
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:155:11
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:26
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1863:10[90m)[39m
+    at runTest [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1574:12[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at runSuite [90m(file:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:1729:8[90m)[39m
+
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > control_clinico.controller - casos edge > update con campos específicos 4ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > examen.controller - create con tipo_examen específico 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > resultado.controller - create con parámetros de laboratorio 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > cirugia.controller - create con detalles quirúrgicos 2ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > alerta.controller - list con filtros múltiples 3ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > minuta.controller - create con datos completos 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > antropometria.controller - create con mediciones 2ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > complicacion.controller - create con detalles 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > suspension.controller - create 1ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > evolucion.controller - create con notas 2ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > muestra.controller - create con datos de muestra 8ms
+ ✓ tests/ultra-coverage-boost.spec.js > Ultra Coverage Boost - Ejecutar todas las funciones exportadas > Otros controllers - variaciones múltiples > tecnologo.controller - list 4ms
+stderr | tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.getOne() debe ejecutarse
+getOne paciente error: TypeError: Cannot read properties of undefined (reading 'user_id')
+    at parseUserIdParam [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/paciente.controller.js:36:49[90m)[39m
+    at Module.getOne [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/paciente.controller.js:205:20[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/coverage-boost.spec.js:282:16
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tipo_examen.controller.js
+create tipo_examen error Error: 
+    at Query.run [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/postgres/query.js:76:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/sequelize.js:650:28
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at PostgresQueryInterface.insert [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/abstract/query-interface.js:795:21[90m)[39m
+    at model.save [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:4154:35[90m)[39m
+    at Function.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:2305:12[90m)[39m
+    at create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/tipo_examen.controller.js:34:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:141:29
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20 {
+  name: [32m'SequelizeUniqueConstraintError'[39m,
+  errors: [
+    ValidationErrorItem {
+      message: [32m'nombre must be unique'[39m,
+      type: [32m'unique violation'[39m,
+      path: [32m'nombre'[39m,
+      value: [32m'Test'[39m,
+      origin: [32m'DB'[39m,
+      instance: [36m[TipoExamen][39m,
+      validatorKey: [32m'not_unique'[39m,
+      validatorName: [1mnull[22m,
+      validatorArgs: []
+    }
+  ],
+  parent: error: duplicate key value violates unique constraint "tipo_examen_nombre_key"
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m217[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'23505'[39m,
+    detail: [32m'Key (nombre)=(Test) already exists.'[39m,
+    hint: [90mundefined[39m,
+    position: [90mundefined[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [32m'public'[39m,
+    table: [32m'tipo_examen'[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [32m'tipo_examen_nombre_key'[39m,
+    file: [32m'nbtinsert.c'[39m,
+    line: [32m'666'[39m,
+    routine: [32m'_bt_check_unique'[39m,
+    sql: [32m'INSERT INTO "tipo_examen" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m,
+    parameters: [ [32m'Test'[39m, [1mnull[22m ]
+  },
+  original: error: duplicate key value violates unique constraint "tipo_examen_nombre_key"
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m217[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'23505'[39m,
+    detail: [32m'Key (nombre)=(Test) already exists.'[39m,
+    hint: [90mundefined[39m,
+    position: [90mundefined[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [32m'public'[39m,
+    table: [32m'tipo_examen'[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [32m'tipo_examen_nombre_key'[39m,
+    file: [32m'nbtinsert.c'[39m,
+    line: [32m'666'[39m,
+    routine: [32m'_bt_check_unique'[39m,
+    sql: [32m'INSERT INTO "tipo_examen" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m,
+    parameters: [ [32m'Test'[39m, [1mnull[22m ]
+  },
+  fields: { nombre: [32m'Test'[39m },
+  sql: [32m'INSERT INTO "tipo_examen" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m
+}
+
+stderr | tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.update() debe ejecutarse
+update paciente error: TypeError: Cannot read properties of undefined (reading 'user_id')
+    at parseUserIdParam [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/paciente.controller.js:36:49[90m)[39m
+    at Module.update [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/paciente.controller.js:268:20[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/coverage-boost.spec.js:334:16
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tipo_muestra.controller.js
+create tipo_muestra error Error: 
+    at Query.run [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/postgres/query.js:76:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/sequelize.js:650:28
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at PostgresQueryInterface.insert [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/abstract/query-interface.js:795:21[90m)[39m
+    at model.save [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:4154:35[90m)[39m
+    at Function.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:2305:12[90m)[39m
+    at create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/tipo_muestra.controller.js:34:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:141:29
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20 {
+  name: [32m'SequelizeUniqueConstraintError'[39m,
+  errors: [
+    ValidationErrorItem {
+      message: [32m'nombre must be unique'[39m,
+      type: [32m'unique violation'[39m,
+      path: [32m'nombre'[39m,
+      value: [32m'Test'[39m,
+      origin: [32m'DB'[39m,
+      instance: [36m[TipoMuestra][39m,
+      validatorKey: [32m'not_unique'[39m,
+      validatorName: [1mnull[22m,
+      validatorArgs: []
+    }
+  ],
+  parent: error: duplicate key value violates unique constraint "tipo_muestra_nombre_key"
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m220[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'23505'[39m,
+    detail: [32m'Key (nombre)=(Test) already exists.'[39m,
+    hint: [90mundefined[39m,
+    position: [90mundefined[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [32m'public'[39m,
+    table: [32m'tipo_muestra'[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [32m'tipo_muestra_nombre_key'[39m,
+    file: [32m'nbtinsert.c'[39m,
+    line: [32m'666'[39m,
+    routine: [32m'_bt_check_unique'[39m,
+    sql: [32m'INSERT INTO "tipo_muestra" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m,
+    parameters: [ [32m'Test'[39m, [1mnull[22m ]
+  },
+  original: error: duplicate key value violates unique constraint "tipo_muestra_nombre_key"
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m220[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'23505'[39m,
+    detail: [32m'Key (nombre)=(Test) already exists.'[39m,
+    hint: [90mundefined[39m,
+    position: [90mundefined[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [32m'public'[39m,
+    table: [32m'tipo_muestra'[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [32m'tipo_muestra_nombre_key'[39m,
+    file: [32m'nbtinsert.c'[39m,
+    line: [32m'666'[39m,
+    routine: [32m'_bt_check_unique'[39m,
+    sql: [32m'INSERT INTO "tipo_muestra" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m,
+    parameters: [ [32m'Test'[39m, [1mnull[22m ]
+  },
+  fields: { nombre: [32m'Test'[39m },
+  sql: [32m'INSERT INTO "tipo_muestra" ("id","nombre","descripcion") VALUES (DEFAULT,$1,$2) RETURNING "id","nombre","descripcion";'[39m
+}
+
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de parametro.controller.js 28ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de suspension.controller.js 9ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tipo_examen.controller.js 48ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > debería ejecutar investigador.analytics.getTiposExamen() 17ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.getOne() debe ejecutarse 51ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > examen.getOne() debe ejecutarse 7ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > episodio.getOne() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > resultado.getOne() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > alerta.getOne() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.create() debe ejecutarse con error (validación) 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > examen.create() debe ejecutarse con error (sin paciente_id) 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > episodio.create() debe ejecutarse con error (sin paciente_id) 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > resultado.create() debe ejecutarse con error (sin campos) 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.update() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > examen.update() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > episodio.update() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > resultado.update() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > paciente.search() debe ejecutarse 7ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > muestra.create() debe ejecutarse con error 1ms
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tecnologo.controller.js
+list tecnologos error: TypeError: Cannot read properties of undefined (reading 'findAll')
+    at list [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/tecnologo.controller.js:33:45[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:141:35
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de episodio_indicador.controller.js
+recalculate episodio_indicador error EagerLoadingError [SequelizeEagerLoadingError]: Paciente is associated to Episodio using an alias. You must use the 'as' keyword to specify the alias within your include statement.
+    at Function._getIncludedAssociation [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:754:13[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:646:53[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function.findAll [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:1794:12[90m)[39m
+
+stderr | tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getRiesgoRefracturaHabitos() debe ejecutarse
+Error en getRiesgoRefracturaHabitos: Error: 
+    at Query.run [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/postgres/query.js:76:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/sequelize.js:650:28
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at PostgresQueryInterface.select [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/abstract/query-interface.js:1001:12[90m)[39m
+    at Function.findAll [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:1824:21[90m)[39m
+    at Module.getRiesgoRefracturaHabitos [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/investigador.analytics.controller.js:571:27[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/coverage-boost.spec.js:427:5
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20 {
+  name: [32m'SequelizeDatabaseError'[39m,
+  parent: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  original: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+  parameters: {}
+}
+
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > tipo_examen.getOne() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > tipo_muestra.getOne() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > parametro.getOne() debe ejecutarse 3ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > parametro.create() debe ejecutarse 1ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > parametro.update() debe ejecutarse 2ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getPromediosParametros() debe ejecutarse 4ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getContadorCategorias() debe ejecutarse 5ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getDistribucionFracturaSexo() debe ejecutarse 6ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getRiesgoRefracturaComorbilidades() debe ejecutarse 4ms
+ ✓ tests/coverage-boost.spec.js > Coverage Boost - Ejecutar funciones de controllers > investigador.analytics.getRiesgoRefracturaHabitos() debe ejecutarse 25ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tipo_muestra.controller.js 16ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de administrador.controller.js 8ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de investigador.controller.js 6ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de tecnologo.controller.js 6ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de funcionario.controller.js 6ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de episodio_indicador.controller.js 16ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de user.controller.js 13ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de perfil.controller.js 6ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de indicador.controller.js 10ms
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar TODAS las funciones de investigador.analytics.controller.js
+Error en getRiesgoRefracturaHabitos: Error: 
+    at Query.run [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/postgres/query.js:76:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/sequelize.js:650:28
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at PostgresQueryInterface.select [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/abstract/query-interface.js:1001:12[90m)[39m
+    at Function.findAll [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:1824:21[90m)[39m
+    at Module.getRiesgoRefracturaHabitos [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/investigador.analytics.controller.js:571:27[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:170:17
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20 {
+  name: [32m'SequelizeDatabaseError'[39m,
+  parent: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  original: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+  parameters: {}
+}
+
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar TODAS las funciones de investigador.analytics.controller.js 158ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de admin.users.controller.js 15ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de public.controller.js 17ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de upload.controller.js 5ms
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > paciente.controller - ejecutar con casos edge
+getDetalles paciente error: EagerLoadingError [SequelizeEagerLoadingError]: IndicadorRiesgo is not associated to Resultado!
+    at Function._getIncludedAssociation [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:742:13[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:646:53[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:542:37
+    at Array.map (<anonymous>)
+    at Function._validateIncludedElements [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:537:39[90m)[39m
+    at Function._validateIncludedElement [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:732:38[90m)[39m
+
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > control_clinico.controller - ejecutar create y update
+create control_clinico error TypeError: Cannot destructure property 'resumen' of 'cambios' as it is undefined.
+    at Module.create [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/control_clinico.controller.js:101:13[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:557:20
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20
+
+stderr | tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > investigador.analytics - ejecutar todas las funciones analytics
+Error en getRiesgoRefracturaHabitos: Error: 
+    at Query.run [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/postgres/query.js:76:25[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/sequelize.js:650:28
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m
+    at PostgresQueryInterface.select [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/dialects/abstract/query-interface.js:1001:12[90m)[39m
+    at Function.findAll [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4msequelize[24m/src/model.js:1824:21[90m)[39m
+    at Module.getRiesgoRefracturaHabitos [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mcontroller/investigador.analytics.controller.js:571:27[90m)[39m
+    at [90m/home/fork_frantura/Backend/Fracturas-de-cadera/[39mtests/massive-coverage.spec.js:622:9
+    at [90mfile:///home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4m@vitest[24m/runner/dist/chunk-hooks.js:752:20 {
+  name: [32m'SequelizeDatabaseError'[39m,
+  parent: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  original: error: column Paciente->Antropometrias.peso does not exist
+      at Parser.parseErrorMessage [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:369:69[90m)[39m
+      at Parser.handlePacket [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:187:21[90m)[39m
+      at Parser.parse [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/parser.ts:102:30[90m)[39m
+      at Socket.<anonymous> [90m(/home/fork_frantura/Backend/Fracturas-de-cadera/[39mnode_modules/[4mpg-protocol[24m/src/index.ts:7:48[90m)[39m
+  [90m    at Socket.emit (node:events:524:28)[39m
+  [90m    at addChunk (node:internal/streams/readable:561:12)[39m
+  [90m    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)[39m
+  [90m    at Socket.Readable.push (node:internal/streams/readable:392:5)[39m
+  [90m    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)[39m {
+    length: [33m128[39m,
+    severity: [32m'ERROR'[39m,
+    code: [32m'42703'[39m,
+    detail: [90mundefined[39m,
+    hint: [90mundefined[39m,
+    position: [32m'249'[39m,
+    internalPosition: [90mundefined[39m,
+    internalQuery: [90mundefined[39m,
+    where: [90mundefined[39m,
+    schema: [90mundefined[39m,
+    table: [90mundefined[39m,
+    column: [90mundefined[39m,
+    dataType: [90mundefined[39m,
+    constraint: [90mundefined[39m,
+    file: [32m'parse_relation.c'[39m,
+    line: [32m'3722'[39m,
+    routine: [32m'errorMissingColumn'[39m,
+    sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+    parameters: [90mundefined[39m
+  },
+  sql: [32m'SELECT "Episodio"."episodio_id", "Episodio"."tabaco", "Episodio"."alcohol", "Episodio"."corticoides_cronicos", "Paciente"."user_id" AS "Paciente.user_id", "Paciente->Antropometrias"."antropometria_id" AS "Paciente.Antropometrias.antropometria_id", "Paciente->Antropometrias"."peso" AS "Paciente.Antropometrias.peso", "Paciente->Antropometrias"."talla" AS "Paciente.Antropometrias.talla" FROM "episodio" AS "Episodio" LEFT OUTER JOIN "pacientes" AS "Paciente" ON "Episodio"."paciente_id" = "Paciente"."user_id" LEFT OUTER JOIN "antropometria" AS "Paciente->Antropometrias" ON "Paciente"."user_id" = "Paciente->Antropometrias"."episodio_id";'[39m,
+  parameters: {}
+}
+
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de login.js 133ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe ejecutar funciones de register.js 29ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe importar y ejecutar riesgoRefracturaService 1ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe importar y ejecutar labAlertService 0ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe importar getUserRoles 0ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > debe importar mailer 0ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > paciente.controller - ejecutar con casos edge 22ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > episodio.controller - ejecutar con casos edge 3ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > examen.controller - ejecutar con casos edge 3ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > resultado.controller - ejecutar con casos edge 3ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > alerta.controller - ejecutar con filtros 4ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > control_clinico.controller - ejecutar create y update 1ms
+ ✓ tests/massive-coverage.spec.js > Massive Coverage - Ejecutar todas las funciones exportadas > investigador.analytics - ejecutar todas las funciones analytics 21ms
+
+ Test Files  21 passed (21)
+      Tests  278 passed | 3 skipped (281)
+   Start at  14:37:50
+   Duration  2.56s (transform 2.76s, setup 0ms, collect 12.48s, tests 6.46s, environment 11ms, prepare 3.55s)
+
+JSON report written to /home/fork_frantura/Backend/Fracturas-de-cadera/test-results.json

@@ -10,8 +10,8 @@ module.exports = (sequelize) => {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            episodio_id: { type: DataTypes.INTEGER, allowNull: false }, // → episodio.episodio_id
-            profesional_id: { type: DataTypes.INTEGER, allowNull: true }, // → professional_profiles.id
+            episodio_id: { type: DataTypes.INTEGER, allowNull: false }, 
+            profesional_id: { type: DataTypes.INTEGER, allowNull: true }, 
             profesional_nombre: {
                 type: DataTypes.STRING(150),
                 allowNull: true,

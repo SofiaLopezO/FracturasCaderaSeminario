@@ -2,12 +2,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// ⚠️ Importar como variable reasignable para inyección en tests
 let dbModels = require('../model/initModels');
 
 const DUMMY_HASH = '$2a$10$Q7wS3m8w7C9g7JcM9z8J6eT8c0pQp8tWZ0w9JwLrG3Eo9vI1mYw6i';
 
-// Evaluar la bandera en runtime (evita quedar “congelado” por .env al cargar)
 function REQUIRE_VERIFY() {
   return String(process.env.EMAIL_VERIFICATION_REQUIRED ?? 'true').toLowerCase() !== 'false';
 }
@@ -41,7 +39,6 @@ async function getUserRoles(user) {
     return null;
   };
 
-  // ADMIN
   const Admin = pick('Administrador', 'Administradores', 'admin', 'Admin');
   if (Admin) {
     const where = whereFor(Admin);
@@ -49,7 +46,6 @@ async function getUserRoles(user) {
     if (row) roles.add('ADMIN');
   }
 
-  // PERFIL PROFESIONAL / FUNCIONARIO / ETC.
   const Func = pick('Funcionario', 'Funcionarios', 'funcionario', 'ProfessionalProfile', 'professional_profile', 'PerfilProfesional');
   if (Func) {
     const where = whereFor(Func);
@@ -62,7 +58,6 @@ async function getUserRoles(user) {
     if (cargo.includes('MEDIC')) roles.add('MEDICO');
   }
 
-  // TECNÓLOGO
   const Tec = pick('Tecnologo', 'Tecnologos', 'tec', 'Tech');
   if (Tec) {
     const where = whereFor(Tec);
@@ -70,7 +65,6 @@ async function getUserRoles(user) {
     if (row) roles.add('TECNOLOGO');
   }
 
-  // INVESTIGADOR
   const Inv = pick('Investigador', 'Investigadores');
   if (Inv) {
     const where = whereFor(Inv);
@@ -78,7 +72,6 @@ async function getUserRoles(user) {
     if (row) roles.add('INVESTIGADOR');
   }
 
-  // PACIENTE
   const Pac = pick('Paciente', 'Pacientes', 'paciente');
   if (Pac) {
     const where = whereFor(Pac);
@@ -144,7 +137,6 @@ exports.me = async (req, res) => {
   return res.json({ me: req.user });
 };
 
-// === SOLO TESTS: inyección de modelos ===
 exports.__setModelsForTest = function (newModels) {
   dbModels = newModels;
 };

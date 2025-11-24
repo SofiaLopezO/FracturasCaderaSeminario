@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     const ParametroLab = sequelize.define(
         'ParametroLab',
         {
-            codigo: { type: DataTypes.STRING, primaryKey: true }, // p.ej., "HB","ALBUMINA","INR"
+            codigo: { type: DataTypes.STRING, primaryKey: true }, 
             nombre: { type: DataTypes.STRING, allowNull: false },
             unidad: { type: DataTypes.STRING, allowNull: true },
             ref_min: { type: DataTypes.FLOAT, allowNull: true },

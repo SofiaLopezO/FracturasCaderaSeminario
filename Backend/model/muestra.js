@@ -6,8 +6,8 @@ module.exports = (sequelize) => {
     fecha_extraccion: { type: DataTypes.DATE, allowNull: false },
     fecha_recepcion: { type: DataTypes.DATE, allowNull: true },
     observaciones: { type: DataTypes.TEXT, allowNull: true },
-    examen_id: { type: DataTypes.INTEGER, allowNull: false },     // → examen.examen_id
-    profesional_id: { type: DataTypes.INTEGER, allowNull: false }, // → professional_profile.professional_profile_id
+    examen_id: { type: DataTypes.INTEGER, allowNull: false },    
+    profesional_id: { type: DataTypes.INTEGER, allowNull: false }, 
   }, { tableName: "muestra", timestamps: false });
   return Muestra;
 };

@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
 
   const Antropometria = sequelize.define("Antropometria", {
     antropometria_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    episodio_id: { type: DataTypes.INTEGER, allowNull: false }, // → episodio.episodio_id
+    episodio_id: { type: DataTypes.INTEGER, allowNull: false },
     peso_kg: { type: DataTypes.FLOAT, allowNull: true },
     altura_m: { type: DataTypes.FLOAT, allowNull: true },
   }, {

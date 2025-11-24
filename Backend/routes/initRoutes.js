@@ -1,9 +1,5 @@
 const express = require('express');
-
-// públicas / sesión
 const authRoutes = require('./auth');
-
-// dominio (las que ya tienes)
 const userRoutes = require('./user.routes');
 const pacienteRoutes = require('./paciente.routes');
 const funcionarioRoutes = require('./funcionario.routes');
@@ -33,10 +29,8 @@ const uploadsRoutes = require('./uploads.routes');
 function initRoutes(app, basePath = '/api') {
     const api = express.Router();
 
-    // públicas
     api.use('/auth', authRoutes);
 
-    // dominio (todas RELATIVAS dentro de cada archivo)
     api.use('/users', userRoutes);
     api.use('/pacientes', pacienteRoutes);
     api.use('/funcionarios', funcionarioRoutes);
@@ -55,18 +49,17 @@ function initRoutes(app, basePath = '/api') {
     api.use('/perfil', perfilRoutes);
     api.use('/public', publicRoutes);
 
-    api.use('/episodios', episodioRoutes); // nueva ruta
-    api.use('/cirugias', cirugiaRoutes); // nueva ruta
-    api.use('/suspensiones', suspensionRoutes); // nueva ruta
-    api.use('/parametros', parametroRoutes); // nueva ruta
-    api.use('/controles', controlClinicoRoutes); // nueva ruta
-    api.use('/tipos-examen', tipoExamenRoutes); // nueva ruta
-    api.use('/tipos-muestra', tipoMuestraRoutes); // nueva ruta
-    api.use('/uploads', uploadsRoutes); // subida de archivos (minutas)
+    api.use('/episodios', episodioRoutes); 
+    api.use('/cirugias', cirugiaRoutes); 
+    api.use('/suspensiones', suspensionRoutes);
+    api.use('/parametros', parametroRoutes); 
+    api.use('/controles', controlClinicoRoutes); 
+    api.use('/tipos-examen', tipoExamenRoutes);
+    api.use('/tipos-muestra', tipoMuestraRoutes); 
+    api.use('/uploads', uploadsRoutes); 
 
     app.use(basePath, api);
 
-    // 404 (útil para ver qué ruta te está faltando)
     app.use((req, res) => {
         res.status(404).json({
             error: 'Ruta no encontrada',

@@ -13,7 +13,6 @@ function parseDateOrNull(input) {
     return Number.isNaN(t) ? null : new Date(t);
 }
 
-// GET /registros?limit=20&offset=0&accion=ALTA
 async function list(req, res) {
     try {
         const limit = Math.min(Number(req.query.limit) || 20, 100);
@@ -48,9 +47,6 @@ async function getOne(req, res) {
     }
 }
 
-// POST /registros
-// body: { accion, fecha_registro, administrador_id? }
-// actor_user_id se toma del token (req.user.id)
 async function create(req, res) {
     try {
         const { accion, fecha_registro } = req.body || {};
@@ -74,9 +70,7 @@ async function create(req, res) {
             const id = Number(req.body.user.id);
             const user = await models.User.findByPk(id);
             if (!user)
-                return res
-                    .status(400)
-                    .json({ error: 'usuario no existe' });
+                return res.status(400).json({ error: 'usuario no existe' });
         }
 
         const created = await models.Registro.create({
@@ -164,28 +158,41 @@ async function remove(req, res) {
     }
 }
 
-// helper rápido para registrar acciones desde otros controladores
-// administrador_id: ID del administrador/usuario que realizó la acción (el actor)
-// user_afectado_id: ID del usuario sobre el que se realizó la acción (ej: paciente, usuario modificado)
-async function logRegistro(req, accion, user_afectado_id = null) {
+async function logRegistro(req, accion, user_afectado_id = null, options = {}) {
     try {
-        const administradorrut = req.user?.rut ?? null;
-        // Log de debugging para identificar cuando falta req.user
-        if (!administradorrut) {
+        const safeAction = accion
+            ? String(accion).trim()
+            : 'ACCION_DESCONOCIDA';
+        const hasUserProp =
+            req && typeof req === 'object'
+                ? Object.prototype.hasOwnProperty.call(req, 'user')
+                : false;
+        const administradorrut =
+            options.actorRut ?? req?.user?.rut ?? req?.rut ?? null;
+        if (!administradorrut && hasUserProp && !options.suppressWarning) {
             console.warn(
                 '⚠️ logRegistro: req.user no disponible para acción:',
-                accion
+                safeAction
             );
-            console.warn('req.user:', req.user);
+            console.warn('req.user:', req?.user);
         }
-        const administradorId = await models.User.findOne({
-            where: { rut: administradorrut },
-        });
+        let administradorUsuario = null;
+        if (administradorrut) {
+            administradorUsuario = await models.User.findOne({
+                where: { rut: administradorrut },
+            });
+        }
+        const actorUserId =
+            options.actorUserId ??
+            req?.user?.id ??
+            req?.actor_user_id ??
+            user_afectado_id ??
+            null;
         await models.Registro.create({
-            accion: String(accion).trim(),
+            accion: safeAction,
             fecha_registro: new Date(),
-            administrador_id: administradorId.id, // usuario que realizó la acción (actor/admin)
-            actor_user_id: user_afectado_id ?? null, // usuario sobre el que se actuó (afectado)
+            administrador_id: administradorUsuario?.id ?? null,
+            actor_user_id: actorUserId,
         });
     } catch (e) {
         console.error('logRegistro error:', e);

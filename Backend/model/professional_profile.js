@@ -17,11 +17,9 @@ module.exports = (sequelize) => {
     },
     hospital: { type: DataTypes.STRING(120), allowNull: true },
     departamento: { type: DataTypes.STRING(80), allowNull: true },
-    //VER
+
     fecha_ingreso: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
 
-    // Historial de pacientes vistos por el profesional
-    // Estructura sugerida: [{ idPaciente: number, timestamp: string }]
     historial_pacientes: { type: DataTypes.JSONB, allowNull: true, defaultValue: [] },
   }, {
     tableName: "professional_profiles",

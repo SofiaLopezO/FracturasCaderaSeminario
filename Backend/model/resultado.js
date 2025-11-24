@@ -11,12 +11,12 @@ module.exports = (sequelize) => {
             },
 
             // vínculos
-            episodio_id: { type: DataTypes.INTEGER, allowNull: false }, // → episodio.episodio_id
-            muestra_id: { type: DataTypes.INTEGER, allowNull: true }, // → muestra.muestra_id
-            examen_id: { type: DataTypes.INTEGER, allowNull: true }, // → examen.examen_id (si aplica)
+            episodio_id: { type: DataTypes.INTEGER, allowNull: false }, 
+            muestra_id: { type: DataTypes.INTEGER, allowNull: true }, 
+            examen_id: { type: DataTypes.INTEGER, allowNull: true }, 
 
             // dato
-            parametro: { type: DataTypes.STRING, allowNull: false }, // p.ej. "HB","ALBUMINA","INR","VITD","CALCIO","CALCIO_CORREGIDO"
+            parametro: { type: DataTypes.STRING, allowNull: false }, 
             valor: { type: DataTypes.FLOAT, allowNull: false },
             unidad: { type: DataTypes.STRING, allowNull: true },
             fecha_resultado: { type: DataTypes.DATE, allowNull: false },

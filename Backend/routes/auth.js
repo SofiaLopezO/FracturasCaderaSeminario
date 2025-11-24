@@ -7,8 +7,8 @@ const { auth } = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/login', login);
-router.post('/logout', logout);     // 👈 nuevo
-router.get('/me', auth(), me);      // 👈 nuevo protegido
+router.post('/logout', logout);    
+router.get('/me', auth(), me);   
 router.post('/register', registerPaciente);
 router.get('/verify', verifyEmail);
 

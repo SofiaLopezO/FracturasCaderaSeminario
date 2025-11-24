@@ -5,8 +5,8 @@ module.exports = (sequelize) => {
     user_id: { type: DataTypes.INTEGER, primaryKey: true },
     tipo_sangre: DataTypes.STRING,
     altura: DataTypes.FLOAT,
-    edad_anios: DataTypes.INTEGER, // 👈 años completos
-    edad_meses: DataTypes.INTEGER, // 👈 meses adicionales
+    edad_anios: DataTypes.INTEGER,
+    edad_meses: DataTypes.INTEGER, 
   }, { tableName: "pacientes", timestamps: false });
   return Paciente;
 };

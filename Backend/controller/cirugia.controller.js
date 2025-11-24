@@ -5,7 +5,6 @@ const { idParam } = require('./_crud');
 
 function parseDateOnly(input) {
   if (!input) return null;
-  // Allow YYYY-MM-DD or any parsable
   const d = new Date(input);
   return isNaN(d.getTime()) ? null : d;
 }

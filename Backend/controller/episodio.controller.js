@@ -2,6 +2,7 @@
 const models = require('../model/initModels');
 const { idParam } = require('./_crud');
 const { logRegistro } = require('./registro.controller');
+const moment = require('moment-timezone');
 
 function parseDate(input) {
     if (!input) return null;
@@ -155,12 +156,6 @@ async function create(req, res) {
             lado,
             procedencia,
             fecha_diagnostico,
-            // fecha_ingreso_quirurgico,
-            // fecha_alta,
-            // no_operado,
-            // causa_no_operar,
-            // abo,
-            // rh,
             tabaco,
             alcohol,
             corticoides_cronicos,
@@ -190,7 +185,6 @@ async function create(req, res) {
         if (!pac)
             return res.status(400).json({ error: 'paciente_id no existe' });
 
-        // normalizar procedencia: ciertos valores deben ir en mayúsculas en la BDD
         let procedenciaB = procedencia;
         if (
             typeof procedencia === 'string' &&
@@ -200,7 +194,18 @@ async function create(req, res) {
             procedenciaB = procedenciaB.replace(' ', '_');
         }
 
-        const fechaDiagnosticoDate = parseDate(fecha_diagnostico) || new Date();
+        const nowInChile = moment.tz('America/Santiago');
+        const fechaMoment = moment.tz(fecha_diagnostico, 'America/Santiago');
+        const fechaDiagnosticoDate = fechaMoment.isValid()
+            ? fechaMoment
+                  .set({
+                      hour: nowInChile.hour(),
+                      minute: nowInChile.minute(),
+                      second: nowInChile.second(),
+                      millisecond: 0,
+                  })
+                  .toDate()
+            : new Date();
         const cie10Ultimo = (() => {
             if (!cie10) return '';
             if (Array.isArray(cie10))
@@ -213,13 +218,13 @@ async function create(req, res) {
                     .pop() || ''
             );
         })();
-        // determinar tipo_fractura según cie10Ultimo
+
         const tipoFracturaMap = {
             'S72.0': 'INTRACAPSULAR',
             'S72.1': 'PERTROCANTERICA',
             'S72.2': 'SUBTROCANTERICA',
         };
-        // valor por defecto
+
         let tipo_fractura = null;
         if (
             cie10Ultimo !== undefined &&
@@ -239,12 +244,6 @@ async function create(req, res) {
             procedencia: procedenciaB,
             fecha_diagnostico: fechaDiagnosticoDate,
             notas_clinicas: notas_clinicas ?? null,
-            // fecha_ingreso_quirurgico: fecha_ingreso_quirurgico ? parseDate(fecha_ingreso_quirurgico) : null,
-            // fecha_alta: fecha_alta ? parseDate(fecha_alta) : null,
-            // no_operado: !!no_operado,
-            // causa_no_operar: causa_no_operar ?? null,
-            // abo: abo ?? null,
-            // rh: rh ?? null,
             tabaco: !!tabaco ? true : null,
             alcohol: !!alcohol ? true : null,
             corticoides_cronicos: !!corticoides_cronicos ? true : null,
@@ -263,11 +262,10 @@ async function create(req, res) {
             postquirurgicas: postquirurgicas ? postquirurgicas : null,
         });
 
-        // Registrar la acción de creación de episodio
         await logRegistro(
             req,
             `CREAR_EPISODIO: episodio_id=${created.episodio_id}, paciente_id=${paciente_id}`,
-            paciente_id // ID del paciente al que pertenece el episodio
+            paciente_id
         );
 
         res.status(201).json(created);
@@ -306,7 +304,21 @@ async function update(req, res) {
         assign('procedencia', body.procedencia ?? null);
         let parsedFechaDiagnostico;
         if (body.fecha_diagnostico !== undefined) {
-            const d = parseDate(body.fecha_diagnostico);
+            const nowInChile = moment.tz('America/Santiago');
+            const fechaMoment = moment.tz(
+                body.fecha_diagnostico,
+                'America/Santiago'
+            );
+            const d = fechaMoment.isValid()
+                ? fechaMoment
+                      .set({
+                          hour: nowInChile.hour(),
+                          minute: nowInChile.minute(),
+                          second: nowInChile.second(),
+                          millisecond: 0,
+                      })
+                      .toDate()
+                : null;
             if (!d)
                 return res
                     .status(400)
@@ -367,11 +379,10 @@ async function update(req, res) {
         });
         await ensureControlInicial(row, controlPayload);
 
-        // Registrar la acción de actualización de episodio
         await logRegistro(
             req,
             `ACTUALIZAR_EPISODIO: episodio_id=${id}, paciente_id=${row.paciente_id}`,
-            row.paciente_id // ID del paciente al que pertenece el episodio
+            row.paciente_id
         );
 
         res.json({ msg: 'ok' });
@@ -392,11 +403,10 @@ async function remove(req, res) {
 
         await row.destroy();
 
-        // Registrar la acción de eliminación de episodio
         await logRegistro(
             req,
             `ELIMINAR_EPISODIO: episodio_id=${id}, paciente_id=${paciente_id}`,
-            paciente_id // ID del paciente al que pertenecía el episodio
+            paciente_id
         );
 
         res.status(204).send();

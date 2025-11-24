@@ -2,7 +2,6 @@
 const { Op } = require('sequelize');
 const models = require('../model/initModels');
 
-// ----------------- utilidades -----------------
 function numero(value) {
     if (value === undefined || value === null) return null;
     const n = Number(value);
@@ -45,20 +44,53 @@ function horasEntreFechas(base, fechaCirugia, horaInicio) {
     return diffMs > 0 ? diffMs / (1000 * 60 * 60) : 0;
 }
 
+const PARAM_ALIASES = {
+    HB: ['HB', 'Hemoglobina'],
+    VITAMINA_D: ['VITAMINA_D', 'Vitamina D', '25-OH', 'VITD'],
+    ALBUMINA: ['ALBUMINA', 'Albúmina', 'ALB'],
+    CREATININA_SERICA: [
+        'CREATININA_SERICA',
+        'Creatinina',
+        'CREA',
+        'Creatinina sérica',
+    ],
+    NLR: ['NLR'],
+    MLR: ['MLR'],
+};
+
 async function obtenerResultados(m, episodioId, codigos) {
     if (!Array.isArray(codigos) || !codigos.length) return {};
+
+    const codigosExpandidos = [];
+    for (const codigo of codigos) {
+        const aliases = PARAM_ALIASES[codigo] || [codigo];
+        codigosExpandidos.push(...aliases);
+    }
+
     const rows = await m.Resultado.findAll({
-        where: { episodio_id: episodioId, parametro: { [Op.in]: codigos } },
+        where: {
+            episodio_id: episodioId,
+            parametro: { [Op.in]: codigosExpandidos },
+        },
         order: [
             ['fecha_resultado', 'DESC'],
             ['resultado_id', 'DESC'],
         ],
     });
+
     const latestByParam = {};
     for (const row of rows) {
         const data = row.get({ plain: true });
-        if (!latestByParam[data.parametro])
-            latestByParam[data.parametro] = data;
+        let codigoNormalizado = data.parametro;
+        for (const [std, aliases] of Object.entries(PARAM_ALIASES)) {
+            if (aliases.includes(data.parametro)) {
+                codigoNormalizado = std;
+                break;
+            }
+        }
+        if (!latestByParam[codigoNormalizado]) {
+            latestByParam[codigoNormalizado] = data;
+        }
     }
     return latestByParam;
 }
@@ -126,7 +158,6 @@ function ordenarControles(controles = []) {
     });
 }
 
-// ----------------- servicio auxiliar para episodios sin controles -----------------
 async function recalcularIndicadoresEpisodio(
     episodioId,
     options = {},
@@ -134,7 +165,6 @@ async function recalcularIndicadoresEpisodio(
 ) {
     const m = injected.models || models;
 
-    // ⚠️ Carga de configuración inyectable (para tests) o real
     const cfg = injected.cfg || require('../config/riesgoFactores');
     const { FACTORES, NIVEL_THRESHOLDS, COLOR_BY_NIVEL, ACTION_BY_NIVEL } = cfg;
 
@@ -142,8 +172,9 @@ async function recalcularIndicadoresEpisodio(
         include: [
             {
                 model: m.Paciente,
+                as: 'Paciente',
                 required: false,
-                include: [{ model: m.User, as: 'user', required: false }],
+                include: [{ model: m.User, as: 'User', required: false }],
             },
             { model: m.Antropometria, required: false },
             { model: m.ControlClinico, required: false },
@@ -163,11 +194,15 @@ async function recalcularIndicadoresEpisodio(
     const antropometria =
         episodioData.Antropometrium || episodioData.Antropometria || null;
 
-    // Para episodios sin controles, usamos directamente los datos del episodio
     const comorbilidadesEpisodio = Array.isArray(episodioData.comorbilidades)
-        ? episodioData.comorbilidades.filter(Boolean)
+        ? episodioData.comorbilidades.filter(
+              (item) => item && String(item).trim() !== ''
+          )
         : [];
-    const conteoComorbilidades = comorbilidadesEpisodio.length || null;
+    const conteoComorbilidades =
+        comorbilidadesEpisodio.length > 0
+            ? comorbilidadesEpisodio.length
+            : null;
 
     const habitoDesdeEpisodio = (field) => Boolean(episodioData?.[field]);
 
@@ -223,9 +258,9 @@ async function recalcularIndicadoresEpisodio(
     })();
 
     const contexto = {
-        control_id: null, // Sin control asociado
+        control_id: null, 
         episodio_id: episodioId,
-        tipo_control: 'INICIAL', // Tipo por defecto para episodios sin controles
+        tipo_control: 'INICIAL', 
         edad:
             overrides.edad !== undefined
                 ? numero(overrides.edad)
@@ -290,7 +325,6 @@ async function recalcularIndicadoresEpisodio(
                 : false,
     };
 
-    // Borrar indicadores previos del episodio sin control asociado
     await borrarIndicadoresPrevios(m, null, episodioId);
 
     const indicadoresGuardados = [];
@@ -313,7 +347,7 @@ async function recalcularIndicadoresEpisodio(
         const detalles = construirDetalleFactor(factor, resultado, puntaje);
         const indicador = await m.EpisodioIndicador.create({
             episodio_id: episodioId,
-            control_id: null, // Sin control asociado
+            control_id: null, 
             tipo: factor.tipo,
             valor: puntaje,
             detalles,
@@ -379,7 +413,6 @@ async function recalcularIndicadoresEpisodio(
     };
 }
 
-// ----------------- servicio principal -----------------
 async function recalcularIndicadoresControl(
     controlId,
     options = {},
@@ -387,7 +420,7 @@ async function recalcularIndicadoresControl(
 ) {
     const m = injected.models || models;
 
-    // ⚠️ Carga de configuración inyectable (para tests) o real
+
     const cfg = injected.cfg || require('../config/riesgoFactores');
     const { FACTORES, NIVEL_THRESHOLDS, COLOR_BY_NIVEL, ACTION_BY_NIVEL } = cfg;
 
@@ -406,9 +439,10 @@ async function recalcularIndicadoresControl(
                     include: [
                         {
                             model: m.Paciente,
+                            as: 'Paciente',
                             required: false,
                             include: [
-                                { model: m.User, as: 'user', required: false },
+                                { model: m.User, as: 'User', required: false },
                             ],
                         },
                         { model: m.Antropometria, required: false },
@@ -435,6 +469,7 @@ async function recalcularIndicadoresControl(
             include: [
                 {
                     model: m.Paciente,
+                    as: 'Paciente',
                     required: false,
                     include: [{ model: m.User, as: 'user', required: false }],
                 },
@@ -473,13 +508,19 @@ async function recalcularIndicadoresControl(
         null;
 
     const comorbilidadesActual = Array.isArray(controlActual?.comorbilidades)
-        ? controlActual.comorbilidades.filter(Boolean)
+        ? controlActual.comorbilidades.filter(
+              (item) => item && String(item).trim() !== ''
+          )
         : null;
     const comorbilidadesInicial = Array.isArray(controlInicial?.comorbilidades)
-        ? controlInicial.comorbilidades.filter(Boolean)
+        ? controlInicial.comorbilidades.filter(
+              (item) => item && String(item).trim() !== ''
+          )
         : null;
     const comorbilidadesEpisodio = Array.isArray(episodio.comorbilidades)
-        ? episodio.comorbilidades.filter(Boolean)
+        ? episodio.comorbilidades.filter(
+              (item) => item && String(item).trim() !== ''
+          )
         : null;
 
     const detalleComorbilidades =
@@ -487,13 +528,20 @@ async function recalcularIndicadoresControl(
         comorbilidadesInicial ??
         comorbilidadesEpisodio ??
         [];
-    const conteoComorbilidades = comorbilidadesActual
-        ? comorbilidadesActual.length
-        : comorbilidadesInicial
-        ? comorbilidadesInicial.length
-        : comorbilidadesEpisodio
-        ? comorbilidadesEpisodio.length
-        : null;
+    const conteoComorbilidades =
+        comorbilidadesActual !== null
+            ? comorbilidadesActual.length > 0
+                ? comorbilidadesActual.length
+                : null
+            : comorbilidadesInicial !== null
+            ? comorbilidadesInicial.length > 0
+                ? comorbilidadesInicial.length
+                : null
+            : comorbilidadesEpisodio !== null
+            ? comorbilidadesEpisodio.length > 0
+                ? comorbilidadesEpisodio.length
+                : null
+            : null;
 
     const habitoDesdeControl = (field) => {
         if (
@@ -732,9 +780,10 @@ async function recalcularIndicadores(episodioId, options = {}, injected = {}) {
                 include: [
                     {
                         model: m.Paciente,
+                        as: 'Paciente',
                         required: false,
                         include: [
-                            { model: m.User, as: 'user', required: false },
+                            { model: m.User, as: 'User', required: false },
                         ],
                     },
                     { model: m.Antropometria, required: false },
@@ -745,7 +794,6 @@ async function recalcularIndicadores(episodioId, options = {}, injected = {}) {
     });
 
     if (!controles.length) {
-        // Si no existen controles, usar la función específica para episodios sin controles
         const data = await recalcularIndicadoresEpisodio(episodioId, options, {
             models: m,
         });
@@ -761,7 +809,7 @@ async function recalcularIndicadores(episodioId, options = {}, injected = {}) {
                 __controlInstance: control,
                 __episodioPlain: control.Episodio,
             },
-            { models: m } // mantiene inyección
+            { models: m } 
         );
         resultados.push(data);
     }

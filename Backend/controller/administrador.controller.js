@@ -33,13 +33,12 @@ async function create(req, res) {
             nivel_acceso,
         });
 
-        // Registrar la acción
         await logRegistro(
             req,
             `CREAR_ADMINISTRADOR: user_id=${user_id}, nivel_acceso=${
                 nivel_acceso || 'N/A'
             }`,
-            user_id // ID del usuario sobre el que se actuó
+            user_id 
         );
 
         res.status(201).json(created);
@@ -63,11 +62,11 @@ async function update(req, res) {
         if (nivel_acceso !== undefined) row.nivel_acceso = nivel_acceso;
         await row.save();
 
-        // Registrar la acción
+
         await logRegistro(
             req,
             `ACTUALIZAR_ADMINISTRADOR: user_id=${id}, nivel_acceso ${oldNivel} → ${nivel_acceso}`,
-            id // ID del usuario sobre el que se actuó
+            id 
         );
 
         res.json(row);
@@ -87,11 +86,10 @@ async function remove(req, res) {
         const user = await models.User.findByPk(id);
         await row.destroy();
 
-        // Registrar la acción
         await logRegistro(
             req,
             `ELIMINAR_ADMINISTRADOR: user_id=${id}`,
-            id // ID del usuario sobre el que se actuó
+            id
         );
 
         res.status(204).send();

@@ -5,7 +5,6 @@ function auth(requiredRoles = []) {
   const requiredUpper = (requiredRoles || []).map(r => String(r).toUpperCase());
 
   return (req, res, next) => {
-    // 1) token por cookie httpOnly o por Authorization: Bearer
     const header = (req.headers.authorization || '').trim();
     const bearer = header.startsWith('Bearer ') ? header.slice(7).trim() : null;
     const cookieToken = req.cookies?.auth || null;
@@ -18,7 +17,7 @@ function auth(requiredRoles = []) {
     try {
       const secret = process.env.JWT_SECRET || 'dev_secret_change_me';
       const payload = jwt.verify(token, secret);
-      req.user = payload; // { id, rut, roles: [...] }
+      req.user = payload; 
 
       if (requiredUpper.length) {
         const userRolesUpper = (payload.roles || []).map(r => String(r).toUpperCase());
