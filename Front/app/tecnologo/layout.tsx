@@ -5,13 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TecnologoProvider, useTecnologo } from "@/contexts/TecnologoContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useConfirmBackToLogin } from "@/hooks/useConfirmBackToLogin";
-import {
-  House,
-  Settings,
-  LogOut,
-  FlaskConical,
-  Image as ImageIcon,
-} from "lucide-react";
+import { House, Settings, LogOut, FlaskConical } from "lucide-react";
 import React from "react";
 
 type NavItem = {
@@ -24,8 +18,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { href: "/tecnologo", icon: House, label: "Panel del tecnólogo", group: "main" },
-  { href: "/tecnologo/laboratorio", icon: FlaskConical, label: "Subir laboratorio", requiresPatient: true, group: "upload" },
-  { href: "/tecnologo/imagenes",    icon: ImageIcon,    label: "Subir imágenes",   requiresPatient: true, group: "upload" },
+  { href: "/tecnologo/laboratorio", icon: FlaskConical, label: "Subir examen", requiresPatient: true, group: "upload" },
 ];
 
 export default function TecnologoLayout({ children }: { readonly children: React.ReactNode }) {
@@ -51,9 +44,7 @@ function Shell({ children }: { readonly children: React.ReactNode }) {
     pathname === href || pathname.startsWith(href + "/") || (href === "/tecnologo" && pathname === "/tecnologo");
 
   const onLogout = async () => {
-    // Cierra modales abiertas antes de confirmar
     try { window.dispatchEvent(new Event("tecnologo:close-modals")); } catch {}
-
     const ok = window.confirm("¿Deseas cerrar sesión y volver al login?");
     if (!ok) return;
 
@@ -61,7 +52,6 @@ function Shell({ children }: { readonly children: React.ReactNode }) {
     try {
       await logout();
     } finally {
-      // Navegación “dura” para desmontar por completo el árbol y evitar overlays residuales
       window.location.href = "/login";
       setTimeout(() => {
         if (!/\/login$/.test(window.location.pathname)) {
@@ -99,7 +89,7 @@ function Shell({ children }: { readonly children: React.ReactNode }) {
           {/* Separador visual */}
           <div className="my-2 h-px w-8 bg-slate-200" />
 
-          {/* Grupo de carga de exámenes/datos */}
+          {/* Grupo de carga (solo laboratorio) */}
           <div className="flex flex-col gap-2">
             {navItems
               .filter(i => i.group === "upload")

@@ -17,11 +17,13 @@ import {
     ChevronDown,
     X,
     CircleCheck,
-    FileText,
 } from 'lucide-react';
 import { Switch } from '@/components/ui/Switch';
 import { useFuncionario } from '@/contexts/FuncionarioContext';
-const sessionRaw = localStorage.getItem('session_v1');
+
+const sessionRaw = typeof window !== 'undefined'
+    ? localStorage.getItem('session_v1')
+    : null;
 
 const user = sessionRaw ? JSON.parse(sessionRaw).user.id : null;
 
@@ -33,10 +35,13 @@ function cieToTipo(cie: string): string {
             return 'Pertrocantérica';
         case 'S72.2':
             return 'Subtrocantérica';
+        case 'S00.0':
+            return 'Extracapsular';
         default:
             return 'No especificado';
     }
 }
+
 const fmtCL = (iso?: string) =>
     iso
         ? new Date(iso).toLocaleString('es-CL', {
@@ -47,10 +52,61 @@ const fmtCL = (iso?: string) =>
               minute: '2-digit',
           })
         : '';
+
 const fmtDateInput = (iso?: string) =>
     iso
         ? new Date(iso).toISOString().slice(0, 10)
         : new Date().toISOString().slice(0, 10);
+
+const CITIES_CHILE: string[] = [
+    'Arica',
+    'Iquique',
+    'Alto Hospicio',
+    'Antofagasta',
+    'Calama',
+    'Tocopilla',
+    'Copiapó',
+    'Vallenar',
+    'La Serena',
+    'Coquimbo',
+    'Ovalle',
+    'Illapel',
+    'Valparaíso',
+    'Viña del Mar',
+    'Quilpué',
+    'Villa Alemana',
+    'San Antonio',
+    'Quillota',
+    'La Calera',
+    'Santiago',
+    'Puente Alto',
+    'Maipú',
+    'La Florida',
+    'Ñuñoa',
+    'Providencia',
+    'Las Condes',
+    'Pudahuel',
+    'Rancagua',
+    'Machalí',
+    'San Fernando',
+    'Curicó',
+    'Talca',
+    'Linares',
+    'Chillán',
+    'Concepción',
+    'Talcahuano',
+    'San Pedro de la Paz',
+    'Coronel',
+    'Los Ángeles',
+    'Temuco',
+    'Padre Las Casas',
+    'Valdivia',
+    'Osorno',
+    'Puerto Montt',
+    'Castro',
+    'Coyhaique',
+    'Punta Arenas',
+];
 
 /* ---------------- UI minis ---------------- */
 function Card({
@@ -128,6 +184,7 @@ function Input({
     disabled = false,
     min,
     required,
+    list,
 }: Readonly<{
     type?: string;
     value?: string | number;
@@ -137,6 +194,7 @@ function Input({
     disabled?: boolean;
     min?: number | string;
     required?: boolean;
+    list?: string;
 }>) {
     return (
         <input
@@ -147,6 +205,7 @@ function Input({
             disabled={disabled}
             min={min}
             required={required}
+            list={list}
             className={
                 'w-full h-10 px-3 py-2 border border-gray-300 rounded-md text-sm ' +
                 'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ' +
@@ -303,22 +362,28 @@ export default function MedicinaPage() {
         () => ((seleccionado?.registro_controles as any) ?? []) as any[],
         [seleccionado]
     );
-    console.log('Episodios:', seleccionado?.general.dx_actual);
     const episodioActual = seleccionado?.general.dx_actual;
+    const ESTA_CERRADO = Number(episodioActual?.es_episodio) === 2;
+
+    console.log('Episodios:', seleccionado?.general.dx_actual);
     const ESTADO =
         Number(seleccionado?.general.dx_actual?.es_episodio) !== 2 &&
         seleccionado?.general.dx_actual?.es_episodio !== null;
-    // UI: estados auxiliares
+
+    const minProximoControl = useMemo(
+        () => new Date().toISOString().slice(0, 16),
+        []
+    );
+
     const [showNuevoControl, setShowNuevoControl] = useState(false);
 
-    // diagnóstico (controlado)
     const [dx, setDx] = useState<any>(() => {
         let base: any = {};
         if (ESTADO) {
             base = episodioActual ?? {
                 cie10: 'S72.1',
                 lado: 'Derecho',
-                procedencia: 'Urgencia',
+                procedencia: '',
                 fecha_diagnostico: new Date().toISOString().split('T')[0],
                 notas_clinicas: '',
             };
@@ -326,13 +391,14 @@ export default function MedicinaPage() {
             base = {
                 cie10: 'S72.1',
                 lado: 'Derecho',
-                procedencia: 'Urgencia',
+                procedencia: '',
                 fecha_diagnostico: new Date().toISOString().split('T')[0],
                 notas_clinicas: '',
             };
         }
         return { ...base, tipo_fractura: cieToTipo(base.cie10 ?? 'S72.1') };
     });
+
     useEffect(() => {
         setDx((prev: any) => ({
             ...prev,
@@ -340,7 +406,6 @@ export default function MedicinaPage() {
         }));
     }, [dx.cie10]);
 
-    // controles (sólo lectura aquí)
     const controles = seleccionado?.registro_controles ?? [];
     const ordenados = [...controles].sort((a, b) =>
         b.fecha_hora.localeCompare(a.fecha_hora)
@@ -356,7 +421,6 @@ export default function MedicinaPage() {
     const toggleIn = (arr: string[], val: string) =>
         arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
 
-    // “Agregar control” (UI)
     type ControlTipo = 'Seguimiento' | 'Interconsulta' | 'Alta' | 'otro';
     const CONTROL_TIPOS: ControlTipo[] = [
         'Seguimiento',
@@ -369,7 +433,6 @@ export default function MedicinaPage() {
         tipo: 'Inicial' as ControlTipo,
         notas: '',
         proximo_control: '',
-        // secciones dentro del modal
         habitos: {
             tabaco: false,
             alcohol: false,
@@ -386,12 +449,11 @@ export default function MedicinaPage() {
         reingreso30: false,
         comorbilidades: [] as string[],
     });
-    /* ---------------- render ---------------- */
-    /* ---------------- API (stub de ejemplo) ---------------- */
+
     async function saveEpisodio(payload: any) {
         try {
-            const user = localStorage.getItem('session_v1');
-            const token = user ? JSON.parse(user).token : null;
+            const sessionRaw = localStorage.getItem('session_v1');
+            const token = sessionRaw ? JSON.parse(sessionRaw).token : null;
             console.log('Saving episodio with payload:', payload);
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_BASE}/episodios/`,
@@ -419,10 +481,11 @@ export default function MedicinaPage() {
             console.error('Failed to POST /episodios:', error);
         }
     }
+
     async function saveControl(payload: any) {
         try {
-            const user = localStorage.getItem('session_v1');
-            const token = user ? JSON.parse(user).token : null;
+            const sessionRaw = localStorage.getItem('session_v1');
+            const token = sessionRaw ? JSON.parse(sessionRaw).token : null;
             console.log('Saving episodio with payload:', payload);
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_BASE}/controles/`,
@@ -446,6 +509,9 @@ export default function MedicinaPage() {
             console.error('Failed to POST /controles:', error);
         }
     }
+
+    
+
     return (
         <div className='p-6 max-w-7xl mx-auto'>
             {/* Header */}
@@ -458,112 +524,68 @@ export default function MedicinaPage() {
                 </p>
             </div>
 
-            {/* Barra superior: Episodio en curso */}
+            {/* Barra superior: Episodio en curso / cerrado */}
             <div className='mb-4'>
-                <Card>
-                    <CardContent className='px-4 py-3 sm:px-6'>
-                        <div className='flex flex-wrap items-center justify-between gap-3'>
-                            <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm'>
-                                <span
-                                    className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-white ${
-                                        ESTADO
-                                            ? 'bg-emerald-600'
-                                            : 'bg-slate-500'
-                                    }`}
-                                >
-                                    <span className='h-2 w-2 rounded-full bg-white/90' />
-                                    Episodio {ESTADO ? 'Activo' : 'Cerrado'}
-                                    {episodioActual?.episodio_id
-                                        ? ` · #${episodioActual.episodio_id}`
-                                        : ''}
-                                </span>
+            <Card>
+                <CardContent className='px-4 py-3 sm:px-6'>
+                <div className='flex flex-wrap items-center justify-between gap-3'>
+                    <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm'>
+                    {/* badge siempre visible */}
+                    <span
+                        className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-white ${
+                        ESTA_CERRADO ? 'bg-slate-500' : 'bg-emerald-600'
+                        }`}
+                    >
+                        <span className='h-2 w-2 rounded-full bg-white/90' />
+                        Episodio {ESTA_CERRADO ? 'Cerrado' : 'Activo'}
+                        {episodioActual?.episodio_id ? ` · #${episodioActual.episodio_id}` : ''}
+                    </span>
 
-                                <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-700'>
-                                    <span>
-                                        <span className='text-slate-500'>
-                                            CIE-10:
-                                        </span>{' '}
-                                        <b>
-                                            {episodioActual?.cie10 ?? dx.cie10}
-                                        </b>
-                                    </span>
-                                    <span className='text-slate-400'>•</span>
-                                    <span>
-                                        <span className='text-slate-500'>
-                                            Lado:
-                                        </span>{' '}
-                                        <b>{episodioActual?.lado ?? dx.lado}</b>
-                                    </span>
-                                    <span className='text-slate-400'>•</span>
-                                    <span>
-                                        <span className='text-slate-500'>
-                                            Fecha:
-                                        </span>{' '}
-                                        <b>
-                                            {fmtCL(
-                                                episodioActual?.fecha_diagnostico ??
-                                                    dx.fecha_diagnostico
-                                            )}
-                                        </b>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className='flex flex-wrap items-center gap-2'>
-                                <Button
-                                    variant='secondary'
-                                    onClick={() => {
-                                        const inicial =
-                                            seleccionado?.general?.dx_actual
-                                                ?.habitos?.tabaco == null
-                                                ? 'Inicial'
-                                                : CONTROL_TIPOS[0];
-                                        setNuevo((n: any) => ({ ...n, tipo: inicial }));
-                                        setShowNuevoControl(true);
-                                    }}
-                                    disabled={
-                                        // Habilitar solo cuando: es_episodio === 0 o 1 AND episodio_id != null
-                                        !(
-                                            (Number(
-                                                seleccionado?.general?.dx_actual
-                                                    ?.es_episodio
-                                            ) === 0 ||
-                                                Number(
-                                                    seleccionado?.general
-                                                        ?.dx_actual?.es_episodio
-                                                ) === 1) &&
-                                            seleccionado?.general?.dx_actual
-                                                ?.episodio_id != null
-                                        )
-                                    }
-                                >
-                                    + Agregar control
-                                </Button>
-                                <Button
-                                    onClick={() =>
-                                        alert('Implementa cierre en backend')
-                                    }
-                                    disabled={
-                                        !(
-                                            (Number(
-                                                seleccionado?.general?.dx_actual
-                                                    ?.es_episodio
-                                            ) === 0 ||
-                                                Number(
-                                                    seleccionado?.general
-                                                        ?.dx_actual?.es_episodio
-                                                ) === 1) &&
-                                            seleccionado?.general?.dx_actual
-                                                ?.episodio_id != null
-                                        )
-                                    }
-                                >
-                                    Cerrar episodio
-                                </Button>
-                            </div>
+                    {/* detalles SOLO si NO está cerrado */}
+                    {!ESTA_CERRADO && (
+                        <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-700'>
+                        <span>
+                            <span className='text-slate-500'>CIE-10:</span>{' '}
+                            <b>{episodioActual?.cie10 ?? dx.cie10}</b>
+                        </span>
+                        <span className='text-slate-400'>•</span>
+                        <span>
+                            <span className='text-slate-500'>Lado:</span>{' '}
+                            <b>{episodioActual?.lado ?? dx.lado}</b>
+                        </span>
+                        <span className='text-slate-400'>•</span>
+                        <span>
+                            <span className='text-slate-500'>Fecha:</span>{' '}
+                            <b>{fmtCL(episodioActual?.fecha_diagnostico ?? dx.fecha_diagnostico)}</b>
+                        </span>
                         </div>
-                    </CardContent>
-                </Card>
+                    )}
+                    </div>
+
+                    <div className='flex flex-wrap items-center gap-2'>
+                    <Button
+                        variant='secondary'
+                        onClick={() => {
+                        const inicial =
+                            seleccionado?.general?.dx_actual?.habitos?.tabaco == null ? 'Inicial' : CONTROL_TIPOS[0];
+                        setNuevo((n: any) => ({ ...n, tipo: inicial }));
+                        setShowNuevoControl(true);
+                        }}
+                        disabled={
+                        !(
+                            (Number(seleccionado?.general?.dx_actual?.es_episodio) === 0 ||
+                            Number(seleccionado?.general?.dx_actual?.es_episodio) === 1) &&
+                            seleccionado?.general?.dx_actual?.episodio_id != null
+                        )
+                        }
+                    >
+                        + Agregar control
+                    </Button>
+                    {/* Botón "Cerrar episodio" eliminado */}
+                    </div>
+                </div>
+                </CardContent>
+            </Card>
             </div>
 
             {/* Secciones principales SOLO con Diagnóstico + Registro */}
@@ -599,6 +621,9 @@ export default function MedicinaPage() {
                                     <SelectItem value='S72.2'>
                                         S72.2 — Subtrocantérica
                                     </SelectItem>
+                                    <SelectItem value='S00.0'>
+                                        S00.0 — Extracapsular
+                                    </SelectItem>
                                 </Select>
                             </Field>
                             <Field label='Lado de la fractura'>
@@ -620,38 +645,39 @@ export default function MedicinaPage() {
                                     </SelectItem>
                                 </Select>
                             </Field>
-                            <Field label='Procedencia'>
-                                <Select
-                                    value={dx.procedencia}
-                                    onValueChange={(v) =>
-                                        setDx({ ...dx, procedencia: v })
-                                    }
-                                    disabled={ESTADO}
-                                >
-                                    <SelectItem value='Urgencia'>
-                                        Urgencia
-                                    </SelectItem>
-                                    <SelectItem value='Derivación APS'>
-                                        Derivación APS
-                                    </SelectItem>
-                                    <SelectItem value='Otro centro'>
-                                        Otro centro
-                                    </SelectItem>
-                                </Select>
+
+                            {/* Procedencia: input con autocompletado */}
+                            <Field label='Procedencia (ciudad de procedencia)'>
+                                <>
+                                    <Input
+                                        value={dx.procedencia ?? ''}
+                                        onChange={(e) =>
+                                            setDx({
+                                                ...dx,
+                                                procedencia: e.target.value,
+                                            })
+                                        }
+                                        placeholder='Ej.: Valparaíso, Viña del Mar, Santiago...'
+                                        list='chile-cities'
+                                        disabled={ESTADO}
+                                    />
+                                    <datalist id='chile-cities'>
+                                        {CITIES_CHILE.map((city) => (
+                                            <option key={city} value={city} />
+                                        ))}
+                                    </datalist>
+                                </>
                             </Field>
+
+                            {/* Fecha del diagnóstico: fija, sin posibilidad de seleccionar */}
                             <Field label='Fecha del diagnóstico'>
                                 <Input
                                     type='date'
                                     value={fmtDateInput(dx.fecha_diagnostico)}
-                                    onChange={(e) =>
-                                        setDx({
-                                            ...dx,
-                                            fecha_diagnostico: e.target.value,
-                                        })
-                                    }
-                                    disabled={ESTADO}
+                                    disabled 
                                 />
                             </Field>
+
                             <div className='md:col-span-2'>
                                 <Field label='Notas clínicas'>
                                     <Textarea
@@ -669,7 +695,7 @@ export default function MedicinaPage() {
                             </div>
                         </div>
 
-                        {/* Historial compacto del diagnóstico (si existe) */}
+                        {/* Historial diagnóstico compacto */}
                         {(() => {
                             const hist = ((seleccionado?.general as any)
                                 ?.historial_diagnosticos ?? []) as any[];
@@ -739,7 +765,6 @@ export default function MedicinaPage() {
                             );
                         })()}
 
-                        {/* Footer acciones del diagnóstico */}
                         <div className='mt-4 pt-4 border-t flex justify-end gap-2'>
                             <Button
                                 onClick={() =>
@@ -776,7 +801,7 @@ export default function MedicinaPage() {
                     </CardContent>
                 </Card>
 
-                {/* Registro de controles */}
+                {/* Registro de diagnósticos previos */}
                 <Card>
                     <CardHeaderWithIcon
                         icon={<Calendar className='h-5 w-5' />}
@@ -806,51 +831,50 @@ export default function MedicinaPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {episodios.map(
-                                        (e: any, i: number, arr: any[]) => (
-                                            <tr
-                                                key={`${e.episodio_id}-${i}`}
-                                                className='border-b'
-                                            >
-                                                <td className='px-3 py-2'>
-                                                    {e.fecha_hora
-                                                        ? fmtCL(e.fecha_hora)
-                                                        : '—'}
-                                                </td>
-                                                <td className='px-3 py-2'>
-                                                    {e.notas_clinicas?.length >
-                                                    34
-                                                        ? e.notas_clinicas.slice(
-                                                              0,
-                                                              34
-                                                          ) + '…'
-                                                        : e.notas_clinicas}
-                                                </td>
-                                                <td className='px-3 py-2'>
-                                                    {e.tipo_fractura}
-                                                </td>
-                                                <td className='px-3 py-2'>
-                                                    {e.lado}
-                                                </td>
-                                                <td className='px-3 py-2'>
-                                                    {e.origen}
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
+                                    {episodios.map((e: any, i: number) => (
+                                        <tr
+                                            key={`${e.episodio_id}-${i}`}
+                                            className='border-b'
+                                        >
+                                            <td className='px-3 py-2'>
+                                                {e.fecha_hora
+                                                    ? fmtCL(e.fecha_hora)
+                                                    : '—'}
+                                            </td>
+                                            <td className='px-3 py-2'>
+                                                {e.notas_clinicas?.length > 34
+                                                    ? e.notas_clinicas.slice(
+                                                          0,
+                                                          34
+                                                      ) + '…'
+                                                    : e.notas_clinicas}
+                                            </td>
+                                            <td className='px-3 py-2'>
+                                                {e.tipo_fractura}
+                                            </td>
+                                            <td className='px-3 py-2'>
+                                                {e.lado}
+                                            </td>
+                                            <td className='px-3 py-2'>
+                                                {e.origen ??
+                                                    e.procedencia ??
+                                                    '—'}
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* -------- Modal: Nuevo control -------- */}
+                {/* Modal Nuevo control */}
                 {showNuevoControl && (
                     <div
                         className='fixed inset-0 z-50 bg-black/30 p-4 overflow-y-auto'
                         onClick={(e) => {
                             if (e.target === e.currentTarget)
-                                setShowNuevoControl(false); // clic fuera cierra
+                                setShowNuevoControl(false);
                         }}
                     >
                         <Card className='mx-auto my-6 w-full max-w-3xl max-h-[90vh] flex flex-col'>
@@ -869,7 +893,6 @@ export default function MedicinaPage() {
                                 </button>
                             </CardHeader>
 
-                            {/* Contenido scrollable del modal */}
                             <CardContent className='flex-1 overflow-y-auto'>
                                 <div className='grid md:grid-cols-2 gap-4 mb-4'>
                                     <Field label='Peso'>
@@ -912,7 +935,7 @@ export default function MedicinaPage() {
                                         />
                                     </Field>
                                 </div>
-                                {/* cabecera */}
+
                                 <div className='grid md:grid-cols-2 gap-4'>
                                     <Field label='Tipo de control'>
                                         <Select
@@ -920,7 +943,13 @@ export default function MedicinaPage() {
                                             onValueChange={(v) =>
                                                 setNuevo({ ...nuevo, tipo: v })
                                             }
-                                            disabled={Number(seleccionado?.general?.dx_actual?.es_episodio) !== 1}
+                                            disabled={
+                                                Number(
+                                                    seleccionado?.general
+                                                        ?.dx_actual
+                                                        ?.es_episodio
+                                                ) !== 1
+                                            }
                                         >
                                             {seleccionado?.general?.dx_actual
                                                 ?.habitos?.tabaco == null ? (
@@ -954,6 +983,7 @@ export default function MedicinaPage() {
                                                         e.target.value,
                                                 })
                                             }
+                                            min={minProximoControl} 
                                         />
                                     </Field>
 
@@ -973,9 +1003,7 @@ export default function MedicinaPage() {
                                     </div>
                                 </div>
 
-                                {/* secciones trasladadas */}
                                 <div className='mt-6 grid lg:grid-cols-2 gap-4'>
-                                    {/* Hábitos */}
                                     <Card className='border-slate-200'>
                                         <CardHeaderWithIcon
                                             icon={
@@ -1050,17 +1078,21 @@ export default function MedicinaPage() {
                                                         })
                                                     }
                                                 />
-                                                {/* Campo 'Otro' como cuadro de texto */}
                                                 <div className='pt-2'>
                                                     <Field label='Otro'>
                                                         <Textarea
-                                                            value={nuevo.habitos.otro}
+                                                            value={
+                                                                nuevo.habitos
+                                                                    .otro
+                                                            }
                                                             onChange={(e) =>
                                                                 setNuevo({
                                                                     ...nuevo,
                                                                     habitos: {
                                                                         ...nuevo.habitos,
-                                                                        otro: e.target.value,
+                                                                        otro: e
+                                                                            .target
+                                                                            .value,
                                                                     },
                                                                 })
                                                             }
@@ -1072,7 +1104,6 @@ export default function MedicinaPage() {
                                         </CardContent>
                                     </Card>
 
-                                    {/* Complicaciones */}
                                     <Card className='border-slate-200'>
                                         <CardHeaderWithIcon
                                             icon={
@@ -1114,7 +1145,6 @@ export default function MedicinaPage() {
                                         </CardContent>
                                     </Card>
 
-                                    {/* Evolución post-cirugía (a lo ancho) */}
                                     <Card className='border-slate-200 lg:col-span-2'>
                                         <CardHeaderWithIcon
                                             icon={
@@ -1174,7 +1204,6 @@ export default function MedicinaPage() {
                                     </Card>
                                 </div>
 
-                                {/* Comorbilidades */}
                                 <Card className='mt-4 border-slate-200'>
                                     <CardHeaderWithIcon
                                         icon={
@@ -1219,7 +1248,6 @@ export default function MedicinaPage() {
                                 </Card>
                             </CardContent>
 
-                            {/* Footer fijo del modal */}
                             <div className='p-6 border-t flex justify-end gap-2'>
                                 <Button
                                     variant='ghost'

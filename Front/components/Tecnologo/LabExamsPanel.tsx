@@ -5,7 +5,6 @@ import { useMemo, useState } from "react";
 import { Calendar, ChevronDown, Download, Filter, Search } from "lucide-react";
 import { useTecnologo } from "@/contexts/TecnologoContext";
 
-/* ---------- UI helpers ---------- */
 function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>{children}</div>;
 }
@@ -38,7 +37,6 @@ function Button({
   return <button onClick={onClick} className={`${base} ${variants[variant]} ${className}`}>{children}</button>;
 }
 
-/* ---------- Tipos UI ---------- */
 type ResultadoUI = {
   resultado_id: string | number;
   parametro: string;
@@ -61,7 +59,6 @@ type ExamenUI = {
   muestras: MuestraUI[];
 };
 
-/* ---------- Formato fecha ---------- */
 function fmtFecha(fecha?: string | null) {
   if (!fecha) return "—";
   const d = new Date(fecha);
@@ -78,10 +75,6 @@ function fmtFecha(fecha?: string | null) {
 export default function LabExamsPanel() {
   const { detalles } = useTecnologo();
 
-  /* ===============================
-     NORMALIZACIÓN DE FUENTES
-     Une: laboratorio.solicitudes + laboratorio.examenes
-  =============================== */
   const examenes: ExamenUI[] = useMemo(() => {
     const lab = (detalles as any)?.laboratorio ?? {};
     const solicitudes = Array.isArray(lab?.solicitudes) ? lab.solicitudes : [];
@@ -128,7 +121,6 @@ export default function LabExamsPanel() {
       };
     });
 
-    // Unificar y deduplicar por examen_id
     const all = [...fromSolicitudes, ...fromExamenes];
     const seen = new Set<string | number>();
     const dedup: ExamenUI[] = [];
@@ -140,9 +132,6 @@ export default function LabExamsPanel() {
     return dedup;
   }, [detalles]);
 
-  /* ===============================
-     FILTROS + EXPANDIBLES
-  =============================== */
   const [abiertas, setAbiertas] = useState<Set<string | number>>(new Set());
   const [filtros, setFiltros] = useState({ tipoMuestra: "", tipoExamen: "", busqueda: "" });
 
@@ -175,9 +164,6 @@ export default function LabExamsPanel() {
     setAbiertas(s);
   };
 
-  /* ===============================
-     DESCARGA
-  =============================== */
   const descargarExamenCompleto = async (examen: ExamenUI) => {
     try {
       const user = localStorage.getItem("session_v1");
@@ -228,10 +214,6 @@ export default function LabExamsPanel() {
       alert("Error al descargar el examen. Inténtalo nuevamente.");
     }
   };
-
-  /* ===============================
-     RENDER
-  =============================== */
   return (
     <div className="grid gap-6">
       {/* Filtros */}

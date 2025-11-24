@@ -5,10 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Settings, LogOut, House } from 'lucide-react';
 import React from 'react';
-// si tienes un AdminProvider propio, envuelve <main> como haces en paciente con PatientProvider
 
 const navItems = [
-  { href: '/adm', icon: House, label: 'Panel' }, // único “home” como en paciente
+  { href: '/adm', icon: House, label: 'Panel' }, 
 ];
 
 export default function AdminLayout({ children }: { readonly children: React.ReactNode }) {
@@ -16,7 +15,6 @@ export default function AdminLayout({ children }: { readonly children: React.Rea
   const router = useRouter();
   const { logout } = useAuth();
 
-  // igual que paciente: home solo activo en coincidencia exacta
   const isActive = (href: string) => {
     if (href === '/adm') return pathname === '/adm';
     return pathname === href || pathname.startsWith(href + '/');

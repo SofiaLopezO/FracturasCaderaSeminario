@@ -20,7 +20,6 @@ const CtxSelectedPatient = createContext<Ctx | undefined>(undefined);
 export function SelectedPatientProvider({ children }: { children: React.ReactNode }) {
   const [patient, setPatientState] = useState<SelectedPatient>(null);
 
-  // Hidratar desde sessionStorage para no pedirlo cada navegación
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem('selectedPatient');

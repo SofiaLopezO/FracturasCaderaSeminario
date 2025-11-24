@@ -2,13 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useAdminUsers } from '../../contexts/AdminUsersContext';
-import {
-  RefreshCw,
-  Search,
-  ShieldMinus,
-  ShieldPlus,
-} from 'lucide-react';
-import { isValidRutCl } from '../../utils/rut';
+import { RefreshCw, Search, ShieldMinus, ShieldPlus } from 'lucide-react';
 
 const CARGO_LABEL: Record<string, string> = {
   TECNOLOGO: 'Tecnólogo(a) Médico',
@@ -26,6 +20,13 @@ const CARGO_FILTER_OPTIONS = [
   { value: 'ADMINISTRADOR', label: 'Administrador(a)' },
 ];
 
+// Opciones del SELECT (sin "Paciente" ni "Administrador")
+const CARGO_SELECT_OPTIONS = [
+  { value: 'FUNCIONARIO', label: CARGO_LABEL.FUNCIONARIO },
+  { value: 'TECNOLOGO', label: CARGO_LABEL.TECNOLOGO },
+  { value: 'INVESTIGADOR', label: CARGO_LABEL.INVESTIGADOR },
+];
+
 function getProfile(u: any) {
   return (
     u?.profile ??
@@ -40,13 +41,8 @@ function hasAdminRole(u: any) {
   const roles: unknown[] = Array.isArray(u?.roles) ? (u.roles as unknown[]) : [];
   const norm = roles.map((r: unknown) => {
     let str: string;
-    if (typeof r === 'string') {
-      str = r;
-    } else if (typeof r === 'undefined' || r === null) {
-      str = '';
-    } else {
-      str = '';
-    }
+    if (typeof r === 'string') str = r;
+    else str = '';
     return str.toUpperCase();
   });
   return norm.includes('ADMIN');
@@ -79,8 +75,7 @@ export function UsersTable() {
 
   const filtered = useMemo(() => {
     let filteredUsers = users;
-    
-    // Aplicar filtro de búsqueda por texto
+
     if (q.trim()) {
       const K = q.trim().toLowerCase();
       filteredUsers = filteredUsers.filter((u) => {
@@ -99,8 +94,7 @@ export function UsersTable() {
         );
       });
     }
-    
-    // Aplicar filtro por cargo
+
     if (cargoFilter) {
       filteredUsers = filteredUsers.filter((u) => {
         if (cargoFilter === 'PACIENTE') {
@@ -113,36 +107,12 @@ export function UsersTable() {
         }
       });
     }
-    
+
     return filteredUsers;
   }, [q, cargoFilter, users]);
 
-  function askCargo(defaultValue: string) {
-    return (prompt(
-      'Asignar cargo (TECNOLOGO | INVESTIGADOR | FUNCIONARIO):',
-      defaultValue || 'TECNOLOGO'
-    ) ?? '') as any;
-  }
-
-  function askRutProfesional(defaultValue: string) {
-    return (prompt('RUT profesional (12.345.678-9):', defaultValue || '') ?? '').trim();
-  }
-
-  async function quickSetCargo(u: any) {
-    const p = getProfile(u);
-    const cargo = askCargo(p?.cargo || '');
-    if (!cargo) return;
-    const rp = cargo === 'FUNCIONARIO' ? undefined : (p?.rut_profesional || undefined);
-    await updateProfile(u.id, { cargo, rut_profesional: rp, activo: true });
-    fetchUsers();
-  }
-
-  async function quickSetRutProfesional(u: any) {
-    const p = getProfile(u);
-    const rp = askRutProfesional(p?.rut_profesional || '');
-    if (!rp) return;
-    if (!isValidRutCl(rp)) { alert('RUT profesional inválido'); return; }
-    await updateProfile(u.id, { cargo: p?.cargo || 'FUNCIONARIO', rut_profesional: rp, activo: true });
+  async function onChangeCargo(u: any, newCargo: 'FUNCIONARIO'|'TECNOLOGO'|'INVESTIGADOR') {
+    await updateProfile(u.id, { cargo: newCargo, activo: true });
     fetchUsers();
   }
 
@@ -164,8 +134,8 @@ export function UsersTable() {
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
-          
-          {/* Select para filtrar por cargo */}
+
+          {/* Filtro por cargo */}
           <select
             value={cargoFilter}
             onChange={(e) => setCargoFilter(e.target.value)}
@@ -206,9 +176,10 @@ export function UsersTable() {
             {filtered.map((u) => {
               const p = getProfile(u);
               const isAdmin = hasAdminRole(u);
+              const paciente = isPaciente(u);
 
               return (
-                <tr key={u.rut} className="users-row">
+                <tr key={u.id ?? u.rut} className="users-row">
                   <td className="td align-middle">
                     <div className="font-medium text-heading ">
                       {u.nombres} {u.apellido_paterno} {u.apellido_materno}
@@ -219,47 +190,46 @@ export function UsersTable() {
                   <td className="td text-body align-middle">{u.rut || <span className="placeholder-dash">—</span>}</td>
                   <td className="td text-body align-middle">{u.correo || <span className="placeholder-dash">—</span>}</td>
 
+                  {/* Columna Cargo */}
                   <td className="td align-middle text-center">
-                    <div className="flex flex-wrap items-center gap-2 justify-center">
-                      {(() => {
-                        if (isAdmin) {
-                          return <span className="badge badge--admin">Administrador(a)</span>;
-                        } else if (p?.cargo) {
-                          return (
-                            <span className={roleClass(p.cargo)}>
-                              {CARGO_LABEL[p.cargo] ?? p.cargo}
-                            </span>
-                          );
-                        } else if (isPaciente(u)) {
-                          return <span className="badge badge--paciente">Paciente</span>;
-                        } else {
-                          return (
-                            <button className="btn-link" onClick={() => quickSetCargo(u)}>
-                              Asignar cargo
-                            </button>
-                          );
-                        }
-                      })()}
-                    </div>
+                    {isAdmin ? (
+                      <span className="badge badge--admin">Administrador(a)</span>
+                    ) : paciente ? (
+                      <span className="badge badge--paciente">Paciente</span>
+                    ) : (
+                      <div className="flex flex-col items-center gap-2">
+                        {p?.cargo ? (
+                          <span className={roleClass(p.cargo)}>
+                            {CARGO_LABEL[p.cargo] ?? p.cargo}
+                          </span>
+                        ) : (
+                          <span className="badge">Sin cargo</span>
+                        )}
+
+                        <select
+                          className="min-w-48 h-9 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm"
+                          disabled={loading}
+                          value={p?.cargo ?? 'FUNCIONARIO'}
+                          onChange={(e) =>
+                            onChangeCargo(u, e.target.value as 'FUNCIONARIO'|'TECNOLOGO'|'INVESTIGADOR')
+                          }
+                        >
+                          {CARGO_SELECT_OPTIONS.map(opt => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                   </td>
 
                   <td className="td text-body align-middle text-center">
                     {(() => {
-                      let rutContent;
-                      if (isAdmin) {
-                        rutContent = <span className="placeholder-dash">—</span>;
-                      } else if (p?.rut_profesional) {
-                        rutContent = p.rut_profesional;
-                      } else if (isPaciente(u)) {
-                        rutContent = <span className="placeholder-dash">—</span>;
-                      } else {
-                        rutContent = (
-                          <button className="btn-link" onClick={() => quickSetRutProfesional(u)}>
-                            Agregar RUT
-                          </button>
-                        );
-                      }
-                      return rutContent;
+                      if (isAdmin) return <span className="placeholder-dash">—</span>;
+                      if (p?.rut_profesional) return p.rut_profesional;
+                      if (paciente) return <span className="placeholder-dash">—</span>;
+                      return <span className="placeholder-dash">—</span>;
                     })()}
                   </td>
 
@@ -270,6 +240,7 @@ export function UsersTable() {
                           onClick={() => removeRole(u.id, 'ADMIN')}
                           className="flex rounded-2xl justify-between border-2 border-red-200 bg-red-50 hover:bg-red-100 px-3 py-1 text-sm text-red-700 hover:text-red-900 transition"
                           title="Quitar rol Administrador"
+                          disabled={loading}
                         >
                           <ShieldMinus className="h-4 w-4" /><span>Quitar</span>
                         </button>
@@ -278,6 +249,7 @@ export function UsersTable() {
                           onClick={() => addRole(u.id, 'ADMIN')}
                           className="flex rounded-2xl justify-between gap-2 border-2 border-green-700 bg-blue-50 hover:bg-green-100 px-3 py-1 text-sm text-green-700 hover:text-green-900 transition"
                           title="Asignar rol Administrador"
+                          disabled={loading}
                         >
                           <ShieldPlus className="h-4 w-4" /><span>Asignar</span>
                         </button>

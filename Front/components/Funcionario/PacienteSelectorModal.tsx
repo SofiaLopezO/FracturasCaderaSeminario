@@ -9,7 +9,6 @@ export default function PacienteSelectorModal() {
   const { filtrados, query, setQuery, setSeleccionado } = useFuncionario();
   const { logout } = useAuth();
   function handleselect(a: any) {
-    //setSeleccionado(a);
     const fetchSelectPaciente = async () => {
       try {
         const user = localStorage.getItem("session_v1");

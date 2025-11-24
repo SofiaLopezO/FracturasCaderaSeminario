@@ -12,7 +12,7 @@ function fmtDate(iso?: string | null) {
 
 export default function RecordsTable() {
   const {
-    filtered,        // Array<Muestra>
+    filtered,       
     loading,
     error,
     selectedIds,
@@ -21,7 +21,6 @@ export default function RecordsTable() {
     clearSelection,
   } = useInvestigator();
 
-  // ✅ Paginación local (NO desde el contexto)
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
@@ -33,10 +32,7 @@ export default function RecordsTable() {
     return filtered.slice(start, start + pageSize);
   }, [filtered, page, pageSize]);
 
-  // Si cambian los filtros y quedas en una página alta, vuelve a 1
-  // (evita quedarse "sin filas" por estar fuera de rango)
   if (page > totalPages && totalPages !== 0) {
-    // esto es seguro porque React re-renderiza
     setPage(1);
   }
 

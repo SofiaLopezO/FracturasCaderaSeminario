@@ -21,11 +21,11 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:3001/api/
 const DASHBOARD_ENDPOINT = `${API_BASE}/public/dashboard`
 
 const THEME_COLORS = {
-  primary: "#3b82f6", // blue-500
-  secondary: "#10b981", // emerald-500
-  accent: "#8b5cf6", // violet-500
-  warning: "#f59e0b", // amber-500
-  success: "#22c55e", // green-500
+  primary: "#3b82f6", 
+  secondary: "#10b981", 
+  accent: "#8b5cf6", 
+  warning: "#f59e0b", 
+  success: "#22c55e", 
   gradient: ["#3b82f6", "#1d4ed8", "#1e40af"],
   chartColors: ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444", "#06b6d4"],
 }
@@ -581,7 +581,6 @@ export default function Root() {
   )
 }
 
-/** Professional animated stat component */
 function Stat({
   value,
   headline,

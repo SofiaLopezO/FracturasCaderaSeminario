@@ -90,7 +90,6 @@ const LaboratorioPage = () => {
     busqueda: "",
   })
 
-  // Obtener opciones para los filtros
   const optsTipoMuestra = [
     "",
     ...new Set(examenes?.flatMap((examen) => examen.muestras?.map((muestra) => muestra.tipo_muestra) || []) || []),
@@ -98,7 +97,6 @@ const LaboratorioPage = () => {
 
   const optsTipoExamen = ["", ...new Set(examenes?.map((examen) => examen.tipo_examen) || [])]
 
-  // Filtrar exámenes
   const examenesFiltrados =
     examenes?.filter((examen) => {
       const cumpleTipoExamen = !filtros.tipoExamen || examen.tipo_examen === filtros.tipoExamen
@@ -146,7 +144,6 @@ const LaboratorioPage = () => {
         throw new Error("Error fetching exam document")
       }
 
-      // Check if response is a blob (PDF/document) or JSON
       const contentType = response.headers.get("content-type")
 
       if (contentType && contentType.includes("application/pdf")) {
@@ -185,12 +182,10 @@ const LaboratorioPage = () => {
       }
     } catch (error) {
       console.error("[v0] Failed to download exam:", error)
-      // You could add a toast notification here
       alert("Error al descargar el examen. Por favor, inténtelo de nuevo.")
     }
   }
 
-  // Formatear fecha para mostrar
   const formatearFecha = (fecha: string) => {
     const formato = new Date(fecha).toLocaleDateString("es-CL", {
       year: "numeric",
@@ -369,7 +364,7 @@ const LaboratorioPage = () => {
                                       >
                                         <div className="flex items-center gap-4">
                                           <div className="flex flex-col">
-                                            <div className="font-medium text-gray-900">{resultado.parametro}</div>
+                                            <div className="font-medium text-gray-900">{resultado.nombre}</div>
                                             <div className="text-sm text-gray-600">
                                               Valor: {resultado.valor} {resultado.unidad || ""}
                                             </div>

@@ -16,7 +16,7 @@ export type User = {
   sexo?: 'M'|'F'|'O';
   fecha_nacimiento?: string;
   email_verified?: boolean;
-  roles?: string[]; // para detectar ADMIN
+  roles?: string[]; 
 
   profile?: {
     id?: number;
@@ -32,7 +32,7 @@ export type User = {
   professionalProfile?: User['profile'] | null;
 };
 
-// ===== REEMPLAZA ESTE TIPO =====
+
 type CreateUserPayload = {
   user: {
     rut: string;
@@ -118,10 +118,8 @@ export function AdminUsersProvider({ children }: { readonly children: React.Reac
 
       const raw: any[] = (data?.users ?? data) ?? [];
 
-      // 1) normalizamos profile del listado
       let normalized: User[] = raw.map((u) => ({ ...u, profile: pickProfile(u) }));
 
-      // 2) pedir detalle si FALTA profile o FALTAN roles
       const needDetailIds = normalized
         .filter(u => !u.profile || !Array.isArray(u.roles))
         .map(u => u.id);
@@ -171,11 +169,9 @@ export function AdminUsersProvider({ children }: { readonly children: React.Reac
     }
   }, []);
 
- // ===== REEMPLAZA ESTA FUNCIÓN COMPLETA =====
 const createUser = useCallback(async (p: CreateUserPayload) => {
   if (!isValidRutCl(p.user.rut)) throw new Error('RUT nacional inválido');
 
-  // Valida RUT profesional solo si hay profile y el cargo lo requiere
   if (p.profile && p.profile.cargo !== 'FUNCIONARIO') {
     if (!isValidRutCl(p.profile.rut_profesional || '')) {
       throw new Error('RUT profesional inválido');

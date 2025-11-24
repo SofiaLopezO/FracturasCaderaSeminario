@@ -25,6 +25,7 @@ export type Resultados={
   muestra_id: string | number;
   examen_id: string | number;
   parametro: string;
+  nombre: string;
   valor: string;
   unidad: string | null;
   fecha_resultado: string;

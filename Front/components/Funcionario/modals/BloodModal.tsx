@@ -64,7 +64,6 @@ export default function BloodModal({ isOpen, onClose, paciente }: Readonly<Blood
     }
   };
 
-  // Definición de los analitos que queremos mostrar + rangos
   const defs = [
     { key: "hemoglobina", label: "Hemoglobina", normalMin: 12, normalMax: 16, rango: "12–16 g/dL" },
     { key: "glucosa", label: "Glucosa", normalMin: 70, normalMax: 100, rango: "70–100 mg/dL" },
@@ -72,7 +71,6 @@ export default function BloodModal({ isOpen, onClose, paciente }: Readonly<Blood
     { key: "trigliceridos", label: "Triglicéridos", normalMin: 0, normalMax: 150, rango: "<150 mg/dL" },
   ] as const;
 
-  // Construimos la lista de parámetros, filtrando los que vienen null/undefined o sin valor numérico
   const parametros: ParametroUI[] =
     analisisSangre
       ? defs

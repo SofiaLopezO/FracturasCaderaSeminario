@@ -51,8 +51,7 @@ type Evento = {
   inicio: string;
   fin: string;
   tecnica: string;
-  lado: "" | "DER" | "IZQ" | "BIL"; // normalizado
-  reop: boolean;
+  lado: "" | "DER" | "IZQ" | "BIL"; 
   compIntra: string;
   lockFechaInicio: boolean;
   lockFin: boolean;
@@ -87,7 +86,6 @@ type RegistroQx = {
   registradoEn: string;
 };
 
-/* etiquetas para lado (UI) */
 const LADO_LABEL: Record<NonNullable<Evento["lado"]> | "", string> = {
   "": "—",
   DER: "Derecho",
@@ -95,7 +93,6 @@ const LADO_LABEL: Record<NonNullable<Evento["lado"]> | "", string> = {
   BIL: "Bilateral",
 };
 
-/* mapeo de lado para el API externo */
 const LADO_API: Record<
   "DER" | "IZQ" | "BIL",
   "DERECHO" | "IZQUIERDO" | "BILATERAL"
@@ -107,7 +104,7 @@ const LADO_API: Record<
 
 export default function QuirofanoPage() {
   /* ─────────────────────── Quirófano ─────────────────────── */
-  const [eventos, setEventos] = useState<Evento[]>([]); // inicia vacío
+  const [eventos, setEventos] = useState<Evento[]>([]); 
   const [registroQx, setRegistroQx] = useState<RegistroQx[]>([]);
   const [savingId, setSavingId] = useState<number | null>(null);
   const [suspensiones, setSuspensiones] = useState<Suspension[]>([]);
@@ -128,7 +125,7 @@ export default function QuirofanoPage() {
         lado: LADO_LABEL[c.lado as "DER" | "IZQ" | "BIL"] || "—",
         reop: !!c.reoperacion,
         compIntra: c.complicacion_intraop || "—",
-        registradoEn: nowDateTime(), // no viene del API
+        registradoEn: nowDateTime(),
       })) || []
     );
     setRegistroSusp(
@@ -137,7 +134,7 @@ export default function QuirofanoPage() {
         fecha: s.fecha,
         tipo: s.tipo === "CLINICA" ? "Clínica" : "Administrativa",
         motivo: s.motivo || "—",
-        registradoEn: nowDateTime(), // no viene del API
+        registradoEn: nowDateTime(),
       })) || []
     );
   }, [seleccionado]);
@@ -177,7 +174,7 @@ export default function QuirofanoPage() {
   function eliminarCirugiaPendiente(id: number) {
     setEventos((prev) => prev.filter((e) => e.id !== id));
   }
-  /* Reglas: duración (incluye 0 min), técnica, lado y compIntra obligatorios */
+
   function faltantesParaConfirmar(e: Evento): string[] {
     const missing: string[] = [];
     const duracion = getDuracionMin(e.inicio, e.fin);
@@ -198,8 +195,8 @@ export default function QuirofanoPage() {
       return;
     }
     const payload = {
-      paciente_id: seleccionado?.general.paciente_id, // opcional
-      episodio_id: seleccionado!.general.dx_actual.episodio_id, // obligatorio
+      paciente_id: seleccionado?.general.paciente_id,
+      episodio_id: seleccionado!.general.dx_actual.episodio_id,
       fecha: e.fecha,
       hora_inicio: e.inicio,
       hora_fin: e.fin,
@@ -247,7 +244,7 @@ export default function QuirofanoPage() {
   function confirmarFila(id: number) {
     const s = suspensiones.find((x) => x.id === id);
     const data = {
-      paciente_id: seleccionado?.general.paciente_id, // opcional
+      paciente_id: seleccionado?.general.paciente_id,
       episodio_id: seleccionado!.general.dx_actual.episodio_id,
       fecha_suspension: s?.fecha || nowDate(),
       tipo: s?.tipo === "Clínica" ? "CLINICA" : "ADMINISTRATIVA",

@@ -15,12 +15,12 @@ export type TecnologoModalItem = {
 type Props = {
   results: TecnologoModalItem[];
   searching: boolean;
-  onSearch: (q: string) => void;   // llamado con debounce
+  onSearch: (q: string) => void;  
   onClear: () => void;
   onSelectUserId: (user_id: number) => void;
 
-  open?: boolean;                  // default: true
-  onCancel?: () => void;           // cerrar modal
+  open?: boolean;                
+  onCancel?: () => void;          
 };
 
 export default function PacienteSelectorModalView({
@@ -35,7 +35,6 @@ export default function PacienteSelectorModalView({
   const [q, setQ] = useState("");
   const pathname = usePathname();
 
-  // Debounce búsqueda
   useEffect(() => {
     const t = setTimeout(() => {
       if (q.trim()) onSearch(q.trim());
@@ -44,7 +43,6 @@ export default function PacienteSelectorModalView({
     return () => clearTimeout(t);
   }, [q, onSearch, onClear]);
 
-  // Esc para cerrar
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onCancel?.(); };
@@ -52,21 +50,17 @@ export default function PacienteSelectorModalView({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onCancel]);
 
-  // ⛔ Cierra si cambia la ruta
   useEffect(() => {
     if (!open) return;
     onCancel?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  // ⛔ Cierra al recibir evento global (antes de logout)
   useEffect(() => {
     const close = () => onCancel?.();
     window.addEventListener("tecnologo:close-modals", close);
     return () => window.removeEventListener("tecnologo:close-modals", close);
   }, [onCancel]);
 
-  // ⛔ Cierra si cambian storage (token removido, etc.)
   useEffect(() => {
     const onStorage = () => onCancel?.();
     window.addEventListener("storage", onStorage);
@@ -86,7 +80,7 @@ export default function PacienteSelectorModalView({
       role="dialog"
       aria-modal="true"
     >
-      {/* Overlay clickeable — semitransparente para no parecer “pantalla en blanco” */}
+      {/* Overlay clickeable */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"
         onClick={onCancel}

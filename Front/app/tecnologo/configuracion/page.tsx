@@ -3,9 +3,6 @@
 import * as React from "react";
 import { Camera, Save, Shield, Bell, UserCog, Globe, Moon, LogOut } from "lucide-react";
 
-/* =======================
-   Mini UI (sin shadcn/ui)
-   ======================= */
 
 function cx(...classes: Array<string | undefined | false | null>) {
   return classes.filter(Boolean).join(" ");
@@ -103,7 +100,6 @@ function Separator() {
   return <div className="h-px w-full bg-gray-200" />;
 }
 
-/* Select nativo “bonito” */
 function Select({
   value,
   onValueChange,
@@ -143,7 +139,6 @@ function SelectItem({ value, children }: { value: string; children: React.ReactN
   return <option value={value}>{children}</option>;
 }
 
-/* Switch mínimo */
 function Switch({
   checked,
   onCheckedChange,
@@ -176,7 +171,6 @@ function Switch({
   );
 }
 
-/* Tabs simples */
 function Tabs({
   defaultValue,
   children,
@@ -220,9 +214,6 @@ function TabsContent({ value, children, className = "" }: { value: string; child
   return <div className={className}>{children}</div>;
 }
 
-/* =======================
-   Vista: Perfil / Config
-   ======================= */
 
 type Profile = {
   nombre: string;
@@ -258,7 +249,6 @@ export default function PerfilPage() {
     tema: "sistema",
   });
 
-  // notificaciones simplificadas
   const [notifs, setNotifs] = React.useState<Notifs>({ correoGeneral: false });
 
   const [seg, setSeg] = React.useState({
@@ -270,7 +260,6 @@ export default function PerfilPage() {
 
   function handleSavePerfil(e: React.FormEvent) {
     e.preventDefault();
-    // solo enviaremos email (y opcionalmente teléfono si quieres)
     console.log("Guardar perfil (solo email):", { email: perfil.email });
     alert("Correo actualizado");
   }
@@ -309,10 +298,10 @@ export default function PerfilPage() {
       <div className="flex items-center gap-4">
         <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-slate-200">
           {avatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
+
             <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
+
             <img
               src="https://api.dicebear.com/9.x/initials/svg?seed=SG"
               alt="Avatar"

@@ -98,14 +98,12 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
 
     useEffect(() => setMounted(true), []);
 
-    // Mostrar modal en todo /tecnologo excepto configuración
     const requirePatientHere = useMemo(() => {
         if (!pathname) return false;
         if (pathname.startsWith('/tecnologo/configuracion')) return false;
         return pathname === '/tecnologo' || pathname.startsWith('/tecnologo/');
     }, [pathname]);
 
-    // Hidratar selección previa
     useEffect(() => {
         try {
             const raw = sessionStorage.getItem('tec_selectedPatient');
@@ -136,11 +134,9 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
                     pendingUserIdRef.current = uid;
             }
         } catch {
-            // Ignorar errores de parseo
         }
     }, []);
 
-    // ESC para cerrar
     useEffect(() => {
         if (!(requirePatientHere && !paciente)) return;
         const onKey = (e: KeyboardEvent) => {
@@ -150,7 +146,6 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
         return () => window.removeEventListener('keydown', onKey);
     }, [requirePatientHere, paciente, router]);
 
-    // Búsqueda
     const mapToSearchItem = useCallback((raw: any): SearchItem | null => {
         const userId = Number(raw?.user_id ?? raw?.id);
         if (!Number.isFinite(userId) || userId <= 0) return null;
@@ -261,7 +256,6 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
         };
     }, [authFetch, mapToSearchItem, router]);
 
-    // Cargar paciente seleccionado
     const loadPaciente = useCallback(
         async (user_id: number) => {
             setLoading(true);
@@ -388,7 +382,6 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
         ]
     );
 
-    // Handlers para modal
     const handleSearch = useCallback(
         (q: string) => (q.trim() ? searchPacientes(q.trim()) : clearResults()),
         [searchPacientes, clearResults]
@@ -398,7 +391,6 @@ export const TecnologoProvider: React.FC<{ children: React.ReactNode }> = ({
         [loadPaciente]
     );
 
-    // Modal con portal y capas seguras
     const modal =
         requirePatientHere && !paciente ? (
             <PacienteSelectorModalView

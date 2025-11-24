@@ -1,361 +1,923 @@
 {
-  "muestras": [
-    {
-      "muestra_id": 7,
-      "tipo_muestra": "SANGRE",
-      "fecha_extraccion": "2025-08-24T07:17:49.217Z",
-      "fecha_recepcion": "2025-08-24T09:17:49.217Z",
-      "observaciones": "Muestra sin hemólisis",
-      "examen_id": 4,
-      "profesional_id": 2,
-      "Resultados": [
-        {
-          "resultado_id": 25,
-          "episodio_id": 7,
-          "muestra_id": 7,
-          "examen_id": 4,
-          "parametro": "HB",
-          "valor": 14,
-          "unidad": "g/dL",
-          "fecha_resultado": "2025-08-24T11:17:49.217Z"
-        },
-        {
-          "resultado_id": 26,
-          "episodio_id": 7,
-          "muestra_id": 7,
-          "examen_id": 4,
-          "parametro": "GLUCOSA",
-          "valor": 95.2,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-24T11:17:49.217Z"
-        },
-        {
-          "resultado_id": 27,
-          "episodio_id": 7,
-          "muestra_id": 7,
-          "examen_id": 4,
-          "parametro": "COLESTEROL",
-          "valor": 180.5,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-24T11:17:49.217Z"
-        },
-        {
-          "resultado_id": 28,
-          "episodio_id": 7,
-          "muestra_id": 7,
-          "examen_id": 4,
-          "parametro": "TRIGLICERIDOS",
-          "valor": 158.1,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-24T11:17:49.217Z"
-        }
-      ]
+    "tiposExamen": {
+        "examenes": [
+            {
+                "examen_id": 1,
+                "tipo_examen": "Laboratorio",
+                "descripcion": "Exámenes de laboratorio clínico",
+                "categoria": "LABORATORIO",
+                "muestras": [
+                    {
+                        "tipo_muestra": "SANGRE",
+                        "parametros": [
+                            {
+                                "codigo": "HB",
+                                "nombre": "Hemoglobina",
+                                "unidad": "g/dL",
+                                "ref_min": 12,
+                                "ref_max": 16,
+                                "notas": null,
+                                "tipo_examen_id": 1,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "GLUCOSA",
+                                "nombre": "Glucosa",
+                                "unidad": "mg/dL",
+                                "ref_min": 70,
+                                "ref_max": 100,
+                                "notas": null,
+                                "tipo_examen_id": 1,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "CREATININA",
+                                "nombre": "Creatinina",
+                                "unidad": "mg/dL",
+                                "ref_min": 0.7,
+                                "ref_max": 1.3,
+                                "notas": null,
+                                "tipo_examen_id": 1,
+                                "tipo_muestra_id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "tipo_muestra": "TEJIDO",
+                        "parametros": [
+                            {
+                                "codigo": "BIOPSIA",
+                                "nombre": "Análisis histopatológico",
+                                "unidad": null,
+                                "ref_min": null,
+                                "ref_max": null,
+                                "notas": "Resultado cualitativo",
+                                "tipo_examen_id": 1,
+                                "tipo_muestra_id": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "examen_id": 2,
+                "tipo_examen": "Imagen",
+                "descripcion": "Estudios de imagenología",
+                "categoria": "IMAGEN",
+                "muestras": [
+                    {
+                        "tipo_muestra": "BDAT",
+                        "parametros": [
+                            {
+                                "codigo": "DEXA",
+                                "nombre": "Densitometría ósea",
+                                "unidad": "T-score",
+                                "ref_min": -1,
+                                "ref_max": 1,
+                                "notas": "Evaluación de densidad mineral ósea",
+                                "tipo_examen_id": 2,
+                                "tipo_muestra_id": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "examen_id": 3,
+                "tipo_examen": "Hemograma Completo",
+                "descripcion": "Conteo completo de células sanguíneas",
+                "categoria": "HEMATOLOGIA",
+                "muestras": [
+                    {
+                        "tipo_muestra": "SANGRE",
+                        "parametros": [
+                            {
+                                "codigo": "LEUCOCITOS",
+                                "nombre": "Leucocitos",
+                                "unidad": "cel/μL",
+                                "ref_min": 4000,
+                                "ref_max": 11000,
+                                "notas": null,
+                                "tipo_examen_id": 3,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "HEMATOCRITO",
+                                "nombre": "Hematocrito",
+                                "unidad": "%",
+                                "ref_min": 36,
+                                "ref_max": 46,
+                                "notas": null,
+                                "tipo_examen_id": 3,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "PLAQUETAS",
+                                "nombre": "Plaquetas",
+                                "unidad": "cel/μL",
+                                "ref_min": 150000,
+                                "ref_max": 400000,
+                                "notas": null,
+                                "tipo_examen_id": 3,
+                                "tipo_muestra_id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "tipo_muestra": "PLASMA",
+                        "parametros": []
+                    }
+                ]
+            },
+            {
+                "examen_id": 4,
+                "tipo_examen": "Perfil Lipídico",
+                "descripcion": "Evaluación de colesterol y lípidos en sangre",
+                "categoria": "BIOQUIMICA",
+                "muestras": [
+                    {
+                        "tipo_muestra": "SANGRE",
+                        "parametros": [
+                            {
+                                "codigo": "COLESTEROL",
+                                "nombre": "Colesterol Total",
+                                "unidad": "mg/dL",
+                                "ref_min": 125,
+                                "ref_max": 200,
+                                "notas": null,
+                                "tipo_examen_id": 4,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "HDL",
+                                "nombre": "Colesterol HDL",
+                                "unidad": "mg/dL",
+                                "ref_min": 40,
+                                "ref_max": 60,
+                                "notas": "Colesterol 'bueno'",
+                                "tipo_examen_id": 4,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "LDL",
+                                "nombre": "Colesterol LDL",
+                                "unidad": "mg/dL",
+                                "ref_min": 0,
+                                "ref_max": 100,
+                                "notas": "Colesterol 'malo'",
+                                "tipo_examen_id": 4,
+                                "tipo_muestra_id": 1
+                            },
+                            {
+                                "codigo": "TRIGLICERIDOS",
+                                "nombre": "Triglicéridos",
+                                "unidad": "mg/dL",
+                                "ref_min": 0,
+                                "ref_max": 150,
+                                "notas": null,
+                                "tipo_examen_id": 4,
+                                "tipo_muestra_id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "tipo_muestra": "SUERO",
+                        "parametros": []
+                    },
+                    {
+                        "tipo_muestra": "PLASMA",
+                        "parametros": []
+                    }
+                ]
+            }
+        ]
     },
-    {
-      "muestra_id": 6,
-      "tipo_muestra": "ORINA",
-      "fecha_extraccion": "2025-08-19T07:17:48.946Z",
-      "fecha_recepcion": "2025-08-19T09:17:48.946Z",
-      "observaciones": "Muestra clara, sin sedimentos",
-      "examen_id": 3,
-      "profesional_id": 1,
-      "Resultados": [
-        {
-          "resultado_id": 21,
-          "episodio_id": 6,
-          "muestra_id": 6,
-          "examen_id": 3,
-          "parametro": "GLUCOSA",
-          "valor": 0,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+    "promediosParametros": {
+        "HB": {
+            "valor_promedio": 12.875,
+            "unidad": "g/dL",
+            "cantidad_muestras": 4,
+            "valor_minimo": 11.5,
+            "valor_maximo": 14
         },
-        {
-          "resultado_id": 22,
-          "episodio_id": 6,
-          "muestra_id": 6,
-          "examen_id": 3,
-          "parametro": "PROTEINAS",
-          "valor": 15.2,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        "GLUCOSA": {
+            "valor_promedio": 84.32,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 5,
+            "valor_minimo": 0,
+            "valor_maximo": 110.2
         },
-        {
-          "resultado_id": 23,
-          "episodio_id": 6,
-          "muestra_id": 6,
-          "examen_id": 3,
-          "parametro": "CREATININA",
-          "valor": 120.8,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        "COLESTEROL": {
+            "valor_promedio": 189.325,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 4,
+            "valor_minimo": 175.8,
+            "valor_maximo": 205.7
         },
-        {
-          "resultado_id": 24,
-          "episodio_id": 6,
-          "muestra_id": 6,
-          "examen_id": 3,
-          "parametro": "UREA",
-          "valor": 28.5,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-19T11:17:48.946Z"
+        "TRIGLICERIDOS": {
+            "valor_promedio": 153.8,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 4,
+            "valor_minimo": 142.3,
+            "valor_maximo": 160.9
+        },
+        "PROTEINAS": {
+            "valor_promedio": 30.5,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 2,
+            "valor_minimo": 15.2,
+            "valor_maximo": 45.8
+        },
+        "CREATININA": {
+            "valor_promedio": 108,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 2,
+            "valor_minimo": 95.2,
+            "valor_maximo": 120.8
+        },
+        "LEUCOCITOS": {
+            "valor_promedio": 3607.5,
+            "unidad": "cel/μL",
+            "cantidad_muestras": 2,
+            "valor_minimo": 15,
+            "valor_maximo": 7200
+        },
+        "HEMATOCRITO": {
+            "valor_promedio": 38.5,
+            "unidad": "%",
+            "cantidad_muestras": 1,
+            "valor_minimo": 38.5,
+            "valor_maximo": 38.5
+        },
+        "PLAQUETAS": {
+            "valor_promedio": 285000,
+            "unidad": "cel/μL",
+            "cantidad_muestras": 1,
+            "valor_minimo": 285000,
+            "valor_maximo": 285000
+        },
+        "UREA": {
+            "valor_promedio": 28.5,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 1,
+            "valor_minimo": 28.5,
+            "valor_maximo": 28.5
+        },
+        "HDL": {
+            "valor_promedio": 52.1,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 1,
+            "valor_minimo": 52.1,
+            "valor_maximo": 52.1
+        },
+        "LDL": {
+            "valor_promedio": 118.9,
+            "unidad": "mg/dL",
+            "cantidad_muestras": 1,
+            "valor_minimo": 118.9,
+            "valor_maximo": 118.9
         }
-      ]
     },
-    {
-      "muestra_id": 5,
-      "tipo_muestra": "PLASMA",
-      "fecha_extraccion": "2025-08-14T07:17:47.946Z",
-      "fecha_recepcion": "2025-08-14T09:17:47.946Z",
-      "observaciones": "Muestra con anticoagulante EDTA",
-      "examen_id": 2,
-      "profesional_id": 3,
-      "Resultados": [
-        {
-          "resultado_id": 17,
-          "episodio_id": 5,
-          "muestra_id": 5,
-          "examen_id": 2,
-          "parametro": "HB",
-          "valor": 12.8,
-          "unidad": "g/dL",
-          "fecha_resultado": "2025-08-14T11:17:47.946Z"
-        },
-        {
-          "resultado_id": 18,
-          "episodio_id": 5,
-          "muestra_id": 5,
-          "examen_id": 2,
-          "parametro": "HEMATOCRITO",
-          "valor": 38.5,
-          "unidad": "%",
-          "fecha_resultado": "2025-08-14T11:17:47.946Z"
-        },
-        {
-          "resultado_id": 19,
-          "episodio_id": 5,
-          "muestra_id": 5,
-          "examen_id": 2,
-          "parametro": "LEUCOCITOS",
-          "valor": 7200,
-          "unidad": "cel/μL",
-          "fecha_resultado": "2025-08-14T11:17:47.946Z"
-        },
-        {
-          "resultado_id": 20,
-          "episodio_id": 5,
-          "muestra_id": 5,
-          "examen_id": 2,
-          "parametro": "PLAQUETAS",
-          "valor": 285000,
-          "unidad": "cel/μL",
-          "fecha_resultado": "2025-08-14T11:17:47.946Z"
+    "contadorCategorias": {
+        "total_examenes_realizados": 125,
+        "por_tipo_examen": {
+            "Laboratorio": {
+                "total_examenes": 78,
+                "porcentaje": 62.4,
+                "por_tipo_muestra": {
+                    "SANGRE": {
+                        "cantidad": 52,
+                        "porcentaje": 66.7
+                    },
+                    "TEJIDO": {
+                        "cantidad": 15,
+                        "porcentaje": 19.2
+                    },
+                    "ORINA": {
+                        "cantidad": 11,
+                        "porcentaje": 14.1
+                    }
+                }
+            },
+            "Imagen": {
+                "total_examenes": 32,
+                "porcentaje": 25.6,
+                "por_tipo_muestra": {
+                    "BDAT (US antebrazo)": {
+                        "cantidad": 32,
+                        "porcentaje": 100
+                    }
+                }
+            },
+            "Hemograma Completo": {
+                "total_examenes": 10,
+                "porcentaje": 8.0,
+                "por_tipo_muestra": {
+                    "SANGRE": {
+                        "cantidad": 9,
+                        "porcentaje": 90.0
+                    },
+                    "PLASMA": {
+                        "cantidad": 1,
+                        "porcentaje": 10.0
+                    }
+                }
+            },
+            "Perfil Lipídico": {
+                "total_examenes": 5,
+                "porcentaje": 4.0,
+                "por_tipo_muestra": {
+                    "SANGRE": {
+                        "cantidad": 3,
+                        "porcentaje": 60.0
+                    },
+                    "SUERO": {
+                        "cantidad": 2,
+                        "porcentaje": 40.0
+                    }
+                }
+            }
         }
-      ]
     },
-    {
-      "muestra_id": 4,
-      "tipo_muestra": "SUERO",
-      "fecha_extraccion": "2025-08-12T07:17:46.946Z",
-      "fecha_recepcion": "2025-08-12T09:17:46.946Z",
-      "observaciones": "Muestra sin hemólisis, bien separada",
-      "examen_id": 1,
-      "profesional_id": 2,
-      "Resultados": [
-        {
-          "resultado_id": 13,
-          "episodio_id": 4,
-          "muestra_id": 4,
-          "examen_id": 1,
-          "parametro": "GLUCOSA",
-          "valor": 88.7,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+    "distribucionFracturaPorSexo": {
+        "FEMORAL": {
+            "Masculino": {
+                "cantidad": 15,
+                "porcentaje": 35.7,
+                "edad_promedio": 72.3
+            },
+            "Femenino": {
+                "cantidad": 27,
+                "porcentaje": 64.3,
+                "edad_promedio": 78.5
+            },
+            "total": 42
         },
-        {
-          "resultado_id": 14,
-          "episodio_id": 4,
-          "muestra_id": 4,
-          "examen_id": 1,
-          "parametro": "COLESTEROL",
-          "valor": 195.3,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        "CUELLO_FEMUR": {
+            "Masculino": {
+                "cantidad": 12,
+                "porcentaje": 33.3,
+                "edad_promedio": 68.9
+            },
+            "Femenino": {
+                "cantidad": 24,
+                "porcentaje": 66.7,
+                "edad_promedio": 75.2
+            },
+            "total": 36
         },
-        {
-          "resultado_id": 15,
-          "episodio_id": 4,
-          "muestra_id": 4,
-          "examen_id": 1,
-          "parametro": "HDL",
-          "valor": 52.1,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        "INTERTROCANTERICA": {
+            "Masculino": {
+                "cantidad": 18,
+                "porcentaje": 40,
+                "edad_promedio": 74.1
+            },
+            "Femenino": {
+                "cantidad": 27,
+                "porcentaje": 60,
+                "edad_promedio": 79.8
+            },
+            "total": 45
         },
-        {
-          "resultado_id": 16,
-          "episodio_id": 4,
-          "muestra_id": 4,
-          "examen_id": 1,
-          "parametro": "LDL",
-          "valor": 118.9,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-12T11:17:46.946Z"
+        "SUBTROCANTERICA": {
+            "Masculino": {
+                "cantidad": 8,
+                "porcentaje": 42.1,
+                "edad_promedio": 70.5
+            },
+            "Femenino": {
+                "cantidad": 11,
+                "porcentaje": 57.9,
+                "edad_promedio": 76.3
+            },
+            "total": 19
+        },
+        "PERTROCANTERICA": {
+            "Masculino": {
+                "cantidad": 6,
+                "porcentaje": 37.5,
+                "edad_promedio": 71.2
+            },
+            "Femenino": {
+                "cantidad": 10,
+                "porcentaje": 62.5,
+                "edad_promedio": 77.9
+            },
+            "total": 16
         }
-      ]
     },
-    {
-      "muestra_id": 3,
-      "tipo_muestra": "SANGRE",
-      "fecha_extraccion": "2025-08-10T07:17:46.946Z",
-      "fecha_recepcion": "2025-08-10T09:17:46.946Z",
-      "observaciones": "Muestra sin hemólisis",
-      "examen_id": 5,
-      "profesional_id": 1,
-      "Resultados": [
-        {
-          "resultado_id": 9,
-          "episodio_id": 3,
-          "muestra_id": 3,
-          "examen_id": 5,
-          "parametro": "HB",
-          "valor": 13.2,
-          "unidad": "g/dL",
-          "fecha_resultado": "2025-08-10T11:17:46.946Z"
+    "riesgoRefracturaComorbilidades": {
+        "puntuacion_promedio_general": 6.8,
+        "rango": "0-20",
+        "interpretacion": "Riesgo moderado de refractura",
+        "distribucion": {
+            "BAJO": {
+                "rango": "0-5",
+                "cantidad_pacientes": 42,
+                "porcentaje": 26.4,
+                "comorbilidades_comunes": ["Hipertensión controlada"]
+            },
+            "MODERADO": {
+                "rango": "6-10",
+                "cantidad_pacientes": 78,
+                "porcentaje": 49.1,
+                "comorbilidades_comunes": [
+                    "Diabetes tipo 2",
+                    "Osteoporosis",
+                    "Hipertensión"
+                ]
+            },
+            "ALTO": {
+                "rango": "11-15",
+                "cantidad_pacientes": 32,
+                "porcentaje": 20.1,
+                "comorbilidades_comunes": [
+                    "Insuficiencia renal crónica",
+                    "Diabetes descompensada",
+                    "Enfermedad cardiovascular"
+                ]
+            },
+            "MUY_ALTO": {
+                "rango": "16-20",
+                "cantidad_pacientes": 7,
+                "porcentaje": 4.4,
+                "comorbilidades_comunes": [
+                    "Insuficiencia cardíaca",
+                    "EPOC avanzada",
+                    "Demencia",
+                    "Cáncer activo"
+                ]
+            }
         },
-        {
-          "resultado_id": 10,
-          "episodio_id": 3,
-          "muestra_id": 3,
-          "examen_id": 5,
-          "parametro": "GLUCOSA",
-          "valor": 102.5,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-10T11:17:46.946Z"
-        },
-        {
-          "resultado_id": 11,
-          "episodio_id": 3,
-          "muestra_id": 3,
-          "examen_id": 5,
-          "parametro": "COLESTEROL",
-          "valor": 175.8,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-10T11:17:46.946Z"
-        },
-        {
-          "resultado_id": 12,
-          "episodio_id": 3,
-          "muestra_id": 3,
-          "examen_id": 5,
-          "parametro": "TRIGLICERIDOS",
-          "valor": 142.3,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-10T11:17:46.946Z"
-        }
-      ]
+        "factores_principales": [
+            {
+                "factor": "Osteoporosis",
+                "puntos": 3,
+                "prevalencia": 68.5
+            },
+            {
+                "factor": "Diabetes mellitus",
+                "puntos": 2,
+                "prevalencia": 45.2
+            },
+            {
+                "factor": "Enfermedad renal crónica",
+                "puntos": 2,
+                "prevalencia": 28.7
+            },
+            {
+                "factor": "Artritis reumatoide",
+                "puntos": 2,
+                "prevalencia": 15.3
+            },
+            {
+                "factor": "EPOC",
+                "puntos": 1,
+                "prevalencia": 22.1
+            }
+        ]
     },
-    {
-      "muestra_id": 2,
-      "tipo_muestra": "SANGRE",
-      "fecha_extraccion": "2025-08-09T07:17:45.946Z",
-      "fecha_recepcion": "2025-08-09T09:17:45.946Z",
-      "observaciones": "Muestra sin hemólisis",
-      "examen_id": 1,
-      "profesional_id": 2,
-      "Resultados": [
-        {
-          "resultado_id": 5,
-          "episodio_id": 2,
-          "muestra_id": 2,
-          "examen_id": 1,
-          "parametro": "HB",
-          "valor": 11.5,
-          "unidad": "g/dL",
-          "fecha_resultado": "2025-08-09T11:17:45.946Z"
+    "riesgoRefracturaHabitos": {
+        "puntuacion_promedio_general": 4.2,
+        "rango": "0-15",
+        "interpretacion": "Riesgo moderado-bajo de refractura por hábitos",
+        "distribucion": {
+            "BAJO": {
+                "rango": "0-3",
+                "cantidad_pacientes": 58,
+                "porcentaje": 36.5,
+                "habitos_comunes": [
+                    "No fumador",
+                    "Actividad física regular",
+                    "Dieta balanceada"
+                ]
+            },
+            "MODERADO": {
+                "rango": "4-7",
+                "cantidad_pacientes": 72,
+                "porcentaje": 45.3,
+                "habitos_comunes": [
+                    "Ex-fumador",
+                    "Sedentarismo",
+                    "Consumo ocasional de alcohol"
+                ]
+            },
+            "ALTO": {
+                "rango": "8-11",
+                "cantidad_pacientes": 24,
+                "porcentaje": 15.1,
+                "habitos_comunes": [
+                    "Fumador activo",
+                    "Sedentarismo",
+                    "Bajo consumo de calcio"
+                ]
+            },
+            "MUY_ALTO": {
+                "rango": "12-15",
+                "cantidad_pacientes": 5,
+                "porcentaje": 3.1,
+                "habitos_comunes": [
+                    "Fumador crónico",
+                    "Alcoholismo",
+                    "Desnutrición"
+                ]
+            }
         },
-        {
-          "resultado_id": 6,
-          "episodio_id": 2,
-          "muestra_id": 2,
-          "examen_id": 1,
-          "parametro": "GLUCOSA",
-          "valor": 110.2,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-09T11:17:45.946Z"
-        },
-        {
-          "resultado_id": 7,
-          "episodio_id": 2,
-          "muestra_id": 2,
-          "examen_id": 1,
-          "parametro": "COLESTEROL",
-          "valor": 205.7,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-09T11:17:45.946Z"
-        },
-        {
-          "resultado_id": 8,
-          "episodio_id": 2,
-          "muestra_id": 2,
-          "examen_id": 1,
-          "parametro": "TRIGLICERIDOS",
-          "valor": 160.9,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-09T11:17:45.946Z"
-        }
-      ]
+        "factores_principales": [
+            {
+                "factor": "Tabaquismo activo",
+                "puntos": 3,
+                "prevalencia": 18.9
+            },
+            {
+                "factor": "Sedentarismo",
+                "puntos": 2,
+                "prevalencia": 62.3
+            },
+            {
+                "factor": "Consumo excesivo de alcohol",
+                "puntos": 3,
+                "prevalencia": 12.6
+            },
+            {
+                "factor": "Bajo consumo de calcio",
+                "puntos": 2,
+                "prevalencia": 48.7
+            },
+            {
+                "factor": "Deficiencia de vitamina D",
+                "puntos": 2,
+                "prevalencia": 55.4
+            },
+            {
+                "factor": "IMC bajo (<20)",
+                "puntos": 2,
+                "prevalencia": 21.5
+            },
+            {
+                "factor": "Caídas frecuentes",
+                "puntos": 1,
+                "prevalencia": 38.2
+            }
+        ]
     },
-    {
-      "muestra_id": 1,
-      "tipo_muestra": "ORINA",
-      "fecha_extraccion": "2025-08-05T07:17:45.946Z",
-      "fecha_recepcion": "2025-08-05T09:17:45.946Z",
-      "observaciones": "Muestra turbia, con sedimentos",
-      "examen_id": 3,
-      "profesional_id": 3,
-      "Resultados": [
+    "muestras": [
         {
-          "resultado_id": 1,
-          "episodio_id": 1,
-          "muestra_id": 1,
-          "examen_id": 3,
-          "parametro": "GLUCOSA",
-          "valor": 25.5,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+            "muestra_id": 7,
+            "tipo_muestra": "SANGRE",
+            "fecha_extraccion": "2025-08-24T07:17:49.217Z",
+            "fecha_recepcion": "2025-08-24T09:17:49.217Z",
+            "observaciones": "Muestra sin hemólisis",
+            "examen_id": 4,
+            "profesional_id": 2,
+            "Resultados": [
+                {
+                    "resultado_id": 25,
+                    "episodio_id": 7,
+                    "muestra_id": 7,
+                    "examen_id": 4,
+                    "parametro": "HB",
+                    "valor": 14,
+                    "unidad": "g/dL",
+                    "fecha_resultado": "2025-08-24T11:17:49.217Z"
+                },
+                {
+                    "resultado_id": 26,
+                    "episodio_id": 7,
+                    "muestra_id": 7,
+                    "examen_id": 4,
+                    "parametro": "GLUCOSA",
+                    "valor": 95.2,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-24T11:17:49.217Z"
+                },
+                {
+                    "resultado_id": 27,
+                    "episodio_id": 7,
+                    "muestra_id": 7,
+                    "examen_id": 4,
+                    "parametro": "COLESTEROL",
+                    "valor": 180.5,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-24T11:17:49.217Z"
+                },
+                {
+                    "resultado_id": 28,
+                    "episodio_id": 7,
+                    "muestra_id": 7,
+                    "examen_id": 4,
+                    "parametro": "TRIGLICERIDOS",
+                    "valor": 158.1,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-24T11:17:49.217Z"
+                }
+            ]
         },
         {
-          "resultado_id": 2,
-          "episodio_id": 1,
-          "muestra_id": 1,
-          "examen_id": 3,
-          "parametro": "PROTEINAS",
-          "valor": 45.8,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+            "muestra_id": 6,
+            "tipo_muestra": "ORINA",
+            "fecha_extraccion": "2025-08-19T07:17:48.946Z",
+            "fecha_recepcion": "2025-08-19T09:17:48.946Z",
+            "observaciones": "Muestra clara, sin sedimentos",
+            "examen_id": 3,
+            "profesional_id": 1,
+            "Resultados": [
+                {
+                    "resultado_id": 21,
+                    "episodio_id": 6,
+                    "muestra_id": 6,
+                    "examen_id": 3,
+                    "parametro": "GLUCOSA",
+                    "valor": 0,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-19T11:17:48.946Z"
+                },
+                {
+                    "resultado_id": 22,
+                    "episodio_id": 6,
+                    "muestra_id": 6,
+                    "examen_id": 3,
+                    "parametro": "PROTEINAS",
+                    "valor": 15.2,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-19T11:17:48.946Z"
+                },
+                {
+                    "resultado_id": 23,
+                    "episodio_id": 6,
+                    "muestra_id": 6,
+                    "examen_id": 3,
+                    "parametro": "CREATININA",
+                    "valor": 120.8,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-19T11:17:48.946Z"
+                },
+                {
+                    "resultado_id": 24,
+                    "episodio_id": 6,
+                    "muestra_id": 6,
+                    "examen_id": 3,
+                    "parametro": "UREA",
+                    "valor": 28.5,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-19T11:17:48.946Z"
+                }
+            ]
         },
         {
-          "resultado_id": 3,
-          "episodio_id": 1,
-          "muestra_id": 1,
-          "examen_id": 3,
-          "parametro": "CREATININA",
-          "valor": 95.2,
-          "unidad": "mg/dL",
-          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+            "muestra_id": 5,
+            "tipo_muestra": "PLASMA",
+            "fecha_extraccion": "2025-08-14T07:17:47.946Z",
+            "fecha_recepcion": "2025-08-14T09:17:47.946Z",
+            "observaciones": "Muestra con anticoagulante EDTA",
+            "examen_id": 2,
+            "profesional_id": 3,
+            "Resultados": [
+                {
+                    "resultado_id": 17,
+                    "episodio_id": 5,
+                    "muestra_id": 5,
+                    "examen_id": 2,
+                    "parametro": "HB",
+                    "valor": 12.8,
+                    "unidad": "g/dL",
+                    "fecha_resultado": "2025-08-14T11:17:47.946Z"
+                },
+                {
+                    "resultado_id": 18,
+                    "episodio_id": 5,
+                    "muestra_id": 5,
+                    "examen_id": 2,
+                    "parametro": "HEMATOCRITO",
+                    "valor": 38.5,
+                    "unidad": "%",
+                    "fecha_resultado": "2025-08-14T11:17:47.946Z"
+                },
+                {
+                    "resultado_id": 19,
+                    "episodio_id": 5,
+                    "muestra_id": 5,
+                    "examen_id": 2,
+                    "parametro": "LEUCOCITOS",
+                    "valor": 7200,
+                    "unidad": "cel/μL",
+                    "fecha_resultado": "2025-08-14T11:17:47.946Z"
+                },
+                {
+                    "resultado_id": 20,
+                    "episodio_id": 5,
+                    "muestra_id": 5,
+                    "examen_id": 2,
+                    "parametro": "PLAQUETAS",
+                    "valor": 285000,
+                    "unidad": "cel/μL",
+                    "fecha_resultado": "2025-08-14T11:17:47.946Z"
+                }
+            ]
         },
         {
-          "resultado_id": 4,
-          "episodio_id": 1,
-          "muestra_id": 1,
-          "examen_id": 3,
-          "parametro": "LEUCOCITOS",
-          "valor": 15,
-          "unidad": "cel/μL",
-          "fecha_resultado": "2025-08-05T11:17:45.946Z"
+            "muestra_id": 4,
+            "tipo_muestra": "SUERO",
+            "fecha_extraccion": "2025-08-12T07:17:46.946Z",
+            "fecha_recepcion": "2025-08-12T09:17:46.946Z",
+            "observaciones": "Muestra sin hemólisis, bien separada",
+            "examen_id": 1,
+            "profesional_id": 2,
+            "Resultados": [
+                {
+                    "resultado_id": 13,
+                    "episodio_id": 4,
+                    "muestra_id": 4,
+                    "examen_id": 1,
+                    "parametro": "GLUCOSA",
+                    "valor": 88.7,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-12T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 14,
+                    "episodio_id": 4,
+                    "muestra_id": 4,
+                    "examen_id": 1,
+                    "parametro": "COLESTEROL",
+                    "valor": 195.3,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-12T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 15,
+                    "episodio_id": 4,
+                    "muestra_id": 4,
+                    "examen_id": 1,
+                    "parametro": "HDL",
+                    "valor": 52.1,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-12T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 16,
+                    "episodio_id": 4,
+                    "muestra_id": 4,
+                    "examen_id": 1,
+                    "parametro": "LDL",
+                    "valor": 118.9,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-12T11:17:46.946Z"
+                }
+            ]
+        },
+        {
+            "muestra_id": 3,
+            "tipo_muestra": "SANGRE",
+            "fecha_extraccion": "2025-08-10T07:17:46.946Z",
+            "fecha_recepcion": "2025-08-10T09:17:46.946Z",
+            "observaciones": "Muestra sin hemólisis",
+            "examen_id": 5,
+            "profesional_id": 1,
+            "Resultados": [
+                {
+                    "resultado_id": 9,
+                    "episodio_id": 3,
+                    "muestra_id": 3,
+                    "examen_id": 5,
+                    "parametro": "HB",
+                    "valor": 13.2,
+                    "unidad": "g/dL",
+                    "fecha_resultado": "2025-08-10T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 10,
+                    "episodio_id": 3,
+                    "muestra_id": 3,
+                    "examen_id": 5,
+                    "parametro": "GLUCOSA",
+                    "valor": 102.5,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-10T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 11,
+                    "episodio_id": 3,
+                    "muestra_id": 3,
+                    "examen_id": 5,
+                    "parametro": "COLESTEROL",
+                    "valor": 175.8,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-10T11:17:46.946Z"
+                },
+                {
+                    "resultado_id": 12,
+                    "episodio_id": 3,
+                    "muestra_id": 3,
+                    "examen_id": 5,
+                    "parametro": "TRIGLICERIDOS",
+                    "valor": 142.3,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-10T11:17:46.946Z"
+                }
+            ]
+        },
+        {
+            "muestra_id": 2,
+            "tipo_muestra": "SANGRE",
+            "fecha_extraccion": "2025-08-09T07:17:45.946Z",
+            "fecha_recepcion": "2025-08-09T09:17:45.946Z",
+            "observaciones": "Muestra sin hemólisis",
+            "examen_id": 1,
+            "profesional_id": 2,
+            "Resultados": [
+                {
+                    "resultado_id": 5,
+                    "episodio_id": 2,
+                    "muestra_id": 2,
+                    "examen_id": 1,
+                    "parametro": "HB",
+                    "valor": 11.5,
+                    "unidad": "g/dL",
+                    "fecha_resultado": "2025-08-09T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 6,
+                    "episodio_id": 2,
+                    "muestra_id": 2,
+                    "examen_id": 1,
+                    "parametro": "GLUCOSA",
+                    "valor": 110.2,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-09T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 7,
+                    "episodio_id": 2,
+                    "muestra_id": 2,
+                    "examen_id": 1,
+                    "parametro": "COLESTEROL",
+                    "valor": 205.7,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-09T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 8,
+                    "episodio_id": 2,
+                    "muestra_id": 2,
+                    "examen_id": 1,
+                    "parametro": "TRIGLICERIDOS",
+                    "valor": 160.9,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-09T11:17:45.946Z"
+                }
+            ]
+        },
+        {
+            "muestra_id": 1,
+            "tipo_muestra": "ORINA",
+            "fecha_extraccion": "2025-08-05T07:17:45.946Z",
+            "fecha_recepcion": "2025-08-05T09:17:45.946Z",
+            "observaciones": "Muestra turbia, con sedimentos",
+            "examen_id": 3,
+            "profesional_id": 3,
+            "Resultados": [
+                {
+                    "resultado_id": 1,
+                    "episodio_id": 1,
+                    "muestra_id": 1,
+                    "examen_id": 3,
+                    "parametro": "GLUCOSA",
+                    "valor": 25.5,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-05T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 2,
+                    "episodio_id": 1,
+                    "muestra_id": 1,
+                    "examen_id": 3,
+                    "parametro": "PROTEINAS",
+                    "valor": 45.8,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-05T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 3,
+                    "episodio_id": 1,
+                    "muestra_id": 1,
+                    "examen_id": 3,
+                    "parametro": "CREATININA",
+                    "valor": 95.2,
+                    "unidad": "mg/dL",
+                    "fecha_resultado": "2025-08-05T11:17:45.946Z"
+                },
+                {
+                    "resultado_id": 4,
+                    "episodio_id": 1,
+                    "muestra_id": 1,
+                    "examen_id": 3,
+                    "parametro": "LEUCOCITOS",
+                    "valor": 15,
+                    "unidad": "cel/μL",
+                    "fecha_resultado": "2025-08-05T11:17:45.946Z"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

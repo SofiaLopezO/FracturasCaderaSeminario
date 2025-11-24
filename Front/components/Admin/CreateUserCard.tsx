@@ -2,16 +2,30 @@
 
 import { useMemo, useState } from 'react';
 import { useAdminUsers } from '../../contexts/AdminUsersContext';
-import { Check, Loader2, Plus, UserPlus } from 'lucide-react';
+import { Check, Loader2, Plus, UserPlus, AlertTriangle } from 'lucide-react';
 import { normEmail, strongPwd, isValidRutCl, cleanRut } from '../../utils/rut';
 import { useRut } from 'react-rut-formatter';
 
 type CargoForm = 'TECNOLOGO' | 'INVESTIGADOR' | 'FUNCIONARIO' | 'ADMINISTRADOR';
 type Status = { type: 'ok' | 'err' | ''; msg: string };
 
+function fmtDateLocal(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 export function CreateUserCard() {
   const { createUser, addRole, fetchUsers, loading } = useAdminUsers();
+
   const { rut, updateRut, isValid } = useRut();
+
+  const {
+    rut: rutProf,
+    updateRut: updateRutProf,
+    isValid: isValidProf,
+  } = useRut();
 
   const [nombres, setNombres] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
@@ -22,20 +36,33 @@ export function CreateUserCard() {
   const [fechaNac, setFechaNac] = useState('');
   const [password, setPassword] = useState('');
 
-  // --- profesional ---
   const [cargo, setCargo] = useState<CargoForm>('TECNOLOGO');
-  const [rutProfesional, setRutProfesional] = useState('');
   const [especialidad, setEspecialidad] = useState('');
   const [hospital, setHospital] = useState('');
   const [departamento, setDepartamento] = useState('');
 
-  // --- estado UI ---
   const [status, setStatus] = useState<Status>({ type: '', msg: '' });
 
-  // contraseña base (prefijo configurable)
   const PWD_PREFIX = process.env.NEXT_PUBLIC_DEFAULT_PWD_PREFIX ?? 'ABCD';
 
-  // validaciones mínimas
+  const { maxBirthStr, minBirthStr } = useMemo(() => {
+    const today = new Date();
+    const max = fmtDateLocal(today);
+    const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
+    const min = fmtDateLocal(minDate);
+    return { maxBirthStr: max, minBirthStr: min };
+  }, []);
+
+  const birthDateStatus = useMemo(() => {
+    if (!fechaNac) return { valid: true, msg: '' };
+    if (fechaNac > maxBirthStr) return { valid: false, msg: 'La fecha no puede ser futura.' };
+    if (fechaNac < minBirthStr) return { valid: false, msg: 'La edad no puede superar los 120 años.' };
+    return { valid: true, msg: '' };
+  }, [fechaNac, maxBirthStr, minBirthStr]);
+
+  const requiereRP = !(cargo === 'FUNCIONARIO' || cargo === 'ADMINISTRADOR');
+  const okProf = requiereRP ? isValidRutCl(cleanRut(rutProf.formatted)) : true;
+
   const puedeCrear = useMemo(() => {
     const okBase =
       isValid &&
@@ -43,11 +70,9 @@ export function CreateUserCard() {
       apellidoPaterno.trim().length >= 2 &&
       apellidoMaterno.trim().length >= 2 &&
       /^\S+@\S+\.\S+$/.test(normEmail(correo)) &&
-      strongPwd(password);
+      strongPwd(password) &&
+      birthDateStatus.valid;
 
-    // No se requiere RUT profesional para FUNCIONARIO ni ADMINISTRADOR
-    const requiereRP = !(cargo === 'FUNCIONARIO' || cargo === 'ADMINISTRADOR');
-    const okProf = requiereRP ? isValidRutCl(cleanRut(rutProfesional)) : true;
     return okBase && okProf;
   }, [
     isValid,
@@ -56,43 +81,57 @@ export function CreateUserCard() {
     apellidoMaterno,
     correo,
     password,
-    cargo,
-    rutProfesional,
+    birthDateStatus.valid,
+    okProf,
   ]);
 
   function handleRutChange(e: React.ChangeEvent<HTMLInputElement>) {
     const inputRut = e.target.value;
     updateRut(inputRut);
-
-    // genera contraseña temporal si el RUT nacional es válido
     const cleaned = cleanRut(inputRut);
     if (isValidRutCl(cleaned)) {
       const cuerpo = cleaned.slice(0, -1);
       const last4 = cuerpo.slice(-4).padStart(4, '0');
-      const pwd = `${PWD_PREFIX}${last4}`;
-      setPassword(pwd);
+      setPassword(`${PWD_PREFIX}${last4}`);
     } else {
       setPassword('');
     }
   }
 
+  function handleRutProfChange(e: React.ChangeEvent<HTMLInputElement>) {
+    updateRutProf(e.target.value);
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (fechaNac) {
+      if (fechaNac > maxBirthStr) {
+        setStatus({ type: 'err', msg: 'Fecha de nacimiento futura no permitida.' });
+        return;
+      }
+      if (fechaNac < minBirthStr) {
+        setStatus({ type: 'err', msg: 'Edad máxima permitida: 120 años.' });
+        return;
+      }
+    }
+    if (requiereRP && !isValidRutCl(cleanRut(rutProf.formatted))) {
+      setStatus({ type: 'err', msg: 'RUT profesional inválido.' });
+      return;
+    }
     if (!puedeCrear) return;
 
     setStatus({ type: '', msg: '' });
 
     try {
       const isAdminNew = cargo === 'ADMINISTRADOR';
-
-      // SIEMPRE strings limpios para enviar al backend
       const rutStr = cleanRut(rut.formatted);
-      const rutProfStr = cleanRut(rutProfesional);
+      const rutProfStr = requiereRP ? cleanRut(rutProf.formatted) : null;
 
       const payload = isAdminNew
         ? {
             user: {
-              rut: rutStr, // ✅ string
+              rut: rutStr,
               nombres,
               apellido_paterno: apellidoPaterno,
               apellido_materno: apellidoMaterno,
@@ -106,7 +145,7 @@ export function CreateUserCard() {
           }
         : {
             user: {
-              rut: rutStr, // ✅ string
+              rut: rutStr,
               nombres,
               apellido_paterno: apellidoPaterno,
               apellido_materno: apellidoMaterno,
@@ -118,7 +157,7 @@ export function CreateUserCard() {
             },
             profile: {
               cargo,
-              rut_profesional: rutProfStr || null,
+              rut_profesional: rutProfStr,
               especialidad: especialidad || null,
               hospital: hospital || null,
               departamento: departamento || null,
@@ -126,12 +165,8 @@ export function CreateUserCard() {
           };
 
       const resp = await createUser(payload);
-
       const newId: number | undefined = (resp as any)?.user?.id ?? (resp as any)?.id;
-      if (isAdminNew && newId) {
-        await addRole(newId, 'ADMIN');
-      }
-
+      if (isAdminNew && newId) await addRole(newId, 'ADMIN');
       await fetchUsers();
 
       setStatus({
@@ -139,8 +174,8 @@ export function CreateUserCard() {
         msg: `Usuario "${nombres} ${apellidoPaterno}" creado correctamente.${isAdminNew ? ' (Rol ADMIN asignado)' : ''} Contraseña temporal: ${password}`,
       });
 
-      // limpiar formulario
       updateRut('');
+      updateRutProf('');
       setNombres('');
       setApellidoPaterno('');
       setApellidoMaterno('');
@@ -150,15 +185,11 @@ export function CreateUserCard() {
       setFechaNac('');
       setPassword('');
       setCargo('TECNOLOGO');
-      setRutProfesional('');
       setEspecialidad('');
       setHospital('');
       setDepartamento('');
     } catch (err: any) {
-      setStatus({
-        type: 'err',
-        msg: err?.message || 'No se pudo crear el usuario',
-      });
+      setStatus({ type: 'err', msg: err?.message || 'No se pudo crear el usuario' });
     }
   }
 
@@ -237,12 +268,24 @@ export function CreateUserCard() {
             <option value="F">F</option>
             <option value="O">Otro</option>
           </select>
-          <input
-            className="fc-input"
-            type="date"
-            value={fechaNac}
-            onChange={(e) => setFechaNac(e.target.value)}
-          />
+
+          <div className="flex-1">
+            <input
+              className="fc-input w-full"
+              type="date"
+              value={fechaNac}
+              onChange={(e) => setFechaNac(e.target.value)}
+              min={minBirthStr}
+              max={maxBirthStr}
+              placeholder="Fecha de nacimiento"
+            />
+            {!birthDateStatus.valid && (
+              <div className="mt-1 flex items-center gap-1 text-xs text-amber-700">
+                <AlertTriangle className="h-3.5 w-3.5" />
+                <span>{birthDateStatus.msg}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <input
@@ -271,10 +314,10 @@ export function CreateUserCard() {
 
         <input
           className="fc-input"
-          placeholder="RUT profesional (12.345.678-9)"
-          value={rutProfesional}
-          onChange={(e) => setRutProfesional(e.target.value)}
-          // disabled={cargo === 'FUNCIONARIO' || cargo === 'ADMINISTRADOR'}
+          placeholder="RUT del profesional (12.345.678-9)"
+          value={rutProf.formatted}
+          onChange={handleRutProfChange}
+          maxLength={12}
         />
 
         <input
@@ -302,11 +345,7 @@ export function CreateUserCard() {
             disabled={!puedeCrear || loading}
             className="fc-btn-primary inline-flex items-center gap-2"
           >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Plus className="h-4 w-4" />
-            )}
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
             Crear usuario
           </button>
           {puedeCrear && !loading && <Check className="h-5 w-5 text-emerald-600" />}

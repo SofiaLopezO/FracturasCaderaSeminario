@@ -39,7 +39,6 @@ function Shell({ children }: { readonly children: React.ReactNode }) {
   const router = useRouter();
   const { logout } = useAuth();
 
-  // Confirmar si el usuario navega hacia atrás
   useConfirmBackToLogin(() => {
     logout();
   });

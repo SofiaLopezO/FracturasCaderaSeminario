@@ -15,9 +15,6 @@ import { useTecnologo } from '@/contexts/TecnologoContext';
 import type { DetallesPaciente } from '@/types/interfaces';
 import BloodTypeSetter from '@/components/Tecnologo/BloodTypeSetter';
 
-/* ==============================
-   Helpers básicos
-============================== */
 function formatDate(dateString?: string | null) {
     if (!dateString) return '—';
     const d = new Date(dateString);
@@ -36,9 +33,6 @@ function fmtFechaLarga(fecha?: string | null) {
     });
 }
 
-/* ==============================
-   UI mini (Card y Button)
-============================== */
 function Card({
     children,
     className = '',
@@ -117,9 +111,6 @@ function Button({
     );
 }
 
-/* ==============================
-   Tipos UI estandarizados para exámenes
-============================== */
 type ResultadoUI = {
     resultado_id: string | number;
     parametro: string;
@@ -142,13 +133,9 @@ type ExamenUI = {
     muestras: MuestraUI[];
 };
 
-/* ==============================
-   Panel de exámenes (replica del portal de Pacientes)
-============================== */
 function LabExamsPanel() {
     const { detalles } = useTecnologo();
 
-    // Mapear detalles.laboratorio.solicitudes -> ExamenUI[]
     const examenes: ExamenUI[] = useMemo(() => {
         const solicitudes = (detalles as any)?.laboratorio?.solicitudes ?? [];
         if (!Array.isArray(solicitudes)) return [];
@@ -170,6 +157,7 @@ function LabExamsPanel() {
                                         r?.id ??
                                         `${i}-${j}-${k}`,
                                     parametro: r?.parametro ?? '-',
+                                    nombre: r?.nombre ?? '-',
                                     valor: r?.valor ?? '-',
                                     unidad: r?.unidad ?? null,
                                     fecha_resultado:
@@ -505,7 +493,7 @@ function LabExamsPanel() {
                                                                                     <div className='flex flex-col'>
                                                                                         <div className='font-medium text-gray-900'>
                                                                                             {
-                                                                                                r.parametro
+                                                                                                r.nombre
                                                                                             }
                                                                                         </div>
                                                                                         <div className='text-sm text-gray-600'>
@@ -552,9 +540,6 @@ function LabExamsPanel() {
     );
 }
 
-/* ==============================
-   Página principal del Tecnólogo
-============================== */
 export function TecnologoDashboard() {
     const { detalles: seleccionado, clearSelection } = useTecnologo();
 
@@ -585,7 +570,6 @@ export function TecnologoDashboard() {
               }`
             : '—';
 
-    // Cálculo SEGURO del ID de paciente (evita TS errors si no existen en el tipo)
     const pacienteId =
         (general as any)?.user_id ??
         (general as any)?.paciente_id ??

@@ -20,7 +20,7 @@ function baseOf(pathname: string) {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const base = baseOf(pathname);
-  if (!base) return NextResponse.next(); // pública
+  if (!base) return NextResponse.next(); 
 
   const token = req.cookies.get('auth')?.value;
   if (!token) {
@@ -31,11 +31,8 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
-    // Consultamos al backend, reenviando la cookie 'auth'
     const meRes = await fetch(`${API_BASE}/auth/me`, {
       headers: { cookie: `auth=${token}` },
-      // OJO: fetch del middleware no comparte el jar del navegador,
-      // por eso reenviamos la cookie manualmente.
     });
 
     if (!meRes.ok) {
@@ -49,10 +46,8 @@ export async function middleware(req: NextRequest) {
     const roles: string[] = Array.isArray(data?.me?.roles) ? data.me.roles : [];
     const upper = roles.map(r => String(r).toUpperCase());
 
-    // ¿tiene permiso para esta base?
     const allowed = roleMap[base].some(r => upper.includes(r));
     if (!allowed) {
-      // encontrar su home por el primer match de rol
       const home =
         Object.entries(roleMap).find(([, rs]) => rs.some(r => upper.includes(r)))?.[0] || '/login';
       const url = req.nextUrl.clone();

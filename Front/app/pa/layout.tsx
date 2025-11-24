@@ -16,7 +16,6 @@ export default function PacienteLayout({ children }: { readonly children: React.
   const router = useRouter();
   const { logout } = useAuth();
 
-  // ✅ Home solo activo en coincidencia exacta
   const isActive = (href: string) => {
     if (href === '/pa') return pathname === '/pa';
     return pathname === href || pathname.startsWith(href + '/');

@@ -16,11 +16,9 @@ export default function BloodTypeSetter({
     initialValue,
     onSaved,
 }: Props) {
-    // Valor confirmado (bloqueado)
     const [savedValue, setSavedValue] = useState<string | null>(
         initialValue ?? null
     );
-    // Valor en edición dentro del modal
     const [draftValue, setDraftValue] = useState<string | null>(null);
 
     const [open, setOpen] = useState(false);
@@ -32,14 +30,12 @@ export default function BloodTypeSetter({
         process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001/api/v1';
     const readOnly = !!savedValue?.trim();
 
-    // Abrir modal prepara el draft
     const openModal = () => {
         setDraftValue(savedValue ?? null);
         setError(null);
         setOpen(true);
     };
 
-    // Cerrar con ESC y click fuera (hooks siempre en el mismo orden)
     useEffect(() => {
         if (!open) return;
         const onKey = (e: KeyboardEvent) =>
@@ -56,13 +52,11 @@ export default function BloodTypeSetter({
         };
     }, [open, saving]);
 
-    // Función para actualizar tipo de sangre usando el endpoint correcto
     const updateTipoSangre = async (
         userId: number | string,
         tipoSangre: string,
         token?: string | null
     ) => {
-        // Validar que userId sea un número válido
         const numericId =
             typeof userId === 'string' ? parseInt(userId, 10) : userId;
         if (!numericId || numericId <= 0 || isNaN(numericId)) {

@@ -18,7 +18,6 @@ export default function LoginPage() {
   const next = search.get("next");
   const { login, portalFor, user } = useAuth();
 
-  // Si ya hay sesión y abren /login, redirige a su portal o al "next"
   useEffect(() => {
     if (!user) return;
     const target = next?.startsWith("/") ? next : portalFor(user.roles);

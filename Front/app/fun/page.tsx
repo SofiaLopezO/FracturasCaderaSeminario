@@ -27,8 +27,8 @@ import { useAuth } from '@/contexts/AuthContext';
 type SerieLab = {
     label: string;
     unit: string;
-    dates: string[]; // 'YYYY-MM-DD' ISO (solo fecha)
-    ticks: string[]; // etiqueta bonita (p.ej., '17 jun')
+    dates: string[]; 
+    ticks: string[];
     values: number[];
 };
 
@@ -46,7 +46,6 @@ export default function FuncionarioHome() {
     const chartRef = useRef<HTMLDivElement>(null);
     const chartInstance = useRef<echarts.ECharts | null>(null);
 
-    // === Alertas (sin cambios) ===
     const getMaxAlertSeverity = () => {
         if (!seleccionado?.general?.alertas_medicas?.length) return null;
         const activeAlerts = seleccionado.general.alertas_medicas.filter(
@@ -127,33 +126,25 @@ export default function FuncionarioHome() {
             ? 'Sobrepeso'
             : 'Obesidad';
 
-    // === Metadatos por parámetro (código -> etiqueta y unidad) ===
-    // Agrega aquí si necesitas más códigos
     const PARAM_META: Record<string, { label: string; unit: string }> = {
-        // Hemoglobina y variantes
         HB: { label: 'Hemoglobina', unit: 'g/dL' },
         HEMOGLOBINA: { label: 'Hemoglobina', unit: 'g/dL' },
         HGB: { label: 'Hemoglobina', unit: 'g/dL' },
 
-        // Hematocrito y variantes
         HTO: { label: 'Hematocrito', unit: '%' },
         HCT: { label: 'Hematocrito', unit: '%' },
         HEMATOCRITO: { label: 'Hematocrito', unit: '%' },
 
-        // Plaquetas y variantes
         PLT: { label: 'Plaquetas', unit: '10^3/µL' },
         PLAQUETAS: { label: 'Plaquetas', unit: '10^3/µL' },
 
-        // Creatinina y variantes
         CREA: { label: 'Creatinina', unit: 'mg/dL' },
         CREATININA: { label: 'Creatinina', unit: 'mg/dL' },
         CREAT: { label: 'Creatinina', unit: 'mg/dL' },
 
-        // Urea y variantes
         UREA: { label: 'Urea', unit: 'mg/dL' },
         BUN: { label: 'Urea', unit: 'mg/dL' },
 
-        // Electrolitos
         NA: { label: 'Sodio', unit: 'mmol/L' },
         SODIO: { label: 'Sodio', unit: 'mmol/L' },
         K: { label: 'Potasio', unit: 'mmol/L' },
@@ -164,17 +155,14 @@ export default function FuncionarioHome() {
         FOSFORO: { label: 'Fósforo', unit: 'mg/dL' },
         P: { label: 'Fósforo', unit: 'mg/dL' },
 
-        // Proteínas
         ALB: { label: 'Albúmina', unit: 'g/dL' },
         ALBUMINA: { label: 'Albúmina', unit: 'g/dL' },
 
-        // Coagulación
         INR: { label: 'INR', unit: 'sin_unidad' },
         PROT: { label: 'Protrombina', unit: '%' },
         PROTROMBINA: { label: 'Protrombina', unit: '%' },
         TP: { label: 'Protrombina', unit: '%' },
 
-        // Vitaminas y minerales
         VITD: { label: 'Vitamina D', unit: 'ng/mL' },
         VITAMINA_D: { label: 'Vitamina D', unit: 'ng/mL' },
         VIT_D: { label: 'Vitamina D', unit: 'ng/mL' },
@@ -182,17 +170,14 @@ export default function FuncionarioHome() {
         HIERRO: { label: 'Hierro', unit: 'µg/dL' },
         IRON: { label: 'Hierro', unit: 'µg/dL' },
 
-        // Transferrina
         TRANSF: { label: 'Transferrina', unit: 'mg/dL' },
         TRANSFERRINA: { label: 'Transferrina', unit: 'mg/dL' },
         SAT_TRF: { label: 'Saturación Transf.', unit: '%' },
 
-        // Tiroides
         TSH: { label: 'TSH', unit: 'µIU/mL' },
         T4L: { label: 'T4 Libre', unit: 'ng/dL' },
         T4_LIBRE: { label: 'T4 Libre', unit: 'ng/dL' },
 
-        // Glucosa y lípidos
         GLUCOSA: { label: 'Glucosa', unit: 'mg/dL' },
         GLICEMIA: { label: 'Glucosa', unit: 'mg/dL' },
         GLUCOSE: { label: 'Glucosa', unit: 'mg/dL' },
@@ -203,7 +188,6 @@ export default function FuncionarioHome() {
         TG: { label: 'Triglicéridos', unit: 'mg/dL' },
     };
 
-    // Orden de prioridad clínica (los no listados quedan al final)
     const PRIORITY_ORDER = [
         'HB',
         'HEMOGLOBINA',
@@ -251,16 +235,13 @@ export default function FuncionarioHome() {
         'TG',
     ];
 
-    // Prepara series por parámetro (solo los que existan)
     const processLabData = (): Record<string, SerieLab> | null => {
-        // Obtener TODAS las solicitudes (exámenes) del paciente
         const solicitudes = seleccionado?.laboratorio?.solicitudes;
         if (!solicitudes || solicitudes.length === 0) {
             console.log('No hay solicitudes de laboratorio');
             return null;
         }
 
-        // Recopilar TODAS las muestras de TODOS los exámenes
         const todasLasMuestras: MuestraLaboratorio[] = [];
         for (const solicitud of solicitudes) {
             if (solicitud.muestras && solicitud.muestras.length > 0) {
@@ -277,7 +258,6 @@ export default function FuncionarioHome() {
             `Procesando ${todasLasMuestras.length} muestras de ${solicitudes.length} exámenes`
         );
 
-        // Debug: mostrar estructura de la primera muestra con resultados
         const primeraConResultados = todasLasMuestras.find(
             (m) => m.resultados && m.resultados.length > 0
         );
@@ -292,7 +272,6 @@ export default function FuncionarioHome() {
             });
         }
 
-        // Ordena por fecha (prioriza fecha_recepcion, usa fecha_extraccion como fallback)
         const sorted = [...todasLasMuestras].sort((a, b) => {
             const fechaA = a.fecha_recepcion || a.fecha_extraccion;
             const fechaB = b.fecha_recepcion || b.fecha_extraccion;
@@ -301,17 +280,15 @@ export default function FuncionarioHome() {
             return new Date(fechaA).getTime() - new Date(fechaB).getTime();
         });
 
-        // Mapa param -> { dateISO -> valor }
         const byParam: Record<string, Map<string, number>> = {};
         const parametrosEncontrados = new Set<string>();
         const parametrosIgnorados = new Set<string>();
 
         for (const m of sorted) {
-            // Usar fecha_recepcion o fecha_extraccion como fallback
             const fecha = m.fecha_recepcion || m.fecha_extraccion;
             if (!fecha) {
                 console.warn('⚠️ Muestra sin fecha:', m.muestra_id);
-                continue; // saltar si no tiene fecha
+                continue; 
             }
 
             const d = new Date(fecha);
@@ -322,12 +299,11 @@ export default function FuncionarioHome() {
                     'en muestra',
                     m.muestra_id
                 );
-                continue; // saltar fechas inválidas
+                continue; 
             }
 
-            const iso = d.toISOString().slice(0, 10); // YYYY-MM-DD solo fecha
+            const iso = d.toISOString().slice(0, 10); 
 
-            // Debug: mostrar cuántos resultados tiene esta muestra
             if (m.resultados && m.resultados.length > 0) {
                 console.log(
                     `📋 Muestra ${m.muestra_id} tiene ${m.resultados.length} resultados en fecha ${iso}`
@@ -343,7 +319,6 @@ export default function FuncionarioHome() {
                     `  → Procesando resultado: parametro="${r.parametro}", valor="${r.valor}", code_upper="${code}"`
                 );
 
-                // Registrar TODOS los parámetros que llegan
                 if (code) {
                     parametrosEncontrados.add(code);
                 }
@@ -353,14 +328,13 @@ export default function FuncionarioHome() {
                     console.log(
                         `    ❌ Parámetro "${code}" NO está en PARAM_META`
                     );
-                    continue; // ignorar parámetros no mapeados
+                    continue; 
                 }
 
                 console.log(
                     `    ✅ Parámetro "${code}" reconocido: ${PARAM_META[code].label}`
                 );
                 if (!byParam[code]) byParam[code] = new Map();
-                // Si hay múltiples resultados el mismo día, conserva el último
                 byParam[code].set(iso, Number(r.valor));
             }
         }
@@ -391,14 +365,12 @@ export default function FuncionarioHome() {
             Array.from(parametrosIgnorados)
         );
 
-        // Fechas eje X común (union de todas las fechas)
         const allDates = new Set<string>();
         Object.values(byParam).forEach((map) =>
             map.forEach((_v, date) => allDates.add(date))
         );
         const datesSorted = Array.from(allDates).sort();
 
-        // Construir series completas por parámetro
         const series: Record<string, SerieLab> = {};
         for (const [code, map] of Object.entries(byParam)) {
             const meta = PARAM_META[code];
@@ -425,11 +397,9 @@ export default function FuncionarioHome() {
         return Object.keys(series).length ? series : null;
     };
 
-    // Construye opción ECharts agrupando parámetros por unidad
     const buildSparklineOption = (
         seriesMap: Record<string, SerieLab>
     ): echarts.EChartsOption => {
-        // Agrupar parámetros por unidad
         const byUnit: Record<string, string[]> = {};
         for (const [code, s] of Object.entries(seriesMap)) {
             const unit = s.unit;
@@ -439,7 +409,6 @@ export default function FuncionarioHome() {
 
         console.log('📊 Agrupación de parámetros por unidad:', byUnit);
 
-        // Ordenar cada grupo por prioridad
         for (const unit in byUnit) {
             byUnit[unit].sort((a, b) => {
                 const pa = PRIORITY_ORDER.indexOf(a);
@@ -447,7 +416,6 @@ export default function FuncionarioHome() {
                 const ra = pa === -1 ? 999 : pa;
                 const rb = pb === -1 ? 999 : pb;
                 if (ra !== rb) return ra - rb;
-                // desempate: más puntos no NaN
                 const va = seriesMap[a].values.filter(
                     (v) => !Number.isNaN(v)
                 ).length;
@@ -458,17 +426,16 @@ export default function FuncionarioHome() {
             });
         }
 
-        // Ordenar las unidades por importancia clínica (primero las más importantes)
         const unitPriority: Record<string, number> = {
-            'g/dL': 1, // Hemoglobina, Albúmina
-            '%': 2, // Hematocrito, Saturación
-            'mg/dL': 3, // Glucosa, Creatinina, Urea, Colesterol
-            'mmol/L': 4, // Sodio, Potasio
-            '10^3/µL': 5, // Plaquetas, Leucocitos
-            'µg/dL': 6, // Hierro
-            'ng/mL': 7, // Vitamina D
-            'µIU/mL': 8, // TSH
-            sin_unidad: 9, // INR
+            'g/dL': 1, 
+            '%': 2, 
+            'mg/dL': 3, 
+            'mmol/L': 4, 
+            '10^3/µL': 5, 
+            'µg/dL': 6,
+            'ng/mL': 7, 
+            'µIU/mL': 8, 
+            sin_unidad: 9, 
         };
 
         const units = Object.keys(byUnit).sort((a, b) => {
@@ -477,9 +444,9 @@ export default function FuncionarioHome() {
             return pa - pb;
         });
 
-        const gridHeight = 200; // alto por gráfico (forma más cuadrada)
+        const gridHeight = 200; 
         const topOffset = 30;
-        const vgap = 40; // más espacio entre gráficos
+        const vgap = 40; 
 
         const option: echarts.EChartsOption = {
             tooltip: {
@@ -518,7 +485,6 @@ export default function FuncionarioHome() {
                 : [],
         };
 
-        // Obtener todas las fechas únicas de todas las series
         const allDates = new Set<string>();
         const allTicks: string[] = [];
         for (const code in seriesMap) {
@@ -539,12 +505,10 @@ export default function FuncionarioHome() {
             });
         });
 
-        // Crear un gráfico por unidad
         units.forEach((unit, i) => {
             const codes = byUnit[unit];
             const top = topOffset + i * (gridHeight + vgap);
 
-            // grid / axes por fila
             (option.grid as any[]).push({
                 left: 80,
                 right: 20,
@@ -584,7 +548,6 @@ export default function FuncionarioHome() {
                 },
             });
 
-            // Agregar una serie por cada parámetro de esta unidad
             const colors = [
                 '#3b82f6',
                 '#10b981',
@@ -595,7 +558,6 @@ export default function FuncionarioHome() {
             ];
             codes.forEach((code, seriesIdx) => {
                 const s = seriesMap[code];
-                // Alinear los valores con datesSorted
                 const alignedValues = datesSorted.map((d) => {
                     const idx = s.dates.indexOf(d);
                     return idx >= 0 ? s.values[idx] : NaN;
@@ -625,11 +587,9 @@ export default function FuncionarioHome() {
         return option;
     };
 
-    // Render del gráfico
     useEffect(() => {
         if (!chartRef.current || !seleccionado) return;
 
-        // Debug: verificar datos de laboratorio disponibles
         console.log('Datos de laboratorio del paciente:', {
             tiene_laboratorio: !!seleccionado.laboratorio,
             num_solicitudes: seleccionado.laboratorio?.solicitudes?.length || 0,
@@ -642,7 +602,6 @@ export default function FuncionarioHome() {
 
         const seriesMap = processLabData();
         if (!seriesMap || !Object.keys(seriesMap).length) {
-            // Si no hay datos, muestra un mensaje vacío
             console.log('No se encontraron series de datos para el gráfico');
             chartInstance.current.clear();
             chartInstance.current.setOption({
@@ -664,12 +623,11 @@ export default function FuncionarioHome() {
         const option = buildSparklineOption(seriesMap);
         chartInstance.current.setOption(option, true);
 
-        // Ajustar altura del contenedor según número de gráficos (unidades únicas)
         const units = new Set(Object.values(seriesMap).map((s) => s.unit));
         const numGraphs = units.size;
-        const graphHeight = 200; // debe coincidir con gridHeight
-        const gap = 40; // debe coincidir con vgap
-        const extraSpace = 80; // espacio para zoom y márgenes
+        const graphHeight = 200; 
+        const gap = 40; 
+        const extraSpace = 80;
         const totalHeight =
             numGraphs * graphHeight + (numGraphs - 1) * gap + extraSpace;
         if (chartRef.current) {
@@ -720,9 +678,9 @@ export default function FuncionarioHome() {
 
     const onGenerarMinuta = async () => {
         if (!seleccionado) return;
+
         const autor = {
-            nombre:
-                user?.name || user?.nombre || user?.fullName || 'Funcionario',
+            nombre: user?.name || user?.nombre || user?.fullName || 'Funcionario',
             cargo: user?.cargo || user?.role || 'Funcionario',
             rut: user?.rut || undefined,
             unidad: user?.unidad || user?.department || undefined,
@@ -731,91 +689,73 @@ export default function FuncionarioHome() {
 
         try {
             const blob = await generarMinutaPDF(seleccionado, autor, blocks, {
-                maxExamenes: 5,
-                download: false,
-                returnBlob: true,
+            maxExamenes: 5,
+            download: true,     
+            returnBlob: true, 
             });
             if (!blob) return alert('No se pudo generar el PDF.');
 
-            const nombrePaciente = (
-                seleccionado.general.nombre || 'paciente'
-            ).toString();
+            const nombrePaciente = (seleccionado.general.nombre || 'paciente').toString();
             const safeName = nombrePaciente.toLowerCase().replace(/\s+/g, '_');
             const nombreArchivo = `minuta_${safeName}.pdf`;
 
             const session = localStorage.getItem('session_v1');
             const token = session ? JSON.parse(session).token : null;
             const API_BASE =
-                process.env.NEXT_PUBLIC_API_BASE ||
-                'https://provider.blocktype.cl/api/v1';
+            process.env.NEXT_PUBLIC_API_BASE ||
+            'https://provider.blocktype.cl/api/v1';
 
             const form = new FormData();
-            const file = new File([blob], nombreArchivo, {
-                type: 'application/pdf',
-            });
+            const file = new File([blob], nombreArchivo, { type: 'application/pdf' });
             form.append('file', file);
 
             const uploadResp = await fetch(`${API_BASE}/uploads/minutas`, {
-                method: 'POST',
-                headers: { Authorization: token ? `Bearer ${token}` : '' },
-                body: form,
+            method: 'POST',
+            headers: { Authorization: token ? `Bearer ${token}` : '' },
+            body: form,
             });
 
             if (!uploadResp.ok) {
-                const err = await uploadResp
-                    .json()
-                    .catch(() => ({ error: uploadResp.statusText }));
-                console.error('Error subiendo PDF:', err);
-                return alert(
-                    'Minuta generada localmente pero no se pudo subir al servidor: ' +
-                        (err?.error || uploadResp.statusText)
-                );
+            const err = await uploadResp.json().catch(() => ({ error: uploadResp.statusText }));
+            console.error('Error subiendo PDF:', err);
+            return alert('Minuta descargada localmente pero no se pudo subir: ' + (err?.error || uploadResp.statusText));
             }
 
             const uploaded = await uploadResp.json();
             const ruta_pdf = uploaded?.ruta_pdf;
             if (!ruta_pdf) {
-                console.error('Respuesta inválida del upload:', uploaded);
-                return alert(
-                    'Error al subir archivo: respuesta inválida del servidor'
-                );
+            console.error('Respuesta inválida del upload:', uploaded);
+            return alert('Error al subir archivo: respuesta inválida del servidor');
             }
 
             const resp = await fetch(`${API_BASE}/minutas`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-                body: JSON.stringify({
-                    ruta_pdf,
-                    fecha_creacion: new Date().toISOString(),
-                    paciente_id: seleccionado.general.paciente_id,
-                }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: token ? `Bearer ${token}` : '',
+            },
+            body: JSON.stringify({
+                ruta_pdf,
+                fecha_creacion: new Date().toISOString(),
+                paciente_id: seleccionado.general.paciente_id,
+            }),
             });
 
             if (!resp.ok) {
-                const err = await resp
-                    .json()
-                    .catch(() => ({ error: resp.statusText }));
-                console.error('Error creando minuta en backend:', err);
-                alert(
-                    `Minuta subida pero no se pudo registrar en servidor: ${
-                        err?.error || resp.statusText
-                    }`
-                );
+            const err = await resp.json().catch(() => ({ error: resp.statusText }));
+            console.error('Error registrando minuta:', err);
+            alert(`Minuta descargada y subida, pero no se pudo registrar: ${err?.error || resp.statusText}`);
             } else {
-                const data = await resp.json();
-                console.log('Minuta registrada:', data);
-                alert('Minuta generada, subida y registrada correctamente.');
+            console.log('Minuta registrada:', await resp.json());
+            alert('Minuta descargada, subida y registrada correctamente.');
             }
         } catch (err) {
             console.error(err);
             alert('No se pudo generar o subir la minuta.');
         }
-    };
+        };
 
-    // === UI principal (idéntico salvo el área del gráfico) ===
+
     return (
         <RoleGuard allow={['funcionario']}>
             <div className='min-h-screen bg-gray-50 p-6'>
@@ -1095,6 +1035,7 @@ export default function FuncionarioHome() {
                                                     ? seleccionado.general.IMC
                                                     : 0
                                                 ).toFixed(1)}
+                                                kg/m²
                                             </div>
                                         </div>
                                         <div className='hidden group-hover:block px-6 py-4'>
@@ -1104,7 +1045,7 @@ export default function FuncionarioHome() {
                                                 </div>
                                                 <div>
                                                     <div className='text-xs font-medium text-purple-700 uppercase tracking-wide'>
-                                                        IMC
+                                                        IMC (kg/m²)
                                                     </div>
                                                     <div className='text-xl font-bold text-purple-900'>
                                                         {(seleccionado.general

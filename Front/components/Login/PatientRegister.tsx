@@ -4,7 +4,11 @@ import { useState, useMemo } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ArrowLeft, UserPlus, User, Mail, Lock, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useRut } from "react-rut-formatter";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001/api/v1';
+
+const MIN_AGE = 1;
+const MAX_AGE = 120;
 
 function isValidRut(rutRaw: string) {
   if (!rutRaw) return false;
@@ -30,10 +34,10 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
   const [correo, setCorreo] = useState('');
   const [pass, setPass] = useState('');
   const [pass2, setPass2] = useState('');
-  const [sexo, setSexo] = useState<'M' | 'F' | 'O' | ''>(''); 
+  const [sexo, setSexo] = useState<'M' | 'F' | 'O' | ''>('');
   const [fechaNac, setFechaNac] = useState('');
 
-  const [showPass, setShowPass] = useState(false); 
+  const [showPass, setShowPass] = useState(false);
   const [passTouched, setPassTouched] = useState(false);
   const [pass2Touched, setPass2Touched] = useState(false);
 
@@ -46,16 +50,34 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
     [pass]
   );
 
-  const passMatch = useMemo(() => pass && pass2 && pass === pass2, [pass, pass2]);
+  const passMatch = useMemo(
+    () => pass && pass2 && pass === pass2,
+    [pass, pass2]
+  );
+
+  const todayStr = useMemo(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }, []);
+
+  const minDateStr = useMemo(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - MAX_AGE);
+    return d.toISOString().split('T')[0];
+  }, []);
 
   const fechaOk = useMemo(() => {
     if (!fechaNac) return false;
     const d = new Date(fechaNac + 'T00:00:00');
     const today = new Date();
-    return !Number.isNaN(d.getTime()) && d <= today; 
+    if (Number.isNaN(d.getTime()) || d > today) return false;
+
+    const diffMs = today.getTime() - d.getTime();
+    const ageYears = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25));
+
+    return ageYears >= MIN_AGE && ageYears <= MAX_AGE;
   }, [fechaNac]);
 
-  // Determinar si mostrar error en los campos de contraseña
   const showPassError = passTouched && !passOk;
   const showPass2Error = pass2Touched && !passMatch;
 
@@ -63,11 +85,10 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
     e.preventDefault();
     setErr(null);
     setOk(null);
-    
-    // Marcar los campos como tocados al enviar
+
     setPassTouched(true);
     setPass2Touched(true);
-    
+
     if (!passOk) {
       setErr('La contraseña debe tener al menos 8 caracteres, 1 mayúscula y 1 número.');
       return;
@@ -77,7 +98,7 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
       return;
     }
     if (!fechaOk) {
-      setErr('Fecha de nacimiento inválida.');
+      setErr(`Fecha de nacimiento inválida. La edad debe estar entre ${MIN_AGE} y ${MAX_AGE} años.`);
       return;
     }
     if (!sexo) {
@@ -97,8 +118,8 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
           apellido_materno: apellidoMaterno.trim(),
           correo: correo.trim().toLowerCase(),
           password: pass,
-          sexo,                         // 'M' | 'F' | 'O'
-          fecha_nacimiento: fechaNac,   // 'YYYY-MM-DD'
+          sexo,                      
+          fecha_nacimiento: fechaNac, 
         }),
       });
 
@@ -117,7 +138,11 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="max-w-md mx-auto w-full">
-      <button onClick={onBack} className="group inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 mb-6" type="button">
+      <button
+        onClick={onBack}
+        className="group inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 mb-6"
+        type="button"
+      >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition" />
         Volver al login
       </button>
@@ -129,7 +154,10 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
         <h2 className="text-3xl font-bold text-blue-900">Registro de Paciente</h2>
       </div>
 
-      <form onSubmit={submit} className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-white/60 space-y-4">
+      <form
+        onSubmit={submit}
+        className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-white/60 space-y-4"
+      >
         {/* RUT */}
         <div>
           <label className="block text-sm font-medium text-blue-900 mb-2">RUT</label>
@@ -145,7 +173,9 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
               maxLength={12}
             />
           </div>
-          {!!rut && !isValid && <p className="text-xs mt-1 text-blue-700">RUT no válido.</p>}
+          {!!rut && !isValid && (
+            <p className="text-xs mt-1 text-blue-700">RUT no válido.</p>
+          )}
         </div>
 
         {/* Nombres */}
@@ -211,7 +241,9 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
             className="text-blue-600 w-full px-3 py-3 rounded-lg border border-blue-300 focus:ring-2 focus:ring-blue-500 bg-white"
             required
           >
-            <option value="" disabled>Selecciona…</option>
+            <option value="" disabled>
+              Selecciona…
+            </option>
             <option value="F">Femenino</option>
             <option value="M">Masculino</option>
             <option value="O">Otro / Prefiere no decir</option>
@@ -227,9 +259,13 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
             onChange={(e) => setFechaNac(e.target.value)}
             className="text-blue-600 w-full px-3 py-3 rounded-lg border border-blue-300 focus:ring-2 focus:ring-blue-500"
             required
+            min={minDateStr}
+            max={todayStr}
           />
           {!fechaOk && fechaNac && (
-            <p className="text-xs mt-1 text-blue-700">Revisa la fecha ingresada.</p>
+            <p className="text-xs mt-1 text-blue-700">
+              Revisa la fecha ingresada (edad entre {MIN_AGE} y {MAX_AGE} años).
+            </p>
           )}
         </div>
 
@@ -245,8 +281,8 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
               onBlur={() => setPassTouched(true)}
               placeholder="********"
               className={`text-blue-600 w-full pl-10 pr-12 py-3 rounded-lg border focus:ring-2 ${
-                showPassError 
-                  ? 'border-red-500 focus:ring-red-500' 
+                showPassError
+                  ? 'border-red-500 focus:ring-red-500'
                   : 'border-blue-300 focus:ring-blue-500'
               }`}
               required
@@ -260,11 +296,15 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
               {showPass ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-          <p className={`text-xs mt-1 ${
-            passTouched 
-              ? (passOk ? 'text-green-700' : 'text-red-700') 
-              : 'text-blue-700'
-          }`}>
+          <p
+            className={`text-xs mt-1 ${
+              passTouched
+                ? passOk
+                  ? 'text-green-700'
+                  : 'text-red-700'
+                : 'text-blue-700'
+            }`}
+          >
             Mínimo 8 caracteres, al menos 1 mayúscula y 1 número.
           </p>
         </div>
@@ -279,8 +319,8 @@ export default function PatientRegister({ onBack }: { onBack: () => void }) {
             onBlur={() => setPass2Touched(true)}
             placeholder="********"
             className={`text-blue-600 w-full px-3 py-3 rounded-lg border focus:ring-2 ${
-              showPass2Error 
-                ? 'border-red-500 focus:ring-red-500' 
+              showPass2Error
+                ? 'border-red-500 focus:ring-red-500'
                 : 'border-blue-300 focus:ring-blue-500'
             }`}
             required

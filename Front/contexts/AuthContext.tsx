@@ -35,7 +35,6 @@ const ROLE_MAP: Record<string, UserRole> = {
 const STORAGE_KEY = 'session_v1';
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
-// --- helpers ---
 const S = (x: unknown) => typeof x === 'string' ? x.trim() : '';
 const U = (x: unknown) => S(x).toUpperCase();
 function normRut(r: string) {
@@ -68,7 +67,6 @@ export function AuthProvider({ children }: { readonly children: React.ReactNode 
           return;
         }
         else if (r.status === 401) {
-          // No autorizado, no hacer nada y limpiar estado
           setUser(null);
           setToken(null);
           localStorage.removeItem(STORAGE_KEY);

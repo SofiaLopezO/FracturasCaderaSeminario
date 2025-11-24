@@ -3,18 +3,11 @@
 import * as React from "react";
 import * as RadixSwitch from "@radix-ui/react-switch";
 
-/* helper */
+
 function cn(...classes: Array<string | undefined | false | null>) {
   return classes.filter(Boolean).join(" ");
 }
 
-/**
- * Variantes:
- * - size: sm | md | lg
- * - color: primary | emerald | rose | amber | slate
- *
- * SwitchField: label + descripción + switch
- */
 
 type Size = "sm" | "md" | "lg";
 type Color = "primary" | "emerald" | "rose" | "amber" | "slate";
@@ -76,7 +69,6 @@ const Switch = React.forwardRef<
       <RadixSwitch.Thumb
         className={cn(
           "pointer-events-none block rounded-full bg-white shadow-lg ring-0 transition-transform",
-          // estados EXPLÍCITOS (para que Tailwind los compile siempre)
           "data-[state=unchecked]:translate-x-0",
           "data-[state=checked]:translate-x-[calc(100%-2px)]",
           s.thumb
@@ -88,7 +80,6 @@ const Switch = React.forwardRef<
 
 export { Switch };
 
-/* ---- Campo compuesto: label + switch + descripción ---- */
 
 export interface SwitchFieldProps extends SwitchProps {
   label?: React.ReactNode;
