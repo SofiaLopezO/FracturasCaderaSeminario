@@ -7,8 +7,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BACKEND_DIR="$ROOT_DIR/Backend/Fracturas-de-cadera"
-FRONTEND_DIR="$ROOT_DIR/Frontend/Fracturas-de-cadera"
+BACKEND_DIR="$ROOT_DIR/Backend"
+FRONTEND_DIR="$ROOT_DIR/Front"
 
 # Parámetros configurables (puedes exportarlos antes de correr el script)
 NODE_TARGET_MAJOR="${NODE_TARGET_MAJOR:-20}"   # Versión LTS de Node a instalar si falta o es vieja
@@ -17,8 +17,8 @@ POSTGRES_VERSION="${POSTGRES_VERSION:-16}"     # Intentará instalar esta versi�
 PGHOST="${PGHOST:-localhost}"
 PGPORT="${PGPORT:-5432}"
 PGDATABASE="${PGDATABASE:-fracturas}"
-PGUSER="${PGUSER:-caderas}"
-PGPASSWORD="${PGPASSWORD:-1234}"
+PGUSER="${PGUSER:-postgres}"
+PGPASSWORD="${PGPASSWORD:-123}"
 PKG_INSTALLER="${PKG_INSTALLER:-bun}"          # bun (siempre)
 ADMIN_EMAIL="${ADMIN_EMAIL:-Admin@admin.com}"
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-Clave123}"
