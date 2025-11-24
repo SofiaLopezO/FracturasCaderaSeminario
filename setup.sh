@@ -1,32 +1,25 @@
 #!/usr/bin/env bash
-# Script de aprovisionamiento para Fracturas-de-cadera (backend y frontend)
-# Requisitos: bash, sudo (si no se ejecuta como root). Funciona en distros con
-# apt, dnf/yum, pacman, zypper, apk o macOS con brew. Instala Node.js y PostgreSQL
-# (si faltan), crea DB/usuario, genera .env por defecto e instala dependencias npm.
-
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$ROOT_DIR/Backend"
 FRONTEND_DIR="$ROOT_DIR/Front"
 
-# Parámetros configurables (puedes exportarlos antes de correr el script)
-NODE_TARGET_MAJOR="${NODE_TARGET_MAJOR:-20}"   # Versión LTS de Node a instalar si falta o es vieja
-NODE_MIN_MAJOR="${NODE_MIN_MAJOR:-18}"         # Mínimo aceptado para no reinstalar
-POSTGRES_VERSION="${POSTGRES_VERSION:-16}"     # Intentará instalar esta versión; si falla usa la que traiga tu distro
+NODE_TARGET_MAJOR="${NODE_TARGET_MAJOR:-20}" 
+NODE_MIN_MAJOR="${NODE_MIN_MAJOR:-18}"      
+POSTGRES_VERSION="${POSTGRES_VERSION:-16}"    
 PGHOST="${PGHOST:-localhost}"
 PGPORT="${PGPORT:-5432}"
 PGDATABASE="${PGDATABASE:-fracturas}"
 PGUSER="${PGUSER:-postgres}"
 PGPASSWORD="${PGPASSWORD:-123}"
-PKG_INSTALLER="${PKG_INSTALLER:-bun}"          # bun (siempre)
+PKG_INSTALLER="${PKG_INSTALLER:-bun}"         
 ADMIN_EMAIL="${ADMIN_EMAIL:-Admin@admin.com}"
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-Clave123}"
 ADMIN_RUT="${ADMIN_RUT:-111111111}"
 
 SUDO=""
 if command -v sudo >/dev/null 2>&1; then
-  # Incluso como root usamos sudo para poder cambiar de usuario (postgres).
   SUDO="sudo"
 fi
 
@@ -344,9 +337,9 @@ build_psql_cmd() {
   local PSQL_CMD=()
   local PSQL_ENV=()
   local HOST_ARGS=()
-  local PSQL_FLAGS=("-w") # evita prompt interactivo; falla rápido si falta auth
+  local PSQL_FLAGS=("-w") 
 
-  # Si PGHOST es localhost o 127.0.0.1, preferimos socket local (sin -h) para usar reglas "local" de pg_hba.conf.
+
   if [[ -n "${PGHOST:-}" && "${PGHOST}" != "localhost" && "${PGHOST}" != "127.0.0.1" ]]; then
     HOST_ARGS+=("-h" "${PGHOST}")
     PSQL_ENV+=("PGHOST=${PGHOST}")
@@ -373,8 +366,6 @@ configure_database() {
   command -v psql >/dev/null 2>&1 || fail "psql no está disponible; revisa la instalación de PostgreSQL."
   info "Configurando base de datos y usuario (${PGDATABASE}/${PGUSER})..."
 
-  # Prefer conectarse como usuario postgres si está disponible,
-  # de lo contrario usa PGUSER/PGPASSWORD/PGHOST/PGPORT.
   local PSQL_CMD_RAW
   PSQL_CMD_RAW=$(build_psql_cmd | tr '\0' '\n' | paste -sd' ' - || true)
   if [[ -z "$PSQL_CMD_RAW" ]]; then
@@ -387,7 +378,6 @@ configure_database() {
     fi
   fi
 
-  # shellcheck disable=SC2206
   local PSQL_CMD=( $PSQL_CMD_RAW )
 
   local esc_pwd
