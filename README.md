@@ -55,6 +55,7 @@ psql --version
 ```
 
 5) Levantar backend y frontend (modo desarrollo)
+Para correr ambos servicios en paralelo necesitas dos terminales separadas —cada una ejecutando un proceso distinto. Sin eso, uno de los entornos se quedará sin aire y no levantará.
 - Backend (por defecto escucha en `PORT=3001`):
 ```bash
 cd Backend
@@ -79,5 +80,6 @@ bun run dev
 - Front `.env.local` (ejemplo):
 	- `NEXT_PUBLIC_API_BASE=http://localhost:3001/api/v1`
 	- `NEXT_PUBLIC_APP_URL=http://localhost:3000`
+
 
 
