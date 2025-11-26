@@ -83,3 +83,18 @@ bun run dev
 
 
 
+
+node scripts/import_users.js ./scripts/USUARIOS.csv &&
+node scripts/import_pacientes.js ./scripts/PACIENTES.csv &&
+node scripts/import_tipoexamen.js ./scripts/TIPOEXAMEN.csv &&
+node scripts/import_tipomuestra.js ./scripts/TIPOMUESTRA.csv &&
+node scripts/import_parametro_lab.js ./scripts/PARAMETRO_LAB.csv &&
+node scripts/import_episodio.js ./scripts/EPISODIO.csv &&
+node scripts/import_muestra.js ./scripts/MUESTRA.csv &&
+node scripts/import_examen.js ./scripts/EXAMEN.csv &&
+node scripts/import_resultado.js ./scripts/RESULTADO.csv &&
+node scripts/import_cirugia.js ./scripts/CIRUGIA.csv &&
+node scripts/import_control.js ./scripts/CONTROL.csv &&
+node scripts/import_suspension.js ./scripts/SUSPENSION.csv
+
+
