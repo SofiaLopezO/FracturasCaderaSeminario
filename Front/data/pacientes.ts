@@ -2,48 +2,48 @@ import {Paciente, DetallesPaciente} from "@/types/interfaces";
 export const PACIENTES: Paciente[] = [
   {
     rut: "12.345.678-9",
-    ApellidoPaterno: "Olivares",
-    ApellidoMaterno: "Bustos",
+    Apellido_Paterno: "Olivares",
+    Apellido_Materno: "Bustos",
     nombres: "Juan Alberto",
   },
   {
     rut: "13.345.678-4",
-    ApellidoPaterno: "Carrasco",
-    ApellidoMaterno: "Fuentes",
+    Apellido_Paterno: "Carrasco",
+    Apellido_Materno: "Fuentes",
     nombres: "María Angélica",
   },
   {
     rut: "14.345.678-5",
-    ApellidoPaterno: "bustos",
-    ApellidoMaterno: "Rojas",
+    Apellido_Paterno: "bustos",
+    Apellido_Materno: "Rojas",
     nombres: "Paola Andrea",
   },
   {
     rut: "17.345.678-6",
-    ApellidoPaterno: "López",
-    ApellidoMaterno: "Muñoz",
+    Apellido_Paterno: "López",
+    Apellido_Materno: "Muñoz",
     nombres: "Lorenzo Adrián",
   },
   {
     rut: "4.345.678-9",
-    ApellidoPaterno: "Bustos",
-    ApellidoMaterno: "Vega",
+    Apellido_Paterno: "Bustos",
+    Apellido_Materno: "Vega",
     nombres: "Camila Sofía",
   },
   {
     rut: "5.345.678-9",
-    ApellidoPaterno: "Cereceda",
-    ApellidoMaterno: "Araya",
+    Apellido_Paterno: "Cereceda",
+    Apellido_Materno: "Araya",
     nombres: "Diego Ignacio",
   },
   {
     rut: "6.345.678-9",
-    ApellidoPaterno: "Carvajal",
-    ApellidoMaterno: "Pizarro",
+    Apellido_Paterno: "Carvajal",
+    Apellido_Materno: "Pizarro",
     nombres: "Valentina Paz",
   },
 ];
-export const DETALLES_PACIENTES: DetallesPaciente[] = [
+export const DETALLES_PACIENTES: any[] = [
   {
     rut: "12.345.678-9",
     nombres: "Juan Alberto",

@@ -48,7 +48,7 @@ type CreateUserPayload = {
   role?: 'ADMIN'; 
   profile?: {     
     cargo: 'TECNOLOGO'|'INVESTIGADOR'|'FUNCIONARIO';
-    rut_profesional?: string;
+    rut_profesional?: string | null;
     especialidad?: string | null;
     hospital?: string | null;
     departamento?: string | null;

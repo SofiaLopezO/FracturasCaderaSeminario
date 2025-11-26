@@ -52,6 +52,7 @@ type Evento = {
   fin: string;
   tecnica: string;
   lado: "" | "DER" | "IZQ" | "BIL"; 
+  reop?: boolean;
   compIntra: string;
   lockFechaInicio: boolean;
   lockFin: boolean;
@@ -202,7 +203,7 @@ export default function QuirofanoPage() {
       hora_fin: e.fin,
       tecnica: e.tecnica,
       lado: LADO_API[e.lado as "DER" | "IZQ" | "BIL"],
-      reoperacion: e.reop,
+      reoperacion: !!e.reop,
       complicacion_intraop: e.compIntra,
       operador_id: user,
     };

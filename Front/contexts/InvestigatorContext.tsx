@@ -147,6 +147,7 @@ type InvestigatorContextType = {
     loading: boolean;
     error?: string | null;
     items: Muestra[];
+    data: Muestra[];
     filtered: Muestra[];
     analytics: AnalyticsData;
     refresh: () => Promise<void>;
@@ -156,6 +157,13 @@ type InvestigatorContextType = {
         tipoMuestra: string;
         parametro: string;
         anio: string;
+        // aliases commonly used by components
+        q?: string;
+        year?: number;
+        sexo?: string;
+        fractura?: string;
+        edadMin?: number;
+        edadMax?: number;
         valorMin?: number;
         valorMax?: number;
         profesionalId?: number;
@@ -163,20 +171,30 @@ type InvestigatorContextType = {
     };
     setFiltros: (p: Partial<InvestigatorContextType['filtros']>) => void;
     clearFiltros: () => void;
+    // aliases in English for components that use them
+    filters: InvestigatorContextType['filtros'];
+    setFilters: (p: Partial<InvestigatorContextType['filtros']>) => void;
+    clearFilters: () => void;
 
     seleccion: Set<number>;
     toggleSel: (id: number) => void;
     clearSel: () => void;
+    toggleSelect: (id: number) => void;
+    selectAllFiltered: () => void;
+    clearSelection: () => void;
+    selectedIds: Set<number>;
 
-    downloadCSV: (soloSeleccion?: boolean) => void;
-    downloadJSON: (soloSeleccion?: boolean) => void;
-    downloadExcel: (soloSeleccion?: boolean) => void;
+    downloadCSV: (soloSeleccion?: boolean) => Promise<void>;
+    downloadJSON: (soloSeleccion?: boolean) => Promise<void>;
+    downloadExcel: (soloSeleccion?: boolean) => Promise<void>;
+    downloadXLSX: (soloSeleccion?: boolean) => Promise<void>;
 };
 
 const InvestigatorContext = createContext<InvestigatorContextType>({
     loading: true,
     error: null,
     items: [],
+    data: [],
     filtered: [],
     analytics: {},
     refresh: async () => {},
@@ -185,15 +203,34 @@ const InvestigatorContext = createContext<InvestigatorContextType>({
         tipoMuestra: '',
         parametro: '',
         anio: '',
+        q: '',
+        year: undefined,
+        sexo: undefined,
+        fractura: undefined,
+        edadMin: undefined,
+        edadMax: undefined,
     },
     setFiltros: () => {},
     clearFiltros: () => {},
+    filters: {
+        busqueda: '',
+        tipoMuestra: '',
+        parametro: '',
+        anio: '',
+    },
+    setFilters: () => {},
+    clearFilters: () => {},
     seleccion: new Set(),
+    selectedIds: new Set(),
     toggleSel: () => {},
     clearSel: () => {},
-    downloadCSV: () => {},
-    downloadJSON: () => {},
-    downloadExcel: () => {},
+    toggleSelect: () => {},
+    selectAllFiltered: () => {},
+    clearSelection: () => {},
+    downloadCSV: async () => {},
+    downloadJSON: async () => {},
+    downloadExcel: async () => {},
+    downloadXLSX: async () => {},
 });
 
 export const useInvestigator = () => useContext(InvestigatorContext);
@@ -422,6 +459,9 @@ export const InvestigatorProvider: React.FC<{ children: React.ReactNode }> = ({
         });
     }, []);
     const clearSel = useCallback(() => setSeleccion(new Set()), []);
+    const selectAllFiltered = useCallback(() => {
+        setSeleccion(new Set(filtered.map((m) => m.muestra_id)));
+    }, [filtered]);
 
     const rowsForExport = useCallback(
         (soloSel?: boolean) => {
@@ -474,7 +514,7 @@ export const InvestigatorProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     const downloadCSV = useCallback(
-        (soloSel?: boolean) => {
+        async (soloSel?: boolean) => {
             const rows = rowsForExport(soloSel);
             const csv = toCSV(rows);
             downloadFile(
@@ -487,7 +527,7 @@ export const InvestigatorProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     const downloadJSON = useCallback(
-        (soloSel?: boolean) => {
+        async (soloSel?: boolean) => {
             const base = soloSel
                 ? filtered.filter((m) => seleccion.has(m.muestra_id))
                 : filtered;
@@ -502,7 +542,7 @@ export const InvestigatorProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     const downloadExcel = useCallback(
-        (soloSel?: boolean) => {
+        async (soloSel?: boolean) => {
             const rows = rowsForExport(soloSel);
             const csv = toCSV(rows);
             downloadFile(
@@ -518,18 +558,27 @@ export const InvestigatorProvider: React.FC<{ children: React.ReactNode }> = ({
         loading,
         error,
         items,
+        data: items,
         filtered,
         analytics,
         refresh: fetchItems,
         filtros,
         setFiltros,
         clearFiltros,
+        filters: filtros,
+        setFilters: setFiltros,
+        clearFilters: clearFiltros,
         seleccion,
+        selectedIds: seleccion,
         toggleSel,
         clearSel,
+        toggleSelect: toggleSel,
+        selectAllFiltered,
+        clearSelection: clearSel,
         downloadCSV,
         downloadJSON,
         downloadExcel,
+        downloadXLSX: downloadExcel,
     };
 
     return (

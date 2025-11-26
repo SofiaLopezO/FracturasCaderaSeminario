@@ -29,6 +29,7 @@ export type Resultados={
   valor: string;
   unidad: string | null;
   fecha_resultado: string;
+  ParametroLab?: { nombre?: string } | null;
 }
 export type Examen = {
   examen_id: string | number;

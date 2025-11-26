@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelectedPatient } from '@/contexts/SelectedPatientContext';
 
-import { PatientSelectorDialog } from '@/components/Funcionario/PatientSelectorDialog';
+import PacienteSelectorModal from '@/components/Funcionario/PacienteSelectorModal';
 
 export function RequirePatient({ children }: { children: React.ReactNode }) {
   const { patient, setPatient } = useSelectedPatient();
@@ -13,16 +13,7 @@ export function RequirePatient({ children }: { children: React.ReactNode }) {
   if (!patient) {
     return (
       <div className="p-6">
-        <PatientSelectorDialog
-          open={open}
-          onSelect={(p) => {
-            setPatient(p);
-            setOpen(false);
-          }}
-          onCancel={() => {
-            router.push('/fun');
-          }}
-        />
+        <PacienteSelectorModal />
       </div>
     );
   }
