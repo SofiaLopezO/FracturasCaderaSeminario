@@ -218,7 +218,7 @@ function LabExamsPanel() {
                 ex.tipo_examen.toLowerCase().includes(q) ||
                 ex.muestras?.some((m) =>
                     m.Resultados?.some((r) =>
-                        String(r.parametro).toLowerCase().includes(q)
+                        String(r.nombre).toLowerCase().includes(q)
                     )
                 );
             return byExamen && byMuestra && byQ;

@@ -110,7 +110,7 @@ const LaboratorioPage = () => {
         examen.tipo_examen.toLowerCase().includes(filtros.busqueda.toLowerCase()) ||
         examen.muestras?.some((muestra) =>
           muestra.resultados?.some((resultado) =>
-            resultado.parametro.toLowerCase().includes(filtros.busqueda.toLowerCase()),
+            resultado.nombre.toLowerCase().includes(filtros.busqueda.toLowerCase()),
           ),
         )
 

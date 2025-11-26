@@ -134,18 +134,26 @@ const PacientePage = () => {
                     (muestra) => muestra.tipo_muestra === filtros.tipoMuestra
                 );
 
+            const busquedaLower = (filtros.busqueda || '').toLowerCase();
+
             const cumpleBusqueda =
                 !filtros.busqueda ||
                 examen.examen_id.toString().includes(filtros.busqueda) ||
-                examen.tipo_examen
+                (examen.tipo_examen || '')
                     .toLowerCase()
-                    .includes(filtros.busqueda.toLowerCase()) ||
+                    .includes(busquedaLower) ||
                 examen.muestras?.some((muestra) =>
-                    muestra.Resultados?.some((resultado) =>
-                        resultado.parametro
+                    muestra.Resultados?.some((resultado) => {
+                        // Preferimos ParametroLab.nombre, luego parametro, luego nombre crudo
+                        const nombreResultado =
+                            resultado.ParametroLab?.nombre ??
+                            resultado.parametro ??
+                            resultado.nombre ??
+                            '';
+                        return nombreResultado
                             .toLowerCase()
-                            .includes(filtros.busqueda.toLowerCase())
-                    )
+                            .includes(busquedaLower);
+                    })
                 );
 
             return cumpleTipoExamen && cumpleTipoMuestra && cumpleBusqueda;
@@ -326,7 +334,7 @@ const PacientePage = () => {
                                     type='text'
                                     placeholder='Buscar por tipo o parametro...'
                                     value={filtros.busqueda}
-                                    onChange={(e: { target: { value: any } }) =>
+                                    onChange={(e) =>
                                         setFiltros({
                                             ...filtros,
                                             busqueda: e.target.value,
@@ -347,8 +355,8 @@ const PacientePage = () => {
                             >
                                 <option value=''>Tipo de examen</option>
                                 {optsTipoExamen.slice(1).map((v) => (
-                                    <option key={v} value={v}>
-                                        {v}
+                                    <option key={v} value={v || ''}>
+                                        {v || 'Sin tipo'}
                                     </option>
                                 ))}
                             </select>
@@ -364,8 +372,8 @@ const PacientePage = () => {
                             >
                                 <option value=''>Tipo de muestra</option>
                                 {optsTipoMuestra.slice(1).map((v) => (
-                                    <option key={v} value={v}>
-                                        {v}
+                                    <option key={v} value={v || ''}>
+                                        {v || 'Sin tipo'}
                                     </option>
                                 ))}
                             </select>
@@ -415,9 +423,8 @@ const PacientePage = () => {
                                                         <div className='flex flex-col'>
                                                             <div className='font-semibold text-gray-900'>
                                                                 Examen -{' '}
-                                                                {
-                                                                    examen.tipo_examen
-                                                                }
+                                                                {examen.tipo_examen ||
+                                                                    'Sin tipo'}
                                                             </div>
                                                             <div className='text-sm text-gray-600 flex items-center gap-2'>
                                                                 <Calendar className='h-3 w-3' />
@@ -489,7 +496,8 @@ const PacientePage = () => {
                                                             ) => (
                                                                 <div
                                                                     key={
-                                                                        muestra.muestra_id
+                                                                        muestra.muestra_id ??
+                                                                        index
                                                                     }
                                                                     className='bg-white rounded-lg border border-gray-200 p-4'
                                                                 >
@@ -502,9 +510,11 @@ const PacientePage = () => {
                                                                     </div>
                                                                     <div className='text-sm text-gray-600 mb-3'>
                                                                         Recepción:{' '}
-                                                                        {formatearFecha(
-                                                                            muestra.fecha_recepcion
-                                                                        )}{' '}
+                                                                        {muestra.fecha_recepcion
+                                                                            ? formatearFecha(
+                                                                                  muestra.fecha_recepcion
+                                                                              )
+                                                                            : '—'}{' '}
                                                                         |
                                                                         Validador:{' '}
                                                                         {
