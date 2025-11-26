@@ -112,6 +112,7 @@ function Button({
 }
 
 type ResultadoUI = {
+    nombre: string;
     resultado_id: string | number;
     parametro: string;
     valor: string | number;
